@@ -3,12 +3,12 @@
 | Student's name | SCIPER |
 |----------------|--------|
 | Silas Meier        | 367460 |
-|                |        |
-|                |        |
+| Josua Stuck    |    367491    |
+| Damiano Amatruda|   353579     |
 
 [Milestone 1](#milestone-1) • [Milestone 2](#milestone-2) • [Milestone 3](#milestone-3)
 
-## Milestone 1 (23rd April, 5pm)
+## Milestone 1 (7th April, 5pm)
 
 **10% of the final grade**
 
@@ -19,41 +19,51 @@ Please, fill the following sections about your project.
 
 ### Dataset
 
-> Find a dataset (or multiple) that you will explore. Assess the quality of the data it contains and how much preprocessing / data-cleaning it will require before tackling visualization. We recommend using a standard dataset as this course is not about scraping nor data processing.
+We will visualize two datasets for the city of Zürich. The first dataset contains the locations and capacity of car parking spaces. The second dataset contains the locations and capacities of bicycle and motorcycle parking spaces.
+
+The data is in CSV format, and does not need much preprocessing. Since the data is directly from the city of Zurich we expect the entries to accurate.
+
+> Datasets:
 >
-> Hint: some good pointers for finding quality publicly available datasets ([Google dataset search](https://datasetsearch.research.google.com/), [Kaggle](https://www.kaggle.com/datasets), [OpenSwissData](https://opendata.swiss/en/), [SNAP](https://snap.stanford.edu/data/) and [FiveThirtyEight](https://data.fivethirtyeight.com/)), you could use also the DataSets proposed by the ENAC (see the Announcements section on Zulip).
+> * <https://opendata.swiss/de/dataset/offentlich-zugangliche-strassenparkplatze-ogd>
+> * <https://opendata.swiss/de/dataset/zweiradparkierung>
 
 ### Problematic
 
-> Frame the general topic of your visualization and the main axis that you want to develop.
-> - What am I trying to show with my visualization?
-> - Think of an overview for the project, your motivation, and the target audience.
+We will exlore the temporal axis of the data, to show if, and how much public car parking spaces have been (re)moved and or replaced by parking spaces for bicycles or motorcycles. (Since 2021, the ["Parkplatzkompromiss"](https://www.stadt-zuerich.ch/ted/de/index/taz/publikationen_u_broschueren/der-historische-kompromiss-von-1996.html) which aimed to keep the number of available car parking spaces in the inner city constant is no longer in effect.)
+
+This visualization will be interesting for people living in the city and potentially show the results of the end of the "Parkplatzkompromiss"
 
 ### Exploratory Data Analysis
 
-> Pre-processing of the data set you chose
-> - Show some basic statistics and get insights about the data
+There are around 50'000 entries of car parking spaces in the dataset and around 2'000 for bicycles and motorcycles. While the dataset for bicycles and motorcycles contains grouped entries, which show the capacity of the parking spaces, the dataset for cars has an individual entry for each spot.
+
+| Capacity | Category | Location |
+| --- | ----------- | --------|
+| 60 | Motorcycles | (x,y,z)
+| 50 | Bicycles | (x,y,z)
+
+| Max Parking duration | Category | Location | Paid |
+| --- | ----------- | --------| ----|
+| 360 | Blue zone | (x,y,z) | no |
+| 60 | White zone | (x,y,z)| yes |
 
 ### Related work
 
+There does not seem to be any previous work with the datasets in question.
 
-> - What others have already done with the data?
-> - Why is your approach original?
-> - What source of inspiration do you take? Visualizations that you found on other websites or magazines (might be unrelated to your data).
-> - In case you are using a dataset that you have already explored in another context (ML or ADA course, semester project...), you are required to share the report of that work to outline the differences with the submission for this class.
+Our approach is original in the sense that we consider the historical data, especially focussing on the effects of the recent change in parking space laws in the city of Zürich.
+
 
 ## Milestone 2 (7th May, 5pm)
 
 **10% of the final grade**
 
-
 ## Milestone 3 (4th June, 5pm)
 
 **80% of the final grade**
 
-
 ## Late policy
 
-- < 24h: 80% of the grade for the milestone
-- < 48h: 70% of the grade for the milestone
-
+* < 24h: 80% of the grade for the milestone
+* < 48h: 70% of the grade for the milestone
