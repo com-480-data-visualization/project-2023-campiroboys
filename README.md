@@ -48,13 +48,9 @@ Example:
 
 ### Related work
 
-We did not find any previous work with the datasets in question.
+We did not find any previous work with the datasets in question. The Zurich City website[^1][^2] has visualizations of both datasets, but they are cluttered and not temporal. Our approach is original in analyzing the historical data, especially focusing on the effects of the recent change in parking space laws in the city of Zurich.
 
-The Zürich City website has visualizations of both datasets, but they are cluttered and don't show any historical data.
-
-Our approach is original in analyzing the historical data, especially focusing on the effects of the recent change in parking space laws in the city of Zurich.
-
-<img src="images/bikemap.png" alt="Bike Map" width="20%"> <img src="images/carmap.png" alt="Parking Map" width="20%">
+<img src="images/bikemap.png" alt="Bike Map" width="250"> <img src="images/carmap.png" alt="Parking Map" width="250">
 
 ## Milestone 2 (7th May, 5pm)
 
