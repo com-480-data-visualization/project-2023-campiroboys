@@ -54,16 +54,7 @@ The Zürich City website has visualizations of both datasets, but they are clutt
 
 Our approach is original in analyzing the historical data, especially focusing on the effects of the recent change in parking space laws in the city of Zurich.
 
-
-<div style="display: flex; justify-content: center;">
-  <div style="flex: 50%;">
-    <img src="images/bikemap.png" alt="Bike Map">
-  </div>
-  <div style="flex: 50%;">
-    <img src="images/carmap.png" alt="Parking Map">
-  </div>
-</div>
-
+<img src="images/bikemap.png" alt="Bike Map" width="20%"> <img src="images/carmap.png" alt="Parking Map" width="20%">
 
 ## Milestone 2 (7th May, 5pm)
 
