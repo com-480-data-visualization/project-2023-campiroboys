@@ -50,7 +50,10 @@ Example:
 
 We did not find any previous work with the datasets in question.
 
-The Zürich City website has visualizations of both datasets, but they are cluttered and don't take show any historical data.
+The Zürich City website has visualizations of both datasets, but they are cluttered and don't show any historical data.
+
+Our approach is original in analyzing the historical data, especially focusing on the effects of the recent change in parking space laws in the city of Zurich.
+
 
 <div style="display: flex; justify-content: center;">
   <div style="flex: 50%;">
@@ -61,7 +64,6 @@ The Zürich City website has visualizations of both datasets, but they are clutt
   </div>
 </div>
 
-Our approach is original in analyzing the historical data, especially focusing on the effects of the recent change in parking space laws in the city of Zurich.
 
 ## Milestone 2 (7th May, 5pm)
 
