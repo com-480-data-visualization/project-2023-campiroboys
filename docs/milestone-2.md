@@ -4,7 +4,31 @@ The goal of the project is to visualize the changes in parking spaces in the cit
 
 ## Sketches of Visualizations
 
-[![Sketches](assets/sketches.png)](assets/sketches.png)
+#### Points
+[![Sketches](assets/Sketch_Points.drawio.png)](assets/Sketch_Points.drawio.png)
+
+#### Combination with other variables
+
+[![Sketches](assets/Sketch_Gradient.drawio.png)](assets/Sketch_Gradient.drawio.png)
+
+#### Change over time
+
+[![Sketches](assets/Sketch_Arrows.drawio.png)](assets/Sketch_Arrows.drawio.png)
+
+#### Bivariate Pie diagram
+[![Sketches](assets/Sketch_Pie.drawio.png)](assets/Sketch_Pie.drawio.png)
+
+#### Bivariate 2-dimensional Color Palette
+[![Sketches](assets/Sketch_BivarPal.drawio.png)](assets/Sketch_BivarPal.drawio.png)
+
+#### Simple Time Diagram
+[![Sketches](assets/Sketch_Simple_Time.drawio.png)](assets/Sketch_Simple_Time.drawio.png)
+
+#### Snapshot in Time per District (Kreis)
+[![Sketches](assets/Sketch_Snapshot_Distr.drawio.png)](assets/Sketch_Snapshot_Distr.drawio.png)
+
+#### Change in Time overall, per District on Hover
+[![Sketches](assets/Sketch_Hover.drawio.png)](assets/Sketch_Hover.drawio.png)
 
 ## Lectures and Tools
 
