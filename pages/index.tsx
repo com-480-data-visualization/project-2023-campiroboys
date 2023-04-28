@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import { Inter } from 'next/font/google'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -20,12 +21,16 @@ function Option() {
 }
 
 export default function Home() {
+  const title = 'Zurich Parking Spaces'
   return (
     <main
       className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
     >
+      <Head>
+        <title>{title}</title>
+      </Head>
       <div className="relative flex place-items-center">
-        <h1 className="mb-3 text-5xl font-semibold">Zurich Parking Spaces</h1>
+        <h1 className="mb-3 text-5xl font-semibold">{title}</h1>
       </div>
       <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
         <Option />
