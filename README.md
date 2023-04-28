@@ -50,9 +50,53 @@ Example:
 
 We did not find any previous work with the datasets in question. The Zurich City website[^1][^2] has visualizations of both datasets, but they are cluttered and not temporal. Our approach is original in analyzing the historical data, especially focusing on the effects of the recent change in parking space laws in the city of Zurich.
 
-<img src="images/bikemap.png" alt="Bike Map" width="250"> <img src="images/carmap.png" alt="Parking Map" width="250">
+The Zürich City website has visualizations of both datasets, but they are cluttered and don't show any historical data.
 
-## Milestone 2 (7th May, 5pm)
+Our approach is original in analyzing the historical data, especially focusing on the effects of the recent change in parking space laws in the city of Zurich.
+
+<div style="display: flex; justify-content: center;">
+  <div style="flex: 50%;">
+    <img src="images/bikemap.png" alt="Bike Map">
+  </div>
+  <div style="flex: 50%;">
+    <img src="images/carmap.png" alt="Parking Map">
+  </div>
+</div>
+
+## Milestone 2 (5th May, 5pm)
+
+### Sketches of Visualizations
+
+[![Sketches](images/sketches.png)](images/sketches.png)
+
+### Lectures and Tools
+
+#### Tools
+
+We plan to use the **React** framework for the website and the **D3.js** library for the visualizations. We will also use the JavaScript programming language.
+We will use data in the GeoJSON format for the maps, which can be used to create interactive maps with D3.js. Since we can query the data in the GeoJSON format from the city of Zurich website, we do not need to have a dedicated backend.
+
+#### Lectures
+
+* Lecture: **Maps** and Lecture: **Practical Maps**
+  For general map visualization and interaction.
+* Lecture: **Perception colors**
+  To have a good color scheme for the visualizations.
+* Lecture: **D3.js**
+  Interactive visualizations.
+* Lecture: JavaScript
+
+### Breakdown of goal into independent pieces. (Minimal viable product, and optional extensions)
+
+1. Website "skeleton"
+2. Map of Zurich
+3. Show parking spaces on map
+4. Show parking spaces over time
+
+#### Optional extensions
+
+5. Show parking spaces per capita 
+6. 
 
 **10% of the final grade**
 
