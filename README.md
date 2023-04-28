@@ -22,7 +22,7 @@
 
 **80% of the final grade**
 
-[Milestone 2](docs/milestone-3.md)
+[Milestone 3](docs/milestone-3.md)
 
 ## Late policy
 

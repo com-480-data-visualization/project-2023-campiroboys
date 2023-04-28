@@ -1,4 +1,4 @@
-# Milestone 1 (7th April, 5pm)
+# Milestone 1
 
 ## Dataset
 
@@ -46,9 +46,9 @@ Our approach is original in analyzing the historical data, especially focusing o
 
 <div style="display: flex; justify-content: center;">
   <div style="flex: 50%;">
-    <img src="images/bikemap.png" alt="Bike Map">
+    <img src="assets/bikemap.png" alt="Bike Map">
   </div>
   <div style="flex: 50%;">
-    <img src="images/carmap.png" alt="Parking Map">
+    <img src="assets/carmap.png" alt="Parking Map">
   </div>
 </div>
