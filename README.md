@@ -65,6 +65,8 @@ Our approach is original in analyzing the historical data, especially focusing o
 
 ## Milestone 2 (5th May, 5pm)
 
+The goal of the project is to visualize the changes in parking spaces in the city of Zurich over time. We will focus on the effects of the recent change in parking space laws in the city of Zurich. Specifically we will also compare car parking spaces to 2-wheel parking spaces. We will use the data from the city of Zurich website and visualize it on a map of Zurich. We will try to also compare the data to some other data points, such as the population of the districts of Zurich. This data is available here [^3].
+
 ### Sketches of Visualizations
 
 [![Sketches](images/sketches.png)](images/sketches.png)
@@ -95,8 +97,10 @@ We will use data in the GeoJSON format for the maps, which can be used to create
 
 #### Optional extensions
 
-5. Show parking spaces per capita 
-6. 
+5. Show parking spaces per capita
+6. Tooltips when hovering over districts or parking spaces.
+
+[^3]: https://data.stadt-zuerich.ch/dataset/bev_bestand_jahr_quartier_od3240
 
 **10% of the final grade**
 
