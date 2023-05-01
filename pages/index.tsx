@@ -8,7 +8,12 @@ const inter = Inter({ subsets: ['latin'] })
 const cityData: string = "https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Stadtkreise?service=WFS&version=1.1.0&request=GetFeature&outputFormat=GeoJSON&typename=adm_stadtkreise_v"
 const parkingSpaces: string = "https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Oeffentlich_zugaengliche_Strassenparkplaetze_OGD?service=WFS&version=1.1.0&request=GetFeature&outputFormat=GeoJSON&typename=view_pp_ogd"
 
-function Visualization() {
+type Settings = {
+  "showPublicParking" : boolean,
+  "showMap": boolean,
+}
+
+function Visualization( {settings} : {settings: Settings} ) {
 
   // TODO: constructor or similar to init data etc?
   // The code could then be much cleaner as we could initialise d3.select(svg), ... there.
@@ -44,7 +49,9 @@ function Visualization() {
       ).then(publicParking => {
 
         // TODO: loads a lot of points. We have to group them or filter them out.
-        addPublicParkingSpaces(publicParking)
+        if (settings.showPublicParking) {
+          addPublicParkingSpaces(publicParking)
+        }
       })
 
     });
@@ -147,6 +154,12 @@ function Option() {
 
 export default function Home() {
   const title = 'Zurich Parking Spaces'
+
+  let settings: Settings = {
+    "showPublicParking" : true,
+    "showMap": true,
+  }
+
   return (
     <main
       className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
@@ -156,7 +169,9 @@ export default function Home() {
       </Head>
       <div className="relative flex place-items-center flex-col">
         <h1 className="mb-3 text-5xl font-semibold">{title}</h1>
-        <Visualization />
+        <Visualization
+          settings={ settings }
+        />
       </div>
       <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
         <Option />
