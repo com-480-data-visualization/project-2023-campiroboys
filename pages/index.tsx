@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
-function useFeatureSelection(url: string) {
+function useFeatureCollection(url: string) {
   const [data, setData] = useState<FeatureCollection | null>(null)
 
   useEffect(() => {
@@ -43,8 +43,8 @@ function Visualization() {
   const [height, setHeight] = useState(800)
 
   // TODO: Cache the data
-  const cityRings = useFeatureSelection(cityDataUrl)
-  const publicParking = useFeatureSelection(parkingSpacesUrl)
+  const cityRings = useFeatureCollection(cityDataUrl)
+  const publicParking = useFeatureCollection(parkingSpacesUrl)
 
   useEffect(() => {
     function initVisualization() {
