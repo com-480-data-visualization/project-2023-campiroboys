@@ -1,20 +1,21 @@
 import * as d3 from 'd3'
-import { GeoJsonObject } from 'geojson'
+import { FeatureCollection } from 'geojson'
 import { Inter } from 'next/font/google'
 import Head from 'next/head'
-import { SetStateAction, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
-function useGeoJsonObject(url: any) {
-  const [data, setData] = useState(null) as SetStateAction<any>
+function useFeatureSelection(url: string) {
+  const [data, setData] = useState<FeatureCollection | null>(null)
+
   useEffect(() => {
     async function startFetching() {
-      const data = await d3.json<GeoJsonObject>(url)
+      const data = await d3.json<FeatureCollection>(url)
 
       // Avoid possible race conditions
       if (!ignore) {
-        setData(data)
+        setData(data ?? null)
       }
     }
 
@@ -24,12 +25,13 @@ function useGeoJsonObject(url: any) {
       ignore = true
     }
   }, [url])
+
   return data
 }
 
 function Visualization() {
-  const cityDataUrl: string = 'https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Stadtkreise?service=WFS&version=1.1.0&request=GetFeature&outputFormat=GeoJSON&typename=adm_stadtkreise_v'
-  const parkingSpacesUrl: string = 'https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Oeffentlich_zugaengliche_Strassenparkplaetze_OGD?service=WFS&version=1.1.0&request=GetFeature&outputFormat=GeoJSON&typename=view_pp_ogd'
+  const cityDataUrl = 'https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Stadtkreise?service=WFS&version=1.1.0&request=GetFeature&outputFormat=GeoJSON&typename=adm_stadtkreise_v'
+  const parkingSpacesUrl = 'https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Oeffentlich_zugaengliche_Strassenparkplaetze_OGD?service=WFS&version=1.1.0&request=GetFeature&outputFormat=GeoJSON&typename=view_pp_ogd'
 
   const visualizationRef = useRef(null)
   const svgRef = useRef(null)
@@ -41,8 +43,8 @@ function Visualization() {
   const [height, setHeight] = useState(800)
 
   // TODO: Cache the data
-  const cityRings = useGeoJsonObject(cityDataUrl)
-  const publicParking = useGeoJsonObject(parkingSpacesUrl)
+  const cityRings = useFeatureSelection(cityDataUrl)
+  const publicParking = useFeatureSelection(parkingSpacesUrl)
 
   useEffect(() => {
     function initVisualization() {
@@ -52,16 +54,15 @@ function Visualization() {
         .attr('viewBox', `0 0 ${width} ${height}`)
     }
 
-    function addMap(data: any) {
+    function addMap(data: FeatureCollection | null) {
       if (!data) {
         return
       }
 
-      // @ts-ignore
-      let features = data.features
+      const features = data.features
 
       // Here we "spread" out the polygons
-      projection.fitSize([width, height], { 'type': 'FeatureCollection', 'features': features })
+      projection.fitSize([width, height], data)
 
       // Add data to the svg container
       svgMapD3
@@ -90,16 +91,15 @@ function Visualization() {
         .text((d: any) => d.properties.knr)
     }
 
-    function addPublicParkingSpaces(data: any) {
+    function addPublicParkingSpaces(data: FeatureCollection | null) {
       if (!data) {
         return
       }
 
-      // @ts-ignore
       const features = data.features
 
       // Here we "spread" out the polygons
-      projection.fitSize([width, height], { 'type': 'FeatureCollection', 'features': features })
+      projection.fitSize([width, height], data)
 
       // Add data to the svg container
       svgContentD3
