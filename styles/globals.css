@@ -31,3 +31,7 @@ body {
   stroke: #252525;
   fill: #f3f3f3;
 }
+
+#map {
+  background-color: white;
+}

@@ -37,38 +37,46 @@ function Map() {
       d3.json<GeoJsonObject>(
         "https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Stadtkreise?service=WFS&version=1.1.0&request=GetFeature&outputFormat=GeoJSON&typename=adm_stadtkreise_v"
       ),
+      d3.json<GeoJsonObject>(
+        "https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Oeffentlich_zugaengliche_Strassenparkplaetze_OGD?service=WFS&version=1.1.0&request=GetFeature&outputFormat=GeoJSON&typename=view_pp_ogd"
+      )
       // add more data to load if necessary
-    ]).then(([cityRings]) => {
+    ]).then(([cityRings, publicParking]) => {
 
       cityRingsData = cityRings;
 
-      // @ts-ignore
-      let features = cityRings.features;
-
-      // Apparently D3 uses ellipsoidal math. We do some fixing of the features to be able to display them
-      let fixed = features.map((feature: any) => {
-        return rewind(feature, {reverse: true});
-      });
-
-      // Here we "spread" out the polygons
-      projection.fitSize([width, height], {"type": "FeatureCollection", "features": fixed})
-
-      // Change the svg attributes to our needs...
-      svg = d3.select('#map')
-        .attr("width", (width)).attr("height", (height))
-        .attr("viewBox", "0 0 " + (width) + " " + (height))
-        .style("background-color", "white")
-
-      // Add data to the svg container
-      svgContainer = d3.select('#map g.svgContainer')
-        .selectAll('path')
-        .data(fixed)
-        .enter()
-        .append('path')
-        // @ts-ignore
-        .attr('d', geoGenerator)
-        .style('fill', 'white')
+      addGeoJSONData(cityRings);
+      // TODO: loads a lot of points. Maybe we have to group them or filter them out.
+      addGeoJSONData(publicParking);
     });
+  }
+
+  function addGeoJSONData(data: any) {
+    // @ts-ignore
+    let features = data.features;
+
+    // Apparently D3 uses ellipsoidal math. We do some fixing of the features to be able to display them
+    let fixed = features.map((feature: any) => {
+      return rewind(feature, {reverse: true});
+    });
+
+    // Here we "spread" out the polygons
+    projection.fitSize([width, height], {"type": "FeatureCollection", "features": fixed})
+
+    // Change the svg attributes to our needs...
+    svg = d3.select('#map')
+      .attr("width", (width)).attr("height", (height))
+      .attr("viewBox", "0 0 " + (width) + " " + (height))
+
+    // Add data to the svg container
+    svgContainer = d3.select('#map g.svgContainer')
+      .selectAll('path')
+      .data(fixed)
+      .enter()
+      .append('path')
+      // @ts-ignore
+      .attr('d', geoGenerator)
+      .style('fill', 'white')
   }
 
 
