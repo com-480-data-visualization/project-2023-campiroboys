@@ -1,12 +1,12 @@
-import Head from 'next/head'
+import * as d3 from 'd3'
+import { GeoJsonObject } from 'geojson'
 import { Inter } from 'next/font/google'
-import * as d3 from 'd3';
-import { GeoJsonObject } from "geojson";
+import Head from 'next/head'
 
 const inter = Inter({ subsets: ['latin'] })
 
-const cityData: string = "https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Stadtkreise?service=WFS&version=1.1.0&request=GetFeature&outputFormat=GeoJSON&typename=adm_stadtkreise_v"
-const parkingSpaces: string = "https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Oeffentlich_zugaengliche_Strassenparkplaetze_OGD?service=WFS&version=1.1.0&request=GetFeature&outputFormat=GeoJSON&typename=view_pp_ogd"
+const cityData: string = 'https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Stadtkreise?service=WFS&version=1.1.0&request=GetFeature&outputFormat=GeoJSON&typename=adm_stadtkreise_v'
+const parkingSpaces: string = 'https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Oeffentlich_zugaengliche_Strassenparkplaetze_OGD?service=WFS&version=1.1.0&request=GetFeature&outputFormat=GeoJSON&typename=view_pp_ogd'
 
 function Visualization() {
 
@@ -14,49 +14,44 @@ function Visualization() {
   // The code could then be much cleaner as we could initialise d3.select(svg), ... there.
 
   function initAll() {
-
     // Change the svg attributes to our needs...
     d3.select('#visualization')
-      .attr("width", (width)).attr("height", (height))
-      .attr("viewBox", "0 0 " + (width) + " " + (height))
+      .attr('width', (width)).attr('height', (height))
+      .attr('viewBox', '0 0 ' + (width) + ' ' + (height))
 
-    loadData();
-    initZoom();
+    loadData()
+    initZoom()
   }
 
   let width = 800  //TODO change dynamically?
   let height = 800
 
-  let projection = d3.geoMercator();
-  let geoGenerator = d3.geoPath().projection(projection);
+  let projection = d3.geoMercator()
+  let geoGenerator = d3.geoPath().projection(projection)
 
   function loadData() {
     // Load map first.
     d3.json<GeoJsonObject>(
-      "https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Stadtkreise?service=WFS&version=1.1.0&request=GetFeature&outputFormat=GeoJSON&typename=adm_stadtkreise_v"
+      'https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Stadtkreise?service=WFS&version=1.1.0&request=GetFeature&outputFormat=GeoJSON&typename=adm_stadtkreise_v'
     ).then(cityRings => {
-
-      addMap(cityRings);
+      addMap(cityRings)
 
       // Nested call, after map is loaded, fetch other data.
       d3.json<GeoJsonObject>(
-        "https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Oeffentlich_zugaengliche_Strassenparkplaetze_OGD?service=WFS&version=1.1.0&request=GetFeature&outputFormat=GeoJSON&typename=view_pp_ogd"
+        'https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Oeffentlich_zugaengliche_Strassenparkplaetze_OGD?service=WFS&version=1.1.0&request=GetFeature&outputFormat=GeoJSON&typename=view_pp_ogd'
       ).then(publicParking => {
-
         // TODO: loads a lot of points. We have to group them or filter them out.
         addPublicParkingSpaces(publicParking)
       })
-
-    });
+    })
   }
 
   function addMap(data: any) {
     // @ts-ignore
-    let features = data.features;
+    let features = data.features
 
     // Here we "spread" out the polygons
-    projection.fitSize([width, height], {"type": "FeatureCollection", "features": features})
-
+    projection.fitSize([width, height], { 'type': 'FeatureCollection', 'features': features })
 
     // Add data to the svg container
     d3.select('#visualization g.svg-container')
@@ -78,19 +73,19 @@ function Visualization() {
       .data(features)
       .enter()
       .append('text')
-      .attr('x', (d: any) => { return geoGenerator.centroid(d)[0]; })
-      .attr('y', (d: any) => { return geoGenerator.centroid(d)[1]; })
+      .attr('x', (d: any) => geoGenerator.centroid(d)[0])
+      .attr('y', (d: any) => geoGenerator.centroid(d)[1])
       .attr('text-anchor', 'middle')
       .attr('font-size', '12px')
-      .text((d: any) => { return d.properties.knr })
+      .text((d: any) => d.properties.knr)
   }
 
   function addPublicParkingSpaces(data: any) {
     // @ts-ignore
-    let features = data.features;
+    let features = data.features
 
     // Here we "spread" out the polygons
-    projection.fitSize([width, height], {"type": "FeatureCollection", "features": features})
+    projection.fitSize([width, height], { 'type': 'FeatureCollection', 'features': features })
 
     // Add data to the svg container
     d3.select('#visualization g.svg-container')
@@ -105,17 +100,16 @@ function Visualization() {
       .style('fill', 'blue')
   }
 
-
   // TODO: handleZoom is very simple. Could be optimized.
   function handleZoom(e: any) {
-    d3.select('svg g.svg-container').attr('transform', e.transform);
+    d3.select('svg g.svg-container').attr('transform', e.transform)
     if (typeof e.preventDefault !== 'undefined' && typeof e.preventDefault === 'function') e.preventDefault()
   }
 
   function initZoom() {
-    let zoom = d3.zoom<SVGGElement, unknown>().on('zoom', handleZoom);
+    let zoom = d3.zoom<SVGGElement, unknown>().on('zoom', handleZoom)
     // @ts-ignore
-    d3.select('svg').call(zoom);
+    d3.select('svg').call(zoom)
   }
 
   // TODO: onclick is just a band aid fix. How to load it automatically?
