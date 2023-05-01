@@ -42,17 +42,14 @@ function Visualization() {
   const cityRings = useGeoJsonObject(cityDataUrl)
   const publicParking = useGeoJsonObject(parkingSpacesUrl)
 
-  const projection = d3.geoMercator()
-  const geoGenerator = d3.geoPath().projection(projection)
-
   useEffect(() => {
     function initVisualization() {
       // Change the svg attributes to our needs...
       visualizationD3
-      .attr('width', (width)).attr('height', (height))
-      .attr('viewBox', `0 0 ${width} ${height}`)
+        .attr('width', (width)).attr('height', (height))
+        .attr('viewBox', `0 0 ${width} ${height}`)
     }
-  
+
     function addMap(data: any) {
       if (!data) {
         return
@@ -133,6 +130,9 @@ function Visualization() {
     const svgD3 = d3.select(svgRef.current)
     const svgContentD3 = d3.select(svgContentRef.current)
     const svgMapD3 = d3.select(svgMapRef.current)
+
+    const projection = d3.geoMercator()
+    const geoGenerator = d3.geoPath().projection(projection)
 
     initVisualization()
     addMap(cityRings)
