@@ -2,6 +2,7 @@ import * as d3 from 'd3'
 import { GeoJsonObject } from 'geojson'
 import { Inter } from 'next/font/google'
 import Head from 'next/head'
+import { useRef } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -9,13 +10,16 @@ const cityData: string = 'https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Stadtkr
 const parkingSpaces: string = 'https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Oeffentlich_zugaengliche_Strassenparkplaetze_OGD?service=WFS&version=1.1.0&request=GetFeature&outputFormat=GeoJSON&typename=view_pp_ogd'
 
 function Visualization() {
+  const visualizationRef = useRef(null)
+  const svgRef = useRef(null)
+  const svgContentRef = useRef(null)
 
   // TODO: constructor or similar to init data etc?
   // The code could then be much cleaner as we could initialise d3.select(svg), ... there.
 
   function initAll() {
     // Change the svg attributes to our needs...
-    d3.select('#visualization')
+    d3.select(visualizationRef.current)
       .attr('width', (width)).attr('height', (height))
       .attr('viewBox', '0 0 ' + (width) + ' ' + (height))
 
@@ -54,7 +58,7 @@ function Visualization() {
     projection.fitSize([width, height], { 'type': 'FeatureCollection', 'features': features })
 
     // Add data to the svg container
-    d3.select('#visualization g.svg-container')
+    d3.select(svgContentRef.current)
       .append('g')
       .attr('class', 'map')
       .selectAll('path')
@@ -66,7 +70,7 @@ function Visualization() {
       .attr('d', geoGenerator)
 
     // Add the titles of the rings
-    d3.select('#visualization g.svg-container')
+    d3.select(svgContentRef.current)
       .append('g')
       .attr('class', 'labels')
       .selectAll('path')
@@ -88,7 +92,7 @@ function Visualization() {
     projection.fitSize([width, height], { 'type': 'FeatureCollection', 'features': features })
 
     // Add data to the svg container
-    d3.select('#visualization g.svg-container')
+    d3.select(svgContentRef.current)
       .append('g')
       .attr('class', 'parking-spaces')
       .selectAll('path')
@@ -102,21 +106,21 @@ function Visualization() {
 
   // TODO: handleZoom is very simple. Could be optimized.
   function handleZoom(e: any) {
-    d3.select('svg g.svg-container').attr('transform', e.transform)
+    d3.select(svgContentRef.current).attr('transform', e.transform)
     if (typeof e.preventDefault !== 'undefined' && typeof e.preventDefault === 'function') e.preventDefault()
   }
 
   function initZoom() {
     let zoom = d3.zoom<SVGGElement, unknown>().on('zoom', handleZoom)
     // @ts-ignore
-    d3.select('svg').call(zoom)
+    d3.select(svgRef.current).call(zoom)
   }
 
   // TODO: onclick is just a band aid fix. How to load it automatically?
   return (
-    <div id="visualization" onClick={initAll}>
-      <svg width="800px" height="800px">
-        <g className="svg-container"></g>
+    <div ref={visualizationRef} className="visualization" onClick={initAll}>
+      <svg ref={svgRef} className="visualization-svg" width="800px" height="800px">
+        <g ref={svgContentRef} className="visualization-svg-content"></g>
       </svg>
     </div>
   )
