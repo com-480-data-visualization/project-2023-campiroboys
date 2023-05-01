@@ -45,6 +45,9 @@ function Visualization() {
   const cityRings = useFeatureCollection(cityDataUrl)
   const publicParking = useFeatureCollection(parkingSpacesUrl)
 
+  const projection = d3.geoMercator()
+  const geoGenerator = d3.geoPath().projection(projection)
+
   useEffect(() => {
     // TODO: handleZoom is very simple. Could be optimized.
     function handleZoom(e: any) {
@@ -54,33 +57,38 @@ function Visualization() {
       }
     }
 
-    function initSvg() {
-      // Change the svg attributes to our needs...
-      svgD3
-        .attr('preserveAspectRatio', 'xMinYMin meet')
-        .attr('viewBox', `0 0 ${width} ${height}`)
+    const svgD3 = d3.select(svgRef.current)
+    const svgContentD3 = d3.select(svgContentRef.current)
+    
+    const zoom = d3.zoom<SVGGElement, unknown>().on('zoom', handleZoom)
 
-      const zoom = d3.zoom<SVGGElement, unknown>().on('zoom', handleZoom)
+    // Change the svg attributes to our needs...
+    svgD3
+      .attr('preserveAspectRatio', 'xMinYMin meet')
+      .attr('viewBox', `0 0 ${width} ${height}`)
       // @ts-ignore
-      svgD3.call(zoom)
+      .call(zoom)
+
+    return () => {
+      zoom.on('zoom', null)
     }
+  }, [svgRef, svgContentRef, width, height])
 
-    function initSvgContent() {
-      if (!publicParking) {
-        return
-      }
+  useEffect(() => {
+    const svgContentD3 = d3.select(svgContentRef.current)
 
-      const features = publicParking.features
-
+    const parkingSpacesD3 = svgContentD3
+      .append('g')
+      .attr('class', 'parking-spaces')
+    
+    if (publicParking) {
       // Here we "spread" out the polygons
       projection.fitSize([width, height], publicParking)
 
       // Add data to the svg container
-      svgContentD3
-        .append('g')
-        .attr('class', 'parking-spaces')
+      parkingSpacesD3
         .selectAll('path')
-        .data(features)
+        .data(publicParking.features)
         .enter()
         // Add a path for each element
         .append('path')
@@ -88,33 +96,39 @@ function Visualization() {
         .style('fill', 'blue')
     }
 
-    function initMap() {
-      if (!cityRings) {
-        return
-      }
+    return () => {
+      parkingSpacesD3.remove()
+    }
+  }, [svgContentRef, publicParking, width, height, projection, geoGenerator])
 
-      const features = cityRings.features
+  useEffect(() => {
+    const svgMapD3 = d3.select(svgMapRef.current)
 
+    const ringsD3 = svgMapD3
+      .append('g')
+      .attr('class', 'rings')
+    
+    const labelsD3 = svgMapD3
+      .append('g')
+      .attr('class', 'labels')
+
+    if (cityRings) {
       // Here we "spread" out the polygons
       projection.fitSize([width, height], cityRings)
 
       // Add data to the svg container
-      svgMapD3
-        .append('g')
-        .attr('class', 'rings')
+      ringsD3
         .selectAll('path')
-        .data(features)
+        .data(cityRings.features)
         .enter()
         // Add a path for each element
         .append('path')
         .attr('d', geoGenerator)
 
       // Add the titles of the rings
-      svgMapD3
-        .append('g')
-        .attr('class', 'labels')
+      labelsD3
         .selectAll('path')
-        .data(features)
+        .data(cityRings.features)
         .enter()
         .append('text')
         .attr('x', (d: any) => geoGenerator.centroid(d)[0])
@@ -123,18 +137,12 @@ function Visualization() {
         .attr('font-size', '12px')
         .text((d: any) => d.properties.knr)
     }
-
-    const svgD3 = d3.select(svgRef.current)
-    const svgContentD3 = d3.select(svgContentRef.current)
-    const svgMapD3 = d3.select(svgMapRef.current)
-
-    const projection = d3.geoMercator()
-    const geoGenerator = d3.geoPath().projection(projection)
-
-    initSvg()
-    //initSvgContent()
-    initMap()
-  }, [svgRef, svgContentRef, svgMapRef, width, height, cityRings, publicParking])
+    
+    return () => {
+      ringsD3.remove()
+      labelsD3.remove()
+    }
+  }, [svgMapRef, cityRings, width, height, projection, geoGenerator])
 
   return (
     <div className="visualization w-5/12">
