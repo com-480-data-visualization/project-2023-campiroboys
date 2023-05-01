@@ -64,11 +64,15 @@ function Visualization( {settings} : {settings: Settings} ) {
     // Here we "spread" out the polygons
     projection.fitSize([width, height], {"type": "FeatureCollection", "features": features})
 
-
-    // Add data to the svg container
-    d3.select('#visualization g.svg-container')
+    // Add map container
+    d3.select<d3.BaseType, HTMLElement>('#visualization g.svg-container')
       .append('g')
       .attr('class', 'map')
+
+    // Add data to the svg container
+    d3.select('#visualization g.svg-container g.map')
+      .append('g')
+      .attr('class', 'rings')
       .selectAll('path')
       .data(features)
       .enter()
@@ -78,7 +82,7 @@ function Visualization( {settings} : {settings: Settings} ) {
       .attr('d', geoGenerator)
 
     // Add the titles of the rings
-    d3.select('#visualization g.svg-container')
+    d3.select('#visualization g.svg-container g.map')
       .append('g')
       .attr('class', 'labels')
       .selectAll('path')
