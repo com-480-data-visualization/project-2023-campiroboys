@@ -26,12 +26,12 @@ body {
     rgb(var(--background-start-rgb));
 }
 
-.svg-container path {
+.visualization {
+  background-color: white;
+}
+
+.visualization-svg-content path {
   stroke-width: 1;
   stroke: white;
   fill: #7f7f93;
-}
-
-#visualization {
-  background-color: white;
 }
