@@ -38,8 +38,8 @@ function Visualization() {
   const svgMapRef = useRef(null)
 
   // TODO: change dynamically?
-  const [width, setWidth] = useState(800)
-  const [height, setHeight] = useState(800)
+  const [width, setWidth] = useState(500)
+  const [height, setHeight] = useState(500)
 
   // TODO: Cache the data
   const cityRings = useFeatureCollection(cityDataUrl)
@@ -79,6 +79,7 @@ function Visualization() {
       .attr('class', 'parking-spaces')
     
     if (publicParking) {
+      // TODO: Improve the performance in another way
       const features = publicParking.features.filter((_e, i) => i % 25 == 0)
 
       // Here we "spread" out the polygons
@@ -144,8 +145,8 @@ function Visualization() {
   }, [svgMapRef, cityRings, width, height, projection, geoGenerator])
 
   return (
-    <div className="visualization w-5/12">
-      <svg ref={svgRef} className="visualization-svg">
+    <div className="visualization">
+      <svg ref={svgRef} className="visualization-svg w-full">
         <g ref={svgContentRef} className="visualization-svg-content">
           <g ref={svgMapRef} className="visualization-svg-map"></g>
         </g>
@@ -165,7 +166,7 @@ function Option() {
         Option
       </h2>
       <p className="m-0 max-w-[30ch] text-sm opacity-50">
-        Find more.
+        Learn more.
       </p>
     </a>
   )
@@ -175,16 +176,18 @@ export default function Home() {
   const title = 'Zurich Parking Spaces'
   return (
     <main
-      className={`flex min-h-screen flex-col items-center justify-between p-6 ${inter.className}`}
+      className={`flex min-h-screen flex-col items-center justify-between pt-2 md:pt-4 lg:p-2 ${inter.className}`}
     >
       <Head>
         <title>{title}</title>
       </Head>
       <div className="relative flex place-items-center flex-col w-full">
-        <h1 className="mb-3 text-5xl font-semibold">{title}</h1>
-        <Visualization />
+        <h1 className="mb-3 text-3xl md:text-4xl font-semibold text-center">{title}</h1>
+        <div className="home-visualization w-full md:w-4/6 lg:w-3/6">
+          <Visualization />
+        </div>
       </div>
-      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
+      <div className="mb-32 grid text-center grid-cols-4 lg:mb-0 lg:text-left">
         <Option />
         <Option />
         <Option />
