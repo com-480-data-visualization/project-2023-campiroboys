@@ -13,6 +13,7 @@ function Visualization() {
   const visualizationRef = useRef(null)
   const svgRef = useRef(null)
   const svgContentRef = useRef(null)
+  const svgMapRef = useRef(null)
 
   let width = 800  //TODO change dynamically?
   let height = 800
@@ -36,7 +37,7 @@ function Visualization() {
         // Nested call, after map is loaded, fetch other data.
         d3.json<GeoJsonObject>(parkingSpacesUrl).then(publicParking => {
           // TODO: loads a lot of points. We have to group them or filter them out.
-          addPublicParkingSpaces(publicParking)
+          //addPublicParkingSpaces(publicParking)
         })
       })
     }
@@ -49,9 +50,9 @@ function Visualization() {
       projection.fitSize([width, height], { 'type': 'FeatureCollection', 'features': features })
 
       // Add data to the svg container
-      svgContentD3
+      svgMapD3
         .append('g')
-        .attr('class', 'map')
+        .attr('class', 'rings')
         .selectAll('path')
         .data(features)
         .enter()
@@ -61,7 +62,7 @@ function Visualization() {
         .attr('d', geoGenerator)
 
       // Add the titles of the rings
-      svgContentD3
+      svgMapD3
         .append('g')
         .attr('class', 'labels')
         .selectAll('path')
@@ -112,6 +113,7 @@ function Visualization() {
     const visualizationD3 = d3.select(visualizationRef.current)
     const svgD3 = d3.select(svgRef.current)
     const svgContentD3 = d3.select(svgContentRef.current)
+    const svgMapD3 = d3.select(svgMapRef.current)
 
     initVisualization()
     loadData()
@@ -122,7 +124,9 @@ function Visualization() {
   return (
     <div ref={visualizationRef} className="visualization">
       <svg ref={svgRef} className="visualization-svg" width="800px" height="800px">
-        <g ref={svgContentRef} className="visualization-svg-content"></g>
+        <g ref={svgContentRef} className="visualization-svg-content">
+          <g ref={svgMapRef} className="visualization-svg-map"></g>
+        </g>
       </svg>
     </div>
   )
