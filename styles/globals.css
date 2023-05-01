@@ -30,6 +30,11 @@ body {
   background-color: white;
 }
 
+.visualization-svg-content {
+  pointer-events: none;
+  will-change: transform;
+}
+
 .visualization-svg-content path {
   stroke-width: 1;
   stroke: white;

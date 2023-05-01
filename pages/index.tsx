@@ -52,15 +52,12 @@ function Visualization() {
     // TODO: handleZoom is very simple. Could be optimized.
     function handleZoom(e: any) {
       svgContentD3.attr('transform', e.transform)
-      if (typeof e.preventDefault === 'function') {
-        e.preventDefault()
-      }
     }
 
     const svgD3 = d3.select(svgRef.current)
     const svgContentD3 = d3.select(svgContentRef.current)
     
-    const zoom = d3.zoom<SVGGElement, unknown>().on('zoom', handleZoom)
+    const zoom = d3.zoom<SVGGElement, any>().on('zoom', handleZoom)
 
     // Change the svg attributes to our needs...
     svgD3
@@ -82,13 +79,15 @@ function Visualization() {
       .attr('class', 'parking-spaces')
     
     if (publicParking) {
+      const features = publicParking.features.filter((_e, i) => i % 25 == 0)
+
       // Here we "spread" out the polygons
       projection.fitSize([width, height], publicParking)
 
       // Add data to the svg container
       parkingSpacesD3
         .selectAll('path')
-        .data(publicParking.features)
+        .data(features)
         .enter()
         // Add a path for each element
         .append('path')
