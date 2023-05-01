@@ -25,3 +25,9 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+.svgContainer path {
+  stroke-width: 1;
+  stroke: #252525;
+  fill: #f3f3f3;
+}
