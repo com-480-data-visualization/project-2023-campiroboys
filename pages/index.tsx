@@ -2,9 +2,28 @@ import * as d3 from 'd3'
 import { GeoJsonObject } from 'geojson'
 import { Inter } from 'next/font/google'
 import Head from 'next/head'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
+
+function useGeoJsonObject(url: any) {
+  const [data, setData] = useState(null)
+  useEffect(() => {
+    if (!url) {
+      return
+    }
+    let ignore = false
+    d3.json<GeoJsonObject>(url).then(data => {
+      if (!ignore) {
+        setData(data)
+      }
+    })
+    return () => {
+      ignore = true
+    }
+  }, [url])
+  return data
+}
 
 function Visualization() {
   const cityDataUrl: string = 'https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Stadtkreise?service=WFS&version=1.1.0&request=GetFeature&outputFormat=GeoJSON&typename=adm_stadtkreise_v'
@@ -15,8 +34,13 @@ function Visualization() {
   const svgContentRef = useRef(null)
   const svgMapRef = useRef(null)
 
-  let width = 800  //TODO change dynamically?
-  let height = 800
+  // TODO: change dynamically?
+  const [width, setWidth] = useState(800)
+  const [height, setHeight] = useState(800)
+
+  // TODO: Cache the data
+  const cityRings = useGeoJsonObject(cityDataUrl)
+  const publicParking = useGeoJsonObject(parkingSpacesUrl)
 
   const projection = d3.geoMercator()
   const geoGenerator = d3.geoPath().projection(projection)
@@ -28,21 +52,12 @@ function Visualization() {
       .attr('width', (width)).attr('height', (height))
       .attr('viewBox', `0 0 ${width} ${height}`)
     }
-
-    function loadData() {
-      // Load map first.
-      d3.json<GeoJsonObject>(cityDataUrl).then(cityRings => {
-        addMap(cityRings)
-
-        // Nested call, after map is loaded, fetch other data.
-        d3.json<GeoJsonObject>(parkingSpacesUrl).then(publicParking => {
-          // TODO: loads a lot of points. We have to group them or filter them out.
-          //addPublicParkingSpaces(publicParking)
-        })
-      })
-    }
-
+  
     function addMap(data: any) {
+      if (!data) {
+        return
+      }
+
       // @ts-ignore
       let features = data.features
 
@@ -77,6 +92,10 @@ function Visualization() {
     }
 
     function addPublicParkingSpaces(data: any) {
+      if (!data) {
+        return
+      }
+
       // @ts-ignore
       const features = data.features
 
@@ -116,11 +135,11 @@ function Visualization() {
     const svgMapD3 = d3.select(svgMapRef.current)
 
     initVisualization()
-    loadData()
+    addMap(cityRings)
+    //addPublicParkingSpaces(publicParking)
     initZoom()
-  }, [visualizationRef, svgRef, svgContentRef])
+  }, [visualizationRef, svgRef, svgContentRef, svgMapRef, width, height, cityRings, publicParking])
 
-  // TODO: onclick is just a band aid fix. How to load it automatically?
   return (
     <div ref={visualizationRef} className="visualization">
       <svg ref={svgRef} className="visualization-svg" width="800px" height="800px">
