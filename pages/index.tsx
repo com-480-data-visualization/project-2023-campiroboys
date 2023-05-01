@@ -2,22 +2,24 @@ import * as d3 from 'd3'
 import { GeoJsonObject } from 'geojson'
 import { Inter } from 'next/font/google'
 import Head from 'next/head'
-import { useEffect, useRef, useState } from 'react'
+import { SetStateAction, useEffect, useRef, useState } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
 function useGeoJsonObject(url: any) {
-  const [data, setData] = useState(null)
+  const [data, setData] = useState(null) as SetStateAction<any>
   useEffect(() => {
-    if (!url) {
-      return
-    }
-    let ignore = false
-    d3.json<GeoJsonObject>(url).then(data => {
+    async function startFetching() {
+      const data = await d3.json<GeoJsonObject>(url)
+
+      // Avoid possible race conditions
       if (!ignore) {
         setData(data)
       }
-    })
+    }
+
+    let ignore = false
+    startFetching()
     return () => {
       ignore = true
     }
