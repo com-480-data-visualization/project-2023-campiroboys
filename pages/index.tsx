@@ -1,5 +1,5 @@
 import * as d3 from 'd3'
-import { FeatureCollection } from 'geojson'
+import { Feature, FeatureCollection } from 'geojson'
 import { Inter } from 'next/font/google'
 import Head from 'next/head'
 import { useEffect, useRef, useState } from 'react'
@@ -38,8 +38,9 @@ function Visualization() {
   const svgMapRef = useRef(null)
 
   // TODO: change dynamically?
-  const [width, setWidth] = useState(500)
-  const [height, setHeight] = useState(500)
+  const [width, setWidth] = useState(800)
+  const [height, setHeight] = useState(800)
+  const [zoomScale, setZoomScale] = useState(1)
 
   // TODO: Cache the data
   const cityRings = useFeatureCollection(cityDataUrl)
@@ -49,14 +50,14 @@ function Visualization() {
   const geoGenerator = d3.geoPath().projection(projection)
 
   useEffect(() => {
-    // TODO: handleZoom is very simple. Could be optimized.
     function handleZoom(e: any) {
       svgContentD3.attr('transform', e.transform)
+      setZoomScale(e.transform.k)
     }
 
     const svgD3 = d3.select(svgRef.current)
     const svgContentD3 = d3.select(svgContentRef.current)
-    
+
     const zoom = d3.zoom<SVGGElement, any>().on('zoom', handleZoom)
 
     // Change the svg attributes to our needs...
@@ -77,18 +78,25 @@ function Visualization() {
     const parkingSpacesD3 = svgContentD3
       .append('g')
       .attr('class', 'parking-spaces')
-    
-    if (publicParking) {
-      // TODO: Improve the performance in another way
-      const features = publicParking.features.filter((_e, i) => i % 25 == 0)
 
-      // Here we "spread" out the polygons
+    if (publicParking) {
+      // Improve the performance by filtering the features
+      // TODO: Select the features based on the viewed part of the map?
+      const featuresCount = publicParking.features.length
+      const featuresCountPreferred = 2000
+      const featuresModulo = Math.floor(featuresCount / (featuresCountPreferred * zoomScale))
+      const featuresToRender: Array<Feature> = []
+      for (let i = 0; i < featuresCount; i += featuresModulo) {
+        featuresToRender.push(publicParking.features[i])
+      }
+
+      // Here we spread out the polygons
       projection.fitSize([width, height], publicParking)
 
       // Add data to the svg container
       parkingSpacesD3
         .selectAll('path')
-        .data(features)
+        .data(featuresToRender)
         .enter()
         // Add a path for each element
         .append('path')
@@ -99,7 +107,7 @@ function Visualization() {
     return () => {
       parkingSpacesD3.remove()
     }
-  }, [svgContentRef, publicParking, width, height, projection, geoGenerator])
+  }, [svgContentRef, publicParking, width, height, zoomScale, projection, geoGenerator])
 
   useEffect(() => {
     const svgMapD3 = d3.select(svgMapRef.current)
@@ -107,13 +115,13 @@ function Visualization() {
     const ringsD3 = svgMapD3
       .append('g')
       .attr('class', 'rings')
-    
+
     const labelsD3 = svgMapD3
       .append('g')
       .attr('class', 'labels')
 
     if (cityRings) {
-      // Here we "spread" out the polygons
+      // Here we spread out the polygons
       projection.fitSize([width, height], cityRings)
 
       // Add data to the svg container
@@ -137,7 +145,7 @@ function Visualization() {
         .attr('font-size', '12px')
         .text((d: any) => d.properties.knr)
     }
-    
+
     return () => {
       ringsD3.remove()
       labelsD3.remove()
