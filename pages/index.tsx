@@ -6,17 +6,31 @@ import { GeoJsonObject } from "geojson";
 
 const inter = Inter({ subsets: ['latin'] })
 
-const stadtKreise = "https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Stadtkreise?service=WFS&version=1.1.0&request=GetFeature&outputFormat=GeoJSON&typename=adm_stadtkreise_v"
-
+const cityData: string = "https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Stadtkreise?service=WFS&version=1.1.0&request=GetFeature&outputFormat=GeoJSON&typename=adm_stadtkreise_v"
+const parkingSpaces: string = "https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Oeffentlich_zugaengliche_Strassenparkplaetze_OGD?service=WFS&version=1.1.0&request=GetFeature&outputFormat=GeoJSON&typename=view_pp_ogd"
 
 function Map() {
+
+  // TODO: constructor or similar to init data etc?
+  // The code could then be much cleaner as we could initialise d3.select(svg), ... there.
+
+  function initAll() {
+    loadData();
+    initZoom();
+  }
 
   let width = 800
   let height = 800
 
   let projection = d3.geoMercator();
-
   let geoGenerator = d3.geoPath().projection(projection);
+
+  let svg = undefined;
+  let svgContainer = undefined;
+
+  let cityRingsData = undefined;
+
+
 
   function loadData() {
     Promise.all([
@@ -25,6 +39,8 @@ function Map() {
       ),
       // add more data to load if necessary
     ]).then(([cityRings]) => {
+
+      cityRingsData = cityRings;
 
       // @ts-ignore
       let features = cityRings.features;
@@ -38,13 +54,13 @@ function Map() {
       projection.fitSize([width, height], {"type": "FeatureCollection", "features": fixed})
 
       // Change the svg attributes to our needs...
-      d3.select('#map')
+      svg = d3.select('#map')
         .attr("width", (width)).attr("height", (height))
         .attr("viewBox", "0 0 " + (width) + " " + (height))
         .style("background-color", "white")
 
       // Add data to the svg container
-      d3.select('#map g.svgContainer')
+      svgContainer = d3.select('#map g.svgContainer')
         .selectAll('path')
         .data(fixed)
         .enter()
@@ -55,8 +71,20 @@ function Map() {
     });
   }
 
+
+  // TODO: handleZoom is very simple. Could be optimized.
+  function handleZoom(e: any) {
+    d3.select('svg g.svgContainer').attr('transform', e.transform);
+  }
+
+  function initZoom() {
+    let zoom = d3.zoom<SVGGElement, unknown>().on('zoom', handleZoom);
+    d3.select('svg').call(zoom);
+  }
+
+
   return (
-    <div id="map" onClick={loadData}>
+    <div id="map" onClick={initAll}>
       <svg width="800px" height="800px">
         <g className="svgContainer"></g>
       </svg>
