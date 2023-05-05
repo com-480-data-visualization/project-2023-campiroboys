@@ -2,6 +2,8 @@
 
 The goal of the project is to visualize the changes in parking spaces in the city of Zurich over time. We will focus on the effects of the recent change in parking space laws in the city of Zurich. Specifically we will also compare car parking spaces to 2-wheel parking spaces. We will use the data from the city of Zurich website and visualize it on a map of Zurich. We will try to also compare the data to some other data points, such as the population of the districts of Zurich. This data is available here [^3].
 
+> The current state of the project is visible [here](https://project-2023-campiroboys.vercel.app/). Currently, it is necessary to click on the map to load the data. 
+
 ## Sketches of Visualizations
 
 Below are a few sketches of possible visualizations. We will probably use a combination of these visualizations.
@@ -58,6 +60,9 @@ This visualization shows the number of parking spaces over time (per year). When
 
 We plan to use the **React** framework for the website and the **D3.js** library for the visualizations. We will also use the JavaScript programming language.
 We will use data in the GeoJSON format for the maps, which can be used to create interactive maps with D3.js. Since we can query the data in the GeoJSON format from the city of Zurich website, we do not need to have a dedicated backend.
+
+> Currently, the performance of the website is not optimal due to the large number of points on the map. One possible solution for this would be to use [Quadtrees](https://github.com/d3/d3-quadtree).
+> We also currently only incorporate the newest data from 2023, the older datasets will be added in the future.
 
 ### Lectures
 
