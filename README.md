@@ -6,6 +6,8 @@
 | Josua Stuck | 367491 |
 | Damiano Amatruda | 353579 |
 
+**Website**: [Zurich Parking Spaces](https://project-2023-campiroboys.vercel.app)
+
 ## Milestones
 
 ### Milestone 1 (7th April, 5pm)
@@ -13,6 +15,8 @@
 **10% of the final grade**
 
 [Milestone 1](docs/milestone-1.md)
+
+### Milestone 2 (7th May, 5pm)
 
 **10% of the final grade**
 
