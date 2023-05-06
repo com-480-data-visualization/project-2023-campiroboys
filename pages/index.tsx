@@ -38,8 +38,8 @@ function Visualization() {
   const svgMapRef = useRef(null)
 
   // TODO: change dynamically?
-  const [width, setWidth] = useState(500)
-  const [height, setHeight] = useState(500)
+  const [width, setWidth] = useState(800)
+  const [height, setHeight] = useState(800)
 
   // TODO: Cache the data
   const cityRings = useFeatureCollection(cityDataUrl)
