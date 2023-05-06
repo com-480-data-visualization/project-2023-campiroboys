@@ -35,13 +35,13 @@
 
 ## Start
 
-First build the project:
+Build the project:
 
 ```bash
 npm build
 ```
 
-Then run:
+Then run it:
 
 ```bash
 npm run start
@@ -49,7 +49,7 @@ npm run start
 
 ## Develop
 
-First run the development server:
+Run the development server:
 
 ```bash
 npm run dev
@@ -61,13 +61,13 @@ The pages auto-update as the files are edited.
 
 ## Deploy
 
-Install Vercel:
+Install Vercel CLI:
 
 ```bash
 npm i vercel
 ```
 
-Then run:
+Then run it:
 
 ```bash
 vercel deploy
