@@ -60,8 +60,9 @@ This visualization shows the number of parking spaces over time (per year). When
 
 ### Tools
 
-For the website we plan to use the framework [Next.JS](https://nextjs.org), which is based on [React](https://react.dev), and for the visualizations we plan to use the library [D3.js](https://d3js.org). We will implement the project using the programming language [TypeScript](https://www.typescriptlang.org), which adds static typing to [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript).
-We will use data in the GeoJSON format for the maps, which can be used to create interactive maps with D3.js. Since we can query the data in the GeoJSON format from the city of Zurich website, we do not need to have a dedicated backend.
+We plan to implement the project using the programming language [TypeScript](https://www.typescriptlang.org), which adds static typing to [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript). For the website we plan to use the framework [Next.JS](https://nextjs.org), which is based on [React](https://react.dev), and for the visualizations we plan to use the library [D3.js](https://d3js.org). We plan to deploy the website on the cloud service [Vercel](https://vercel.com). We will use data in the GeoJSON format for the maps, which can be used to create interactive maps with D3.js.
+
+> It is possible to query the data in the GeoJSON format directly from the website of the city of Zurich.
 
 > Currently, since the performance of the website is not optimal due to the large number of points on the map we display a subset of them. In the future we could use [Quadtrees](https://github.com/d3/d3-quadtree). We also currently only incorporate the newest data from 2023, the older datasets will be added in the future.
 
