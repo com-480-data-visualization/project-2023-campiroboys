@@ -29,8 +29,83 @@ function useFeatureCollection(url: string) {
   return data
 }
 
+let parkingData = {
+  "maxCar": -1,
+  "minCar": -1,
+  "maxBike": -1,
+  "minBike": -1
+};
+
+/**
+ * Palette is of the form:
+ *     c1   c2   c3
+ *     c4   c5   c6
+ *     c7   c8   c9
+ */
+const colorPalette = {
+  "c1": "#4FA874",
+  "c2": "#3A8269",
+  "c3": "#275b5d",
+  "c4": "#94bea4",
+  "c5": "#6d8f90",
+  "c6": "#4a6481",
+  "c7": "#d2d2d2",
+  "c8": "#999fbb",
+  "c9": "#666aa4"
+}
+function colorMapping(numberOfCars: number, numberOfBikes: number): string {
+
+  if (parkingData.maxCar == -1) return "#999999";
+
+  let percentageCars = numberOfCars / parkingData.maxCar;
+  let percentageBikes = numberOfBikes / parkingData.maxBike;
+
+  if (percentageCars < (1/3)) {
+    if (percentageBikes < (1/3)) return colorPalette.c7;
+    if ((1/3) <= percentageBikes && percentageBikes < (2/3)) return colorPalette.c8;
+    return colorPalette.c9;
+  } else if ((1/3) <= percentageCars && percentageCars < (2/3)) {
+    if (percentageBikes < (1/3)) return colorPalette.c4;
+    if ((1/3) <= percentageBikes && percentageBikes < (2/3)) return colorPalette.c5;
+    return colorPalette.c6;
+  } else {
+    if (percentageBikes < (1/3)) return colorPalette.c1;
+    if ((1/3) <= percentageBikes && percentageBikes < (2/3)) return colorPalette.c2;
+    return colorPalette.c3;
+  }
+}
+
+function extractRingData(r: any) {
+  let maxCar = -1;
+  let minCar = -1;
+  let maxBike = -1;
+  let minBike = -1;
+
+  for (const ring of r.features) {
+    let properties = ring.properties;
+    for (const [key, value] of Object.entries(properties.parkingcars)) {
+      let n = Number(value);
+      maxCar = maxCar == -1 || maxCar < n ? n : maxCar;
+      minCar = minCar == -1 || minCar > n ? n : minCar;
+    }
+    for (const [key, value] of Object.entries(properties.parkingbikes)) {
+      let n = Number(value);
+      maxBike = maxBike == -1 || maxBike < n ? n : maxBike;
+      minBike = minBike == -1 || minBike > n ? n : minBike;
+    }
+  }
+
+  return {
+    "maxCar": maxCar,
+    "minCar": minCar,
+    "maxBike": maxBike,
+    "minBike": minBike
+  };
+
+}
+
 function Visualization() {
-  const cityDataUrl = 'https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Stadtkreise?service=WFS&version=1.1.0&request=GetFeature&outputFormat=GeoJSON&typename=adm_stadtkreise_v'
+  const cityDataUrl = 'http://localhost:8010/index.php'
   const parkingSpacesUrl = 'https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Oeffentlich_zugaengliche_Strassenparkplaetze_OGD?service=WFS&version=1.1.0&request=GetFeature&outputFormat=GeoJSON&typename=view_pp_ogd'
 
   const svgRef = useRef(null)
@@ -41,12 +116,27 @@ function Visualization() {
   const [width, setWidth] = useState(800)
   const [height, setHeight] = useState(800)
 
+  const [ringsGeoJson, setRingsGeoJson] = useState(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = await fetch('http://localhost:8010/index.php');
+      const data = await response.json();
+      setRingsGeoJson(data);
+      parkingData = extractRingData(data);
+    }
+
+    fetchData();
+  }, []);
+
   // TODO: Cache the data
   const cityRings = useFeatureCollection(cityDataUrl)
   const publicParking = useFeatureCollection(parkingSpacesUrl)
 
   const projection = d3.geoMercator()
   const geoGenerator = d3.geoPath().projection(projection)
+
+  let currentYear = "2023";
 
   useEffect(() => {
     // TODO: handleZoom is very simple. Could be optimized.
@@ -70,36 +160,6 @@ function Visualization() {
       zoom.on('zoom', null)
     }
   }, [svgRef, svgContentRef, width, height])
-
-  useEffect(() => {
-    const svgContentD3 = d3.select(svgContentRef.current)
-
-    const parkingSpacesD3 = svgContentD3
-      .append('g')
-      .attr('class', 'parking-spaces')
-    
-    if (publicParking) {
-      // TODO: Improve the performance in another way
-      const features = publicParking.features.filter((_e, i) => i % 25 == 0)
-
-      // Here we "spread" out the polygons
-      projection.fitSize([width, height], publicParking)
-
-      // Add data to the svg container
-      parkingSpacesD3
-        .selectAll('path')
-        .data(features)
-        .enter()
-        // Add a path for each element
-        .append('path')
-        .attr('d', geoGenerator)
-        .style('fill', 'blue')
-    }
-
-    return () => {
-      parkingSpacesD3.remove()
-    }
-  }, [svgContentRef, publicParking, width, height, projection, geoGenerator])
 
   useEffect(() => {
     const svgMapD3 = d3.select(svgMapRef.current)
@@ -137,6 +197,8 @@ function Visualization() {
         .attr('font-size', '12px')
         .text((d: any) => d.properties.knr)
     }
+
+    changeColor(currentYear)
     
     return () => {
       ringsD3.remove()
@@ -144,14 +206,34 @@ function Visualization() {
     }
   }, [svgMapRef, cityRings, width, height, projection, geoGenerator])
 
+  function changeColor(year: string) {
+    d3.select(svgMapRef.current).selectAll('path')
+      .attr('style', (d: any) => {
+        let color = colorMapping(d.properties.parkingcars[year], d.properties.parkingbikes[year])
+        return "fill:"+color+";";
+      })
+  }
+
+  const changeYear = () => {
+    if (currentYear == "2023") {
+      currentYear = "2022";
+    } else {
+      currentYear = "2023";
+    }
+    changeColor(currentYear);
+  }
+
   return (
+<div>      <button onClick={changeYear} >Toggle Year</button>
     <div className="visualization">
+
       <svg ref={svgRef} className="visualization-svg w-full">
         <g ref={svgContentRef} className="visualization-svg-content">
           <g ref={svgMapRef} className="visualization-svg-map"></g>
         </g>
       </svg>
     </div>
+</div>
   )
 }
 
