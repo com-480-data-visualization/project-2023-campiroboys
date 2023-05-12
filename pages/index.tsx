@@ -56,8 +56,10 @@ function Visualization() {
 
     const svgD3 = d3.select(svgRef.current)
     const svgContentD3 = d3.select(svgContentRef.current)
-    
-    const zoom = d3.zoom<SVGGElement, any>().on('zoom', handleZoom)
+
+    const zoom = d3.zoom<SVGGElement, any>()
+      .translateExtent(([[0, 0], [width, height]]))  // stops users from panning to far out
+      .on('zoom', handleZoom)
 
     // Change the svg attributes to our needs...
     svgD3
