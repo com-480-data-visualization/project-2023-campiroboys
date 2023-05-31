@@ -13,7 +13,7 @@
 - [ ] Clickable rings: a model/box/... is opened that shows additional data.
   - Maybe highlight the ring and show a heatmap of where the parking spaces are?
 - [ ] Add the map in the background
-- [ ] Limit the maximum zoom
+- [x] Limit the maximum zoom
 
 ### Website
 - [ ] Serve the new geoJson files.
