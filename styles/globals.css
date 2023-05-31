@@ -40,3 +40,33 @@ body {
   stroke: white;
   fill: #7f7f93;
 }
+
+.slider-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+}
+
+.info-box {
+  max-width: 20%;
+  padding: 2px;
+}
+
+.slider {
+  background-color: white;
+}
+
+.slider-svg {
+  padding: 10px;
+}
+
+#year-slider {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+#year-slider input[type="range"] {
+  width: 95%;
+}

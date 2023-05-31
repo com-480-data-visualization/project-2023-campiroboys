@@ -3,6 +3,8 @@ import { FeatureCollection } from 'geojson'
 import { Inter } from 'next/font/google'
 import Head from 'next/head'
 import { useEffect, useRef, useState } from 'react'
+import {Simulate} from "react-dom/test-utils";
+import mouseDown = Simulate.mouseDown;
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -104,7 +106,7 @@ function extractRingData(r: any) {
 
 }
 
-function Visualization() {
+function Visualization(props) {
   const cityDataUrl = 'http://localhost:8010/index.php'
   const parkingSpacesUrl = 'https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Oeffentlich_zugaengliche_Strassenparkplaetze_OGD?service=WFS&version=1.1.0&request=GetFeature&outputFormat=GeoJSON&typename=view_pp_ogd'
 
@@ -136,8 +138,6 @@ function Visualization() {
   const projection = d3.geoMercator()
   const geoGenerator = d3.geoPath().projection(projection)
 
-  let currentYear = "2023";
-
   useEffect(() => {
     // TODO: handleZoom is very simple. Could be optimized.
     function handleZoom(e: any) {
@@ -164,6 +164,7 @@ function Visualization() {
     }
   }, [svgRef, svgContentRef, width, height])
 
+  /* Adds rings polygon and labels to the scene. Additionally, changes the color of the rings. */
   useEffect(() => {
     const svgMapD3 = d3.select(svgMapRef.current)
 
@@ -199,35 +200,25 @@ function Visualization() {
         .attr('text-anchor', 'middle')
         .attr('font-size', '12px')
         .text((d: any) => d.properties.knr)
-    }
 
-    changeColor(currentYear)
+
+      d3.select(svgMapRef.current).selectAll('path')
+        .attr('style', (d: any) => {
+          let color = colorMapping(d.properties.parkingcars[props.selectedYear], d.properties.parkingbikes[props.selectedYear])
+          return "fill:"+color+";";
+        })
+    }
     
     return () => {
       ringsD3.remove()
       labelsD3.remove()
     }
-  }, [svgMapRef, cityRings, width, height, projection, geoGenerator])
+  }, [svgMapRef, cityRings, width, height, projection, geoGenerator, ])
 
-  function changeColor(year: string) {
-    d3.select(svgMapRef.current).selectAll('path')
-      .attr('style', (d: any) => {
-        let color = colorMapping(d.properties.parkingcars[year], d.properties.parkingbikes[year])
-        return "fill:"+color+";";
-      })
-  }
-
-  const changeYear = () => {
-    if (currentYear == "2023") {
-      currentYear = "2022";
-    } else {
-      currentYear = "2023";
-    }
-    changeColor(currentYear);
-  }
 
   return (
-<div>      <button onClick={changeYear} >Toggle Year</button>
+  <div>
+
     <div className="visualization">
 
       <svg ref={svgRef} className="visualization-svg w-full">
@@ -236,7 +227,127 @@ function Visualization() {
         </g>
       </svg>
     </div>
-</div>
+  </div>
+  )
+}
+
+function Slider() {
+
+  const svgRef = useRef(null)
+
+  const [width, setWidth] = useState(1200)
+  const [height, setHeight] = useState(200)
+
+  const padding = 20;
+
+  const [selectedYear, setSelectedYear] = useState("2022")
+
+  useEffect(() => {
+    const svgD3 = d3.select(svgRef.current)
+    svgD3
+      .attr('preserveAspectRatio', 'xMinYMin meet')
+      .attr('viewBox', `${-padding} 0 ${width + (2* padding)} ${height + padding}`)
+  }, [svgRef, width, height]);
+
+  useEffect(() => {
+
+    /* Sample data, replace with correct one. */
+
+    const data = [
+      { year: 2015, cars: 1500, bikes: 1900 },
+      { year: 2016, cars: 1600, bikes: 1250 },
+      { year: 2017, cars: 1700, bikes: 1300 },
+      { year: 2018, cars: 1800, bikes: 1350 },
+      { year: 2019, cars: 1500, bikes: 1400 },
+      { year: 2020, cars: 1950, bikes: 1250 },
+      { year: 2021, cars: 1700, bikes: 1500 },
+      { year: 2022, cars: 1790, bikes: 1900 },
+      { year: 2023, cars: 2000, bikes: 1750 }
+    ];
+
+    const svg = d3.select(svgRef.current)
+      .attr('width', width)
+      .attr('height', height)
+      .append('g')
+      //.attr('transform', 'translateY(10px)')
+
+    const xScale = d3.scaleLinear()
+      .domain([2015, 2023])
+      .range([padding, width-padding]);
+
+    const yScale = d3.scaleLinear()
+      .domain([1000, 2000])
+      .range([height, 0]);
+
+
+    /* Creates the x-axis. */
+    const xAxis = d3.axisBottom(xScale)
+      .tickValues(data.map(d => d.year))
+      .tickFormat(d3.format('d'))
+      .tickPadding(10)
+      .tickSize(0)
+      .tickSizeOuter(0);
+
+    svg.append("g")
+      .attr("transform", `translate(0, ${height-20})`)
+      .call(xAxis)
+      .selectAll("text")
+      .style("text-anchor", "end")
+      .style("color", "black")
+      .style("font-size", "3em")
+      .attr("dx", "-0.5em")
+      .attr("dy", "-0.1em")
+      .attr("transform", "rotate(-90)");
+
+    /* Create data lines. */
+
+    const lineGenerator = d3.line()
+      .x(d => xScale(d.year))
+      .y(d => yScale(d.value))
+      .curve(d3.curveLinear);
+
+    svg.append('path')
+      .datum(data)
+      .attr('fill', 'none')
+      .attr('stroke', 'blue')
+      .attr('stroke-width', 2)
+      .attr('d', lineGenerator.y(d => yScale(d.cars)));
+
+    svg.append('path')
+      .datum(data)
+      .attr('fill', 'none')
+      .attr('stroke', 'green')
+      .attr('stroke-width', 2)
+      .attr('d', lineGenerator.y(d => yScale(d.bikes)));
+
+  }, [svgRef, height, width ])
+
+  // TODO: take input from range and update map accordingly.
+  return (
+    <div>
+      <Visualization
+      selectedYear={selectedYear}/>
+      <br/>
+      <div className="slider-wrapper">
+        <div className="info-box">
+          Blue Line: Cars
+          <hr/>
+          Green Line: Bikes
+          <hr/>
+          { selectedYear}
+        </div>
+        <div>
+          <div className="slider w-full">
+            <svg ref={svgRef} className="slider-svg w-full">
+            </svg>
+          </div>
+          <div id="year-slider">
+            <input type="range" min="2015" max="2023" defaultValue="2023" step="1"
+                   onChange={ e => setSelectedYear(e.target.value)}></input>
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }
 
@@ -269,8 +380,9 @@ export default function Home() {
       <div className="relative flex place-items-center flex-col w-full">
         <h1 className="mb-3 text-3xl md:text-4xl font-semibold text-center">{title}</h1>
         <div className="home-visualization w-full md:w-4/6 lg:w-3/6">
-          <Visualization />
+          <Slider />
         </div>
+
       </div>
       <div className="mb-32 grid text-center grid-cols-4 lg:mb-0 lg:text-left">
         <Option />
