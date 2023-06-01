@@ -291,9 +291,8 @@ function Slider() {
     const xAxis = d3.axisBottom(xScale)
       .tickValues(data.map(d => d.year))
       .tickFormat(d3.format('d'))
-      .tickPadding(10)
       .tickSize(0)
-      .tickSizeOuter(0);
+      .tickSizeInner(-width)
 
     svg.append("g")
       .attr("transform", `translate(0, ${height-20})`)
@@ -302,9 +301,9 @@ function Slider() {
       .style("text-anchor", "end")
       .style("color", "black")
       .style("font-size", "3em")
-      .attr("dx", "-0.5em")
-      .attr("dy", "-0.1em")
-      .attr("transform", "rotate(-90)");
+      .attr("dx", "-0.2em")
+      .attr("dy", "1.2em")
+      .attr("transform", "rotate(-45)");
 
     /* Create data lines. */
 
