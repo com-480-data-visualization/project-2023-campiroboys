@@ -4,7 +4,6 @@ import { Inter } from 'next/font/google'
 import Head from 'next/head'
 import { useEffect, useRef, useState } from 'react'
 import {Simulate} from "react-dom/test-utils";
-import mouseDown = Simulate.mouseDown;
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -106,7 +105,9 @@ function extractRingData(r: any) {
 
 }
 
-function Visualization(props) {
+type VisualizationProps = { selectedYear: string }
+
+function Visualization(props: VisualizationProps) {
   const cityDataUrl = 'http://localhost:8010/index.php'
   const parkingSpacesUrl = 'https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Oeffentlich_zugaengliche_Strassenparkplaetze_OGD?service=WFS&version=1.1.0&request=GetFeature&outputFormat=GeoJSON&typename=view_pp_ogd'
 
@@ -240,7 +241,7 @@ function Slider() {
 
   const padding = 20;
 
-  const [selectedYear, setSelectedYear] = useState("2022")
+  const [selectedYear, setSelectedYear] = useState("2023")
 
   useEffect(() => {
     const svgD3 = d3.select(svgRef.current)
@@ -252,8 +253,14 @@ function Slider() {
   useEffect(() => {
 
     /* Sample data, replace with correct one. */
+    type FilteredData = {
+      year: number,
+      cars: number,
+      bikes: number
+      value?: number,
+    }
 
-    const data = [
+    const data: FilteredData[] = [
       { year: 2015, cars: 1500, bikes: 1900 },
       { year: 2016, cars: 1600, bikes: 1250 },
       { year: 2017, cars: 1700, bikes: 1300 },
@@ -301,9 +308,9 @@ function Slider() {
 
     /* Create data lines. */
 
-    const lineGenerator = d3.line()
+    const lineGenerator = d3.line<FilteredData>()
       .x(d => xScale(d.year))
-      .y(d => yScale(d.value))
+      .y(d => yScale(d.value || 0))
       .curve(d3.curveLinear);
 
     svg.append('path')
@@ -334,7 +341,7 @@ function Slider() {
           <hr/>
           Green Line: Bikes
           <hr/>
-          { selectedYear}
+          { selectedYear }
         </div>
         <div>
           <div className="slider w-full">
@@ -342,7 +349,7 @@ function Slider() {
             </svg>
           </div>
           <div id="year-slider">
-            <input type="range" min="2015" max="2023" defaultValue="2023" step="1"
+            <input type="range" min="2015" max="2023" defaultValue={selectedYear} step="1"
                    onChange={ e => setSelectedYear(e.target.value)}></input>
           </div>
         </div>
