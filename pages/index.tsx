@@ -381,15 +381,15 @@ function Slider() {
     svg.append('path')
       .datum(data)
       .attr('fill', 'none')
-      .attr('stroke', 'blue')
-      .attr('stroke-width', 2)
+      .attr('stroke', colorPalette.c1)
+      .attr('stroke-width', 4)
       .attr('d', lineGenerator.y(d => yScale(d.cars)));
 
     svg.append('path')
       .datum(data)
       .attr('fill', 'none')
-      .attr('stroke', 'green')
-      .attr('stroke-width', 2)
+      .attr('stroke', colorPalette.c9)
+      .attr('stroke-width', 4)
       .attr('d', lineGenerator.y(d => yScale(d.bikes)));
 
   }, [svgRef, height, width])
