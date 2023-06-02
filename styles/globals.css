@@ -26,6 +26,16 @@ body {
     rgb(var(--background-start-rgb));
 }
 
+.title {
+  width: 100%;
+  padding-top: 0.5em;
+  margin-bottom: 1em;
+  background-color: #a0a0ff;
+  box-shadow: 0 5px 5px 0 rgba(0,0,0,.3);
+}
+
+/* ------- Map Visualization ------- */
+
 .visualization {
   background-color: white;
 }

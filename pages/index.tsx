@@ -450,7 +450,9 @@ export default function Home() {
         <title>{title}</title>
       </Head>
       <div className="relative flex place-items-center flex-col w-full">
-        <h1 className="mb-3 text-3xl md:text-4xl font-semibold text-center">{title}</h1>
+        <div className="title">
+          <h1 className="mb-3 text-3xl md:text-4xl font-semibold text-center">{title}</h1>
+        </div>
         <div className="home-visualization w-full md:w-4/6 lg:w-3/6">
           <Slider />
         </div>
