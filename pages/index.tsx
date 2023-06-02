@@ -1,11 +1,11 @@
 import * as d3 from 'd3'
-import { FeatureCollection } from 'geojson'
-import { Inter } from 'next/font/google'
+import {FeatureCollection} from 'geojson'
+import {Inter} from 'next/font/google'
 import Head from 'next/head'
-import { useEffect, useRef, useState } from 'react'
-import {Simulate} from "react-dom/test-utils";
+import {useEffect, useRef, useState} from 'react'
 
-const inter = Inter({ subsets: ['latin'] })
+
+const inter = Inter({subsets: ['latin']})
 
 function useFeatureCollection(url: string) {
   const [data, setData] = useState<FeatureCollection | null>(null)
@@ -43,7 +43,7 @@ let parkingData = {
  *     c4   c5   c6
  *     c7   c8   c9
  */
-const colorPalette = {
+const colorPalette: { [index: string]: string } = {
   "c1": "#4FA874",
   "c2": "#3A8269",
   "c3": "#275b5d",
@@ -54,6 +54,7 @@ const colorPalette = {
   "c8": "#999fbb",
   "c9": "#666aa4"
 }
+
 function colorMapping(numberOfCars: number, numberOfBikes: number): string {
 
   if (parkingData.maxCar == -1) return "#999999";
@@ -61,17 +62,17 @@ function colorMapping(numberOfCars: number, numberOfBikes: number): string {
   let percentageCars = numberOfCars / parkingData.maxCar;
   let percentageBikes = numberOfBikes / parkingData.maxBike;
 
-  if (percentageCars < (1/3)) {
-    if (percentageBikes < (1/3)) return colorPalette.c7;
-    if ((1/3) <= percentageBikes && percentageBikes < (2/3)) return colorPalette.c8;
+  if (percentageCars < (1 / 3)) {
+    if (percentageBikes < (1 / 3)) return colorPalette.c7;
+    if ((1 / 3) <= percentageBikes && percentageBikes < (2 / 3)) return colorPalette.c8;
     return colorPalette.c9;
-  } else if ((1/3) <= percentageCars && percentageCars < (2/3)) {
-    if (percentageBikes < (1/3)) return colorPalette.c4;
-    if ((1/3) <= percentageBikes && percentageBikes < (2/3)) return colorPalette.c5;
+  } else if ((1 / 3) <= percentageCars && percentageCars < (2 / 3)) {
+    if (percentageBikes < (1 / 3)) return colorPalette.c4;
+    if ((1 / 3) <= percentageBikes && percentageBikes < (2 / 3)) return colorPalette.c5;
     return colorPalette.c6;
   } else {
-    if (percentageBikes < (1/3)) return colorPalette.c1;
-    if ((1/3) <= percentageBikes && percentageBikes < (2/3)) return colorPalette.c2;
+    if (percentageBikes < (1 / 3)) return colorPalette.c1;
+    if ((1 / 3) <= percentageBikes && percentageBikes < (2 / 3)) return colorPalette.c2;
     return colorPalette.c3;
   }
 }
@@ -149,7 +150,7 @@ function Visualization(props: VisualizationProps) {
     const svgContentD3 = d3.select(svgContentRef.current)
 
     const zoom = d3.zoom<SVGGElement, any>()
-      .scaleExtent([0.5,7])  // limits zoom depth
+      .scaleExtent([0.5, 7])  // limits zoom depth
       .translateExtent(([[0, 0], [width, height]]))  // stops users from panning to far out
       .on('zoom', handleZoom)
 
@@ -172,7 +173,7 @@ function Visualization(props: VisualizationProps) {
     const ringsD3 = svgMapD3
       .append('g')
       .attr('class', 'rings')
-    
+
     const labelsD3 = svgMapD3
       .append('g')
       .attr('class', 'labels')
@@ -206,29 +207,29 @@ function Visualization(props: VisualizationProps) {
       d3.select(svgMapRef.current).selectAll('path')
         .attr('style', (d: any) => {
           let color = colorMapping(d.properties.parkingcars[props.selectedYear], d.properties.parkingbikes[props.selectedYear])
-          return "fill:"+color+";";
+          return "fill:" + color + ";";
         })
     }
-    
+
     return () => {
       ringsD3.remove()
       labelsD3.remove()
     }
-  }, [svgMapRef, cityRings, width, height, projection, geoGenerator, ])
+  }, [svgMapRef, cityRings, width, height, projection, geoGenerator,])
 
 
   return (
-  <div>
+    <div>
 
-    <div className="visualization">
+      <div className="visualization">
 
-      <svg ref={svgRef} className="visualization-svg w-full">
-        <g ref={svgContentRef} className="visualization-svg-content">
-          <g ref={svgMapRef} className="visualization-svg-map"></g>
-        </g>
-      </svg>
+        <svg ref={svgRef} className="visualization-svg w-full">
+          <g ref={svgContentRef} className="visualization-svg-content">
+            <g ref={svgMapRef} className="visualization-svg-map"></g>
+          </g>
+        </svg>
+      </div>
     </div>
-  </div>
   )
 }
 
@@ -247,7 +248,7 @@ function Slider() {
     const svgD3 = d3.select(svgRef.current)
     svgD3
       .attr('preserveAspectRatio', 'xMinYMin meet')
-      .attr('viewBox', `${-padding} 0 ${width + (2* padding)} ${height + padding}`)
+      .attr('viewBox', `${-padding} 0 ${width + (2 * padding)} ${height + padding}`)
   }, [svgRef, width, height]);
 
   useEffect(() => {
@@ -261,26 +262,25 @@ function Slider() {
     }
 
     const data: FilteredData[] = [
-      { year: 2015, cars: 1500, bikes: 1900 },
-      { year: 2016, cars: 1600, bikes: 1250 },
-      { year: 2017, cars: 1700, bikes: 1300 },
-      { year: 2018, cars: 1800, bikes: 1350 },
-      { year: 2019, cars: 1500, bikes: 1400 },
-      { year: 2020, cars: 1950, bikes: 1250 },
-      { year: 2021, cars: 1700, bikes: 1500 },
-      { year: 2022, cars: 1790, bikes: 1900 },
-      { year: 2023, cars: 2000, bikes: 1750 }
+      {year: 2015, cars: 1500, bikes: 1900},
+      {year: 2016, cars: 1600, bikes: 1250},
+      {year: 2017, cars: 1700, bikes: 1300},
+      {year: 2018, cars: 1800, bikes: 1350},
+      {year: 2019, cars: 1500, bikes: 1400},
+      {year: 2020, cars: 1950, bikes: 1250},
+      {year: 2021, cars: 1700, bikes: 1500},
+      {year: 2022, cars: 1790, bikes: 1900},
+      {year: 2023, cars: 2000, bikes: 1750}
     ];
 
     const svg = d3.select(svgRef.current)
       .attr('width', width)
       .attr('height', height)
       .append('g')
-      //.attr('transform', 'translateY(10px)')
 
     const xScale = d3.scaleLinear()
       .domain([2015, 2023])
-      .range([padding, width-padding]);
+      .range([padding, width - padding]);
 
     const yScale = d3.scaleLinear()
       .domain([1000, 2000])
@@ -295,7 +295,7 @@ function Slider() {
       .tickSizeInner(-width)
 
     svg.append("g")
-      .attr("transform", `translate(0, ${height-20})`)
+      .attr("transform", `translate(0, ${height - 20})`)
       .call(xAxis)
       .selectAll("text")
       .style("text-anchor", "end")
@@ -326,13 +326,13 @@ function Slider() {
       .attr('stroke-width', 2)
       .attr('d', lineGenerator.y(d => yScale(d.bikes)));
 
-  }, [svgRef, height, width ])
+  }, [svgRef, height, width])
 
   // TODO: take input from range and update map accordingly.
   return (
     <div>
       <Visualization
-      selectedYear={selectedYear}/>
+        selectedYear={selectedYear}/>
       <br/>
       <div className="slider-wrapper">
         <div className="info-box">
@@ -349,7 +349,7 @@ function Slider() {
           </div>
           <div id="year-slider">
             <input type="range" min="2015" max="2023" defaultValue={selectedYear} step="1"
-                   onChange={ e => setSelectedYear(e.target.value)}></input>
+                   onChange={e => setSelectedYear(e.target.value)}></input>
           </div>
         </div>
       </div>
