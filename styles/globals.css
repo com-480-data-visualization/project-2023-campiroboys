@@ -70,3 +70,68 @@ body {
 #year-slider input[type="range"] {
   width: 95%;
 }
+
+
+/*------Bi-variate Palette Wrapper-----*/
+
+.wrapper {
+  width: 20vw;
+}
+
+.palette-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 5px;
+  background-color: #fcfcfc;
+}
+
+.palette-outer-item {
+  display: flex;
+  flex-direction: row;
+}
+
+.matrix-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-content: stretch;
+  width: 70%;
+  aspect-ratio: 1;
+}
+
+.matrix-item {
+  width: 33.333%;
+  height: 33.333%
+}
+
+.arrow-car-item {
+  width: 30%;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+}
+
+.arrow-car-item svg {
+  height: 100%;
+}
+
+.filler-item {
+  width: 30%;
+}
+
+.arrow-bike-item {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bike-icon {
+  transform: translateY(-50%);
+  width: 35%;
+}
+
+.car-icon {
+}
