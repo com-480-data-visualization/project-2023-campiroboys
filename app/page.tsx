@@ -3,6 +3,8 @@
 import * as d3 from 'd3'
 import { FeatureCollection } from 'geojson'
 import { useEffect, useRef, useState } from 'react'
+import {Property} from "csstype";
+import Filter = Property.Filter;
 
 function useFeatureCollection(url: string) {
   const [data, setData] = useState<FeatureCollection | null>(null)
@@ -465,16 +467,16 @@ function SnapshotInTime() {
       .attr("width", 0)
       .transition()
       .duration(500) // Transition duration
-      .attr("x", (d) => (d.cars < 0 ? width / 2 : width / 2 - xScale(Math.abs(d.cars))))
-      .attr("width", (d) => xScale(Math.abs(d.cars)));
+      .attr("x", (d: any) => (d.cars < 0 ? width / 2 : width / 2 - xScale(Math.abs(d.cars))))
+      .attr("width", (d: any) => xScale(Math.abs(d.cars)));
 
     svg.selectAll(".bar.bikes")
       .attr("x", width / 2)
       .attr("width", 0)
       .transition()
       .duration(500) // Transition duration
-      .attr("x", (d) => (d.bikes < 0 ? width / 2 - xScale(Math.abs(d.bikes)) : width / 2))
-      .attr("width", (d) => xScale(Math.abs(d.bikes)));
+      .attr("x", (d: any) => (d.bikes < 0 ? width / 2 - xScale(Math.abs(d.bikes)) : width / 2))
+      .attr("width", (d: any) => xScale(Math.abs(d.bikes)));
 
 
 
