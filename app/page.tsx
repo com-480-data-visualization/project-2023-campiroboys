@@ -1,5 +1,6 @@
 import Slider from '@/components/slider'
 import SnapshotInTime from '@/components/snapshot-in-time'
+import styles from './styles.module.css'
 
 export default function Home() {
   const title = 'Zurich Parking Spaces'
@@ -10,9 +11,9 @@ export default function Home() {
         <div className="title">
           <h1 className="mb-3 text-3xl md:text-4xl font-semibold text-center">{title}</h1>
         </div>
-        <div className="fade-in home-visualization w-full md:w-4/6 lg:w-3/6">
+        <div className={`${styles.fadeIn} w-full md:w-4/6 lg:w-3/6`}>
           <Slider />
-          <hr />
+          <div className={styles.separator} />
           <SnapshotInTime />
         </div>
       </div>

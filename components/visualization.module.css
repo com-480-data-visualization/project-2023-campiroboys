@@ -1,0 +1,9 @@
+.svgContent {
+  pointer-events: none;
+}
+
+.svgDistrict {
+  stroke-width: 1;
+  stroke: white;
+  fill: #7f7f93;
+}

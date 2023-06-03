@@ -5,6 +5,7 @@ import { AggregatedPerYearData, aggPerYearData } from '@/lib/data'
 import { colorPalette } from '@/lib/color-mapping'
 import Image from 'next/image'
 import paletteIcon from './palette.svg'
+import styles from './slider.module.css'
 import { useEffect, useRef, useState } from 'react'
 import Visualization from './visualization'
 
@@ -16,7 +17,9 @@ export type SliderProps = {
 
 export default function Slider(props: SliderProps) {
   const { width = 1200, height = 200, padding = 20 } = props
+
   const svgRef = useRef(null)
+
   const [selectedYear, setSelectedYear] = useState(2021)
 
   useEffect(() => {
@@ -87,19 +90,24 @@ export default function Slider(props: SliderProps) {
     <div>
       <Visualization
         selectedYear={selectedYear} />
-      <br />
-      <div className="slider-wrapper">
-        <div className="info-box">
+      <div className={styles.wrapper}>
+        <div className={styles.infoBox}>
           <Image src={paletteIcon} alt="Palette" />
         </div>
-        <div className="slider">
-          <div className="graph w-full">
-            <svg ref={svgRef} className="slider-svg w-full">
-            </svg>
+        <div className={styles.graphSlider}>
+          <div className="w-full">
+            <svg ref={svgRef} className={`${styles.graphSvg} w-full`} />
           </div>
-          <div id="year-slider">
-            <input type="range" min="2011" max="2021" defaultValue={selectedYear} step="0.01"
-              onChange={e => setSelectedYear(e.target.valueAsNumber)}></input>
+          <div className={styles.slider}>
+            <input
+              type="range"
+              min={2011}
+              max={2021}
+              defaultValue={selectedYear}
+              step={0.01}
+              className={styles.sliderInput}
+              onChange={e => setSelectedYear(e.target.valueAsNumber)}
+            />
           </div>
         </div>
       </div>
