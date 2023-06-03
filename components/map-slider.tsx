@@ -5,7 +5,8 @@ import { AggregatedPerYearData, aggPerYearData } from '@/lib/data'
 import { colorPalette } from '@/lib/color-mapping'
 import Image from 'next/image'
 import paletteIcon from './palette.svg'
-import styles from './slider.module.css'
+import styles from './map-slider.module.css'
+import barStyles from './bar-slider.module.css'
 import { useEffect, useRef, useState } from 'react'
 import Map from './map'
 
@@ -94,18 +95,18 @@ export default function MapSlider(props: MapSliderProps) {
         <div className={styles.infoBox}>
           <Image src={paletteIcon} alt="Palette" />
         </div>
-        <div className={styles.graphSlider}>
+        <div className={barStyles.graphSlider}>
           <div className="w-full">
-            <svg ref={svgRef} className={`${styles.graphSvg} w-full`} />
+            <svg ref={svgRef} className={`${barStyles.graphSvg} w-full`} />
           </div>
-          <div className={styles.slider}>
+          <div className={barStyles.slider}>
             <input
               type="range"
               min={2011}
               max={2021}
               defaultValue={selectedYear}
               step={0.01}
-              className={styles.sliderInput}
+              className={barStyles.sliderInput}
               onChange={e => setSelectedYear(e.target.valueAsNumber)}
             />
           </div>

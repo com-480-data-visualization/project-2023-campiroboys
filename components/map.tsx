@@ -4,7 +4,7 @@ import * as d3 from 'd3'
 import { colorMapping } from '@/lib/color-mapping'
 import { getInterpolatedCarAndBikeNumbers } from '@/lib/data'
 import cityDistrict from '@/json/stadtkreise_a.json'
-import styles from './visualization.module.css'
+import styles from './map.module.css'
 import { useEffect, useRef, useState } from 'react'
 
 export type MapProps = {

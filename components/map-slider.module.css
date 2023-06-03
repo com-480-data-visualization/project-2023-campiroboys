@@ -9,22 +9,3 @@
   max-width: 20%;
   padding: 2px;
 }
-
-.graphSlider {
-  flex-basis: 80%;
-}
-
-.graphSvg {
-  padding: 10px;
-}
-
-.slider {
-  display: flex;
-  align-content: center;
-  justify-content: center;
-  padding: 10px;
-}
-
-.sliderInput {
-  width: 95%;
-}
