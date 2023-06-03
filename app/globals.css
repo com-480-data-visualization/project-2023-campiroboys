@@ -4,26 +4,12 @@
 
 :root {
   --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+  --background-rgb: 255, 255, 255;
 }
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background: rgb(var(--background-rgb));
 }
 
 hr {
@@ -31,23 +17,8 @@ hr {
   margin: 1em 0;
 }
 
-.title {
-  width: 100%;
-  padding-top: 0.5em;
-  margin-bottom: 1em;
-  background-color: #a0a0ff;
-  box-shadow: 0 5px 5px 0 rgba(0,0,0,.3);
-}
-
-/* ------- Map Visualization ------- */
-
-.visualization {
-  background-color: white;
-}
-
 .visualization-svg-content {
   pointer-events: none;
-  will-change: transform;
 }
 
 .visualization-svg-content path {
@@ -71,10 +42,6 @@ hr {
   padding: 2px;
 }
 
-.graph {
-  background-color: white;
-}
-
 .slider-svg {
   padding: 10px;
 }
@@ -89,8 +56,6 @@ hr {
 #year-slider input[type="range"] {
   width: 95%;
 }
-
-/*----- Starting Animation ----- */
 
 @keyframes startRotation {
   0% {
