@@ -2,10 +2,10 @@
 
 ## Visualization
 ### Data
-- [ ] Create a script that counts how many parking spaces are contained in each ring and add this data to the GeoJson as a property.
+- [ ] Create a script that counts how many parking spaces are contained in 
+      each ring and add this data to the GeoJson as a property.
 - [ ] Flatten edges of the rings? They are very detailed, maybe a bit too much.
 - [ ] The ring polygon contain a bug, the lake is not visible. Ring data should be changed.
-- [ ] Gather P+R (SBB Park and Ride) points, if they exist
 
 ### D3
 - [x] Implement `Bivariate 2-dimensional Color Palette` from the Milestone2
@@ -16,6 +16,7 @@
 - [x] Limit the maximum zoom
 
 ### Website
+- [ ] Add a text for the "story" part of the Milestone3.
 - [ ] Serve the new geoJson files.
 - [ ] Add control elements (change visualization, enable map, show only car parking spaces/only bikes, ...)
 - [ ] Make the code more modular. 
