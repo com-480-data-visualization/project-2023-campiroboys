@@ -26,6 +26,11 @@ body {
     rgb(var(--background-start-rgb));
 }
 
+hr {
+  border-top: 1px solid #818181;
+  margin: 1em 0;
+}
+
 .title {
   width: 100%;
   padding-top: 0.5em;
