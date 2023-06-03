@@ -233,72 +233,6 @@ function Visualization(props: VisualizationProps) {
   )
 }
 
-function Palette() {
-
-  return (
-    <div>
-      <svg width="0" height="0">
-        <defs>
-          <marker
-            id="arrow"
-            viewBox="0 0 20 20"
-            refX="5"
-            refY="5"
-            markerWidth="24"
-            markerHeight="24"
-            orient="auto-start-reverse">
-            <path d="M 0 0 L 10 5 L 0 10 z"/>
-          </marker>
-        </defs>
-      </svg>
-      <div className="palette-wrapper">
-        <div className="palette-outer-item">
-          <div className="arrow-car-item">
-
-            <svg viewBox="0 0 30 100">
-              <line
-                x1="15"
-                y1="95"
-                x2="15"
-                y2="15"
-                stroke="black"
-                markerEnd="url(#arrow)"/>
-            </svg>
-            <img
-              className="car-icon"
-              src={"/media/car.svg"}
-            />
-          </div>
-          <div className="matrix-wrapper">
-            {Object.keys(colorPalette).map((key, index) => (
-              <div className="matrix-item" style={{backgroundColor: colorPalette[key]}}>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="palette-outer-item">
-          <div className="filler-item"></div>
-          <div className="arrow-bike-item">
-            <svg viewBox="0 0 100 30">
-              <line
-                x1="5"
-                y1="15"
-                x2="85"
-                y2="15"
-                stroke="black"
-                markerEnd="url(#arrow)"/>
-            </svg>
-            <img
-              className="bike-icon"
-              src={"/media/bike.svg"}
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
 function Slider() {
 
   const svgRef = useRef(null)
@@ -402,11 +336,9 @@ function Slider() {
       <br/>
       <div className="slider-wrapper">
         <div className="info-box">
-          Blue Line: Cars
-          <hr/>
-          Green Line: Bikes
-          <hr/>
-          { selectedYear }
+          <img
+            src={"/media/palette.svg"}
+          />
         </div>
         <div>
           <div className="slider w-full">
