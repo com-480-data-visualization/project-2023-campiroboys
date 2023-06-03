@@ -125,9 +125,13 @@ export default function BarSlider(props: BarSliderProps) {
       .selectAll('text')
       .style('font-size', '12px');
 
-    // Y-axis remains constant, no need for update pattern
     const yAxis = d3.axisLeft(yScale);
-    svg.append('g')
+    // Update y-axis if it exists, or append a new one if it doesn't
+    const yAxisGroup = svg.selectAll<SVGGElement, null>('.y-axis').data([null]);
+    yAxisGroup.enter()
+      .append('g')
+      .attr('class', 'y-axis')
+      .merge(yAxisGroup)
       .transition()
       .duration(500)
       .call(yAxis)
