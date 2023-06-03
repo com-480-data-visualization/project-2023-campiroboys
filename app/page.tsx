@@ -1,7 +1,6 @@
 'use client';
 
 import * as d3 from 'd3'
-import Image from 'next/image'
 import { FeatureCollection } from 'geojson'
 import { useEffect, useRef, useState } from 'react'
 
@@ -107,7 +106,7 @@ function extractRingData(r: any) {
 type VisualizationProps = { selectedYear: string }
 
 function Visualization(props: VisualizationProps) {
-  const cityDataUrl = 'http://localhost:8010/index.php'
+  const cityDataUrl = '/stadtkreise_a.json'
   const parkingSpacesUrl = 'https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Oeffentlich_zugaengliche_Strassenparkplaetze_OGD?service=WFS&version=1.1.0&request=GetFeature&outputFormat=GeoJSON&typename=view_pp_ogd'
 
   const svgRef = useRef(null)
@@ -122,7 +121,7 @@ function Visualization(props: VisualizationProps) {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch('http://localhost:8010/index.php');
+      const response = await fetch('/stadtkreise_a.json');
       const data = await response.json();
       setDistrictGeoJson(data);
       parkingData = extractRingData(data);
@@ -337,10 +336,7 @@ function Slider() {
       <br/>
       <div className="slider-wrapper">
         <div className="info-box">
-          <Image
-            src={"/palette.svg"}
-            alt="Palette"
-          />
+          <img src="/palette.svg" />
         </div>
         <div className="slider">
           <div className="graph w-full">
