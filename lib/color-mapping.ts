@@ -18,46 +18,37 @@ export const colorPalette: { [index: string]: string } = {
   'c9': '#666aa4'
 }
 
-function interpolateColor(color1: string, color2: string, ratio: number): string {
-  let color = ''
-  for (let i = 1; i < 6; i += 2) {
-    let t1 = parseInt(color1.slice(i, i + 2), 16)
-    let t2 = parseInt(color2.slice(i, i + 2), 16)
-    let value = Math.round(t1 + (t2 - t1) * ratio).toString(16)
-    while (value.length < 2) {
-      value = '0' + value
-    }
-    color += value
-  }
-  return '#' + color
-}
-
-function bilinearInterpolateColor(c00: string, c10: string, c01: string, c11: string, tx: number, ty: number): string {
-  const rgb00 = interpolateColor(c00, c10, tx)
-  const rgb01 = interpolateColor(c01, c11, tx)
-  return interpolateColor(rgb00, rgb01, ty)
-}
-
 export function colorMapping(numberOfCars: number, numberOfBikes: number): string {
-  if (parkingData.maxCar == -1) return '#999999'
+  if (parkingData.maxCar == -1 || parkingData.maxBike == -1) return "#999999";
 
-  let percentageCars = numberOfCars / parkingData.maxCar
-  let percentageBikes = numberOfBikes / parkingData.maxBike
-
-  const tx = percentageCars
-  const ty = percentageBikes
+  console.log("numberOfCars: " + numberOfCars);
+  console.log("numberOfBikes: " + numberOfBikes);
   
-  if (percentageCars < (1 / 3)) {
-    if (percentageBikes < (1 / 3)) return bilinearInterpolateColor(colorPalette.c7, colorPalette.c4, colorPalette.c8, colorPalette.c5, tx, ty)
-    if ((1 / 3) <= percentageBikes && percentageBikes < (2 / 3)) return bilinearInterpolateColor(colorPalette.c8, colorPalette.c5, colorPalette.c9, colorPalette.c6, tx, ty)
-    return bilinearInterpolateColor(colorPalette.c9, colorPalette.c6, colorPalette.c9, colorPalette.c6, tx, ty)
-  } else if ((1 / 3) <= percentageCars && percentageCars < (2 / 3)) {
-    if (percentageBikes < (1 / 3)) return bilinearInterpolateColor(colorPalette.c4, colorPalette.c1, colorPalette.c5, colorPalette.c2, tx, ty)
-    if ((1 / 3) <= percentageBikes && percentageBikes < (2 / 3)) return bilinearInterpolateColor(colorPalette.c5, colorPalette.c2, colorPalette.c6, colorPalette.c3, tx, ty)
-    return bilinearInterpolateColor(colorPalette.c6, colorPalette.c3, colorPalette.c6, colorPalette.c3, tx, ty)
-  } else {
-    if (percentageBikes < (1 / 3)) return bilinearInterpolateColor(colorPalette.c1, colorPalette.c1, colorPalette.c2, colorPalette.c2, tx, ty)
-    if ((1 / 3) <= percentageBikes && percentageBikes < (2 / 3)) return bilinearInterpolateColor(colorPalette.c2, colorPalette.c2, colorPalette.c3, colorPalette.c3, tx, ty)
-    return bilinearInterpolateColor(colorPalette.c3, colorPalette.c3, colorPalette.c3, colorPalette.c3, tx, ty)
+  let percentageCars = (numberOfCars === 0 || isNaN(numberOfCars) )? 0 : numberOfCars / parkingData.maxCar;
+  let percentageBikes = (numberOfBikes === 0 || isNaN(numberOfBikes)) ? 0 : numberOfBikes / parkingData.maxBike;
+
+  let c00 = "#4FA874"; // Corresponds to colorPalette.c1
+  let c10 = "#275b5d"; // Corresponds to colorPalette.c3
+  let c01 = "#d2d2d2"; // Corresponds to colorPalette.c7
+  let c11 = "#666aa4"; // Corresponds to colorPalette.c9
+
+  let color = "";
+  for (let i = 1; i < 6; i += 2) {
+      let t00 = parseInt(c00.slice(i, i + 2), 16);
+      let t10 = parseInt(c10.slice(i, i + 2), 16);
+      let t01 = parseInt(c01.slice(i, i + 2), 16);
+      let t11 = parseInt(c11.slice(i, i + 2), 16);
+
+      // Perform bilinear interpolation for each color component
+      let t0 = Math.round(t00 + (t10 - t00) * percentageCars).toString(16);
+      let t1 = Math.round(t01 + (t11 - t01) * percentageCars).toString(16);
+      let value = Math.round(parseInt(t0, 16) + (parseInt(t1, 16) - parseInt(t0, 16)) * percentageBikes).toString(16);
+
+      while (value.length < 2) {
+          value = "0" + value;
+      }
+      color += value;
   }
+  return "#" + color;
 }
+
