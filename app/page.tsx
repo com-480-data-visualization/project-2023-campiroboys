@@ -106,7 +106,7 @@ function extractRingData(r: any) {
 type VisualizationProps = { selectedYear: string }
 
 function Visualization(props: VisualizationProps) {
-  const cityDataUrl = '/stadtkreise_a.json'
+  const cityDataUrl = '/stadtkreise_test.json'
   const parkingSpacesUrl = 'https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Oeffentlich_zugaengliche_Strassenparkplaetze_OGD?service=WFS&version=1.1.0&request=GetFeature&outputFormat=GeoJSON&typename=view_pp_ogd'
 
   const svgRef = useRef(null)
@@ -121,7 +121,7 @@ function Visualization(props: VisualizationProps) {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch('/stadtkreise_a.json');
+      const response = await fetch('/stadtkreise_test.json');
       const data = await response.json();
       setDistrictGeoJson(data);
       parkingData = extractRingData(data);
