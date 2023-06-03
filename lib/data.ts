@@ -58,8 +58,8 @@ export function getInterpolatedDataEntries(year: number): DataEntry[] {
       const ea = entriesAfter.find((e) => parseInt(e.knr) === parseInt(entry.knr))
       return {
         knr: entry.knr,
-        cars: entry.cars + (ea.cars - entry.cars) * (year - (yLow)),
-        bikes: entry?.bikes ?? 0 + (ea.bikes  - entry.bikes) * (year - (yLow)),
+        cars: entry.cars + (ea?.cars ?? 0 - entry.cars) * (year - (yLow)),
+        bikes: entry?.bikes ?? 0 + (ea?.bikes ?? 0  - (entry.bikes ?? 0)) * (year - (yLow)),
       }
     })
   }
