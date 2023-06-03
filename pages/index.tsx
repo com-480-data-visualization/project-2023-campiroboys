@@ -388,12 +388,12 @@ export default function Home() {
         <div className="title">
           <h1 className="mb-3 text-3xl md:text-4xl font-semibold text-center">{title}</h1>
         </div>
-        <div className="home-visualization w-full md:w-4/6 lg:w-3/6">
+        <div className="fade-in home-visualization w-full md:w-4/6 lg:w-3/6">
           <Slider />
         </div>
 
       </div>
-      <div className="mb-32 grid text-center grid-cols-4 lg:mb-0 lg:text-left">
+      <div className="fade-in mb-32 grid text-center grid-cols-4 lg:mb-0 lg:text-left">
         <Option />
         <Option />
         <Option />
