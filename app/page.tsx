@@ -1,11 +1,8 @@
+'use client';
+
 import * as d3 from 'd3'
-import {FeatureCollection} from 'geojson'
-import {Inter} from 'next/font/google'
-import Head from 'next/head'
-import {useEffect, useRef, useState} from 'react'
-
-
-const inter = Inter({subsets: ['latin']})
+import { FeatureCollection } from 'geojson'
+import { useEffect, useRef, useState } from 'react'
 
 function useFeatureCollection(url: string) {
   const [data, setData] = useState<FeatureCollection | null>(null)
@@ -109,7 +106,7 @@ function extractRingData(r: any) {
 type VisualizationProps = { selectedYear: string }
 
 function Visualization(props: VisualizationProps) {
-  const cityDataUrl = 'http://localhost:8010/index.php'
+  const cityDataUrl = '/stadtkreise_test.json'
   const parkingSpacesUrl = 'https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Oeffentlich_zugaengliche_Strassenparkplaetze_OGD?service=WFS&version=1.1.0&request=GetFeature&outputFormat=GeoJSON&typename=view_pp_ogd'
 
   const svgRef = useRef(null)
@@ -124,7 +121,7 @@ function Visualization(props: VisualizationProps) {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch('http://localhost:8010/index.php');
+      const response = await fetch('/stadtkreise_test.json');
       const data = await response.json();
       setDistrictGeoJson(data);
       parkingData = extractRingData(data);
@@ -339,9 +336,7 @@ function Slider() {
       <br/>
       <div className="slider-wrapper">
         <div className="info-box">
-          <img
-            src={"/media/palette.svg"}
-          />
+          <img src="/palette.svg" />
         </div>
         <div className="slider">
           <div className="graph w-full">
@@ -559,12 +554,7 @@ function Option() {
 export default function Home() {
   const title = 'Zurich Parking Spaces'
   return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-between pt-2 md:pt-4 lg:p-2 ${inter.className}`}
-    >
-      <Head>
-        <title>{title}</title>
-      </Head>
+    <main className="flex min-h-screen flex-col items-center justify-between pt-2 md:pt-4 lg:p-2">
       <div className="relative flex place-items-center flex-col w-full">
         <div className="title">
           <h1 className="mb-3 text-3xl md:text-4xl font-semibold text-center">{title}</h1>

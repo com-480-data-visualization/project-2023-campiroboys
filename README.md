@@ -38,7 +38,7 @@
 Build the project:
 
 ```bash
-npm build
+npm run build
 ```
 
 Then run it:
@@ -53,11 +53,6 @@ Run the development server:
 
 ```bash
 npm run dev
-```
-
-To serve the files locally for testing:
-```bash
-php -S localhost:8010
 ```
 
 Then open [http://localhost:3000](http://localhost:3000) with the browser.
