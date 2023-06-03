@@ -6,13 +6,13 @@ import { DataEntry, getInterpolatedDataEntries } from '@/lib/data'
 import { colorPalette } from '@/lib/color-mapping'
 import styles from './slider.module.css'
 
-export type SnapshotInTimeProps = {
+export type BarSliderProps = {
   width?: number
   height?: number
   padding?: number
 }
 
-export default function SnapshotInTime(props: SnapshotInTimeProps) {
+export default function BarSlider(props: BarSliderProps) {
   const { width = 600, height = 400, padding = 20 } = props
 
   const svgRef = useRef(null)

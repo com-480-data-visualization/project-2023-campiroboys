@@ -7,13 +7,13 @@ import cityDistrict from '@/json/stadtkreise_a.json'
 import styles from './visualization.module.css'
 import { useEffect, useRef, useState } from 'react'
 
-export type VisualizationProps = {
+export type MapProps = {
   selectedYear: number
   width?: number
   height?: number
 }
 
-export default function Visualization(props: VisualizationProps) {
+export default function Map(props: MapProps) {
   const { selectedYear, width = 800, height = 800 } = props
 
   const svgRef = useRef(null)

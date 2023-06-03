@@ -1,5 +1,5 @@
-import Slider from '@/components/slider'
-import SnapshotInTime from '@/components/snapshot-in-time'
+import MapSlider from '@/components/map-slider'
+import BarSlider from '@/components/bar-slider'
 import styles from './styles.module.css'
 
 export default function Home() {
@@ -12,9 +12,9 @@ export default function Home() {
           <h1 className="mb-3 text-3xl md:text-4xl font-semibold text-center">{title}</h1>
         </div>
         <div className={`${styles.fadeIn} w-full md:w-4/6 lg:w-3/6`}>
-          <Slider />
+          <MapSlider />
           <div className={styles.separator} />
-          <SnapshotInTime />
+          <BarSlider />
         </div>
       </div>
     </main>

@@ -7,15 +7,15 @@ import Image from 'next/image'
 import paletteIcon from './palette.svg'
 import styles from './slider.module.css'
 import { useEffect, useRef, useState } from 'react'
-import Visualization from './visualization'
+import Map from './map'
 
-export type SliderProps = {
+export type MapSliderProps = {
   width?: number
   height?: number
   padding?: number
 }
 
-export default function Slider(props: SliderProps) {
+export default function MapSlider(props: MapSliderProps) {
   const { width = 1200, height = 200, padding = 20 } = props
 
   const svgRef = useRef(null)
@@ -88,7 +88,7 @@ export default function Slider(props: SliderProps) {
   // TODO: take input from range and update map accordingly.
   return (
     <div>
-      <Visualization
+      <Map
         selectedYear={selectedYear} />
       <div className={styles.wrapper}>
         <div className={styles.infoBox}>
