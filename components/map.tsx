@@ -14,7 +14,7 @@ export type MapProps = {
 }
 
 export default function Map(props: MapProps) {
-  const { selectedYear, width = 800, height = 800 } = props
+  const { selectedYear, width = 400, height = 400 } = props
 
   const svgRef = useRef(null)
   const svgContentRef = useRef(null)
@@ -78,7 +78,7 @@ export default function Map(props: MapProps) {
       .attr('x', (d: any) => geoGenerator.centroid(d)[0])
       .attr('y', (d: any) => geoGenerator.centroid(d)[1])
       .attr('text-anchor', 'middle')
-      .attr('font-size', '12px')
+      .attr('font-size', '9px')
       .text((d: any) => d.properties.knr)
 
     // Color each polygon according to the matrix
@@ -97,7 +97,7 @@ export default function Map(props: MapProps) {
 
   return (
     <div>
-      <svg ref={svgRef} className="w-full">
+      <svg ref={svgRef}>
         <g ref={svgContentRef} className={styles.svgContent}>
           <g ref={svgMapRef}></g>
         </g>

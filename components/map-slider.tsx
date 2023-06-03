@@ -89,8 +89,7 @@ export default function MapSlider(props: MapSliderProps) {
   // TODO: take input from range and update map accordingly.
   return (
     <div>
-      <Map
-        selectedYear={selectedYear} />
+      <Map selectedYear={selectedYear} />
       <div className={styles.wrapper}>
         <div className={styles.infoBox}>
           <Image src={paletteIcon} alt="Palette" />

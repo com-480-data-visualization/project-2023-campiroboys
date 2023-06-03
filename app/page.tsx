@@ -11,7 +11,7 @@ export default function Home() {
         <div className="title">
           <h1 className="mb-3 text-3xl md:text-4xl font-semibold text-center">{title}</h1>
         </div>
-        <div className={`${styles.fadeIn} w-full md:w-4/6 lg:w-3/6`}>
+        <div className={`${styles.fadeIn} w-full md:w-3/6 lg:w-2/6`}>
           <MapSlider />
           <div className={styles.separator} />
           <BarSlider />
