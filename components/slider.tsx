@@ -1,19 +1,22 @@
 'use client'
 
 import * as d3 from 'd3'
-import { useEffect, useRef, useState } from 'react'
-import Visualization from './visualization'
 import { AggregatedPerYearData, aggPerYearData } from '@/lib/data'
 import { colorPalette } from '@/lib/color-mapping'
+import Image from 'next/image'
+import paletteIcon from './palette.svg'
+import { useEffect, useRef, useState } from 'react'
+import Visualization from './visualization'
 
-export default function Slider() {
+export type SliderProps = {
+  width?: number
+  height?: number
+  padding?: number
+}
+
+export default function Slider(props: SliderProps) {
+  const { width = 1200, height = 200, padding = 20 } = props
   const svgRef = useRef(null)
-
-  const [width, setWidth] = useState(1200)
-  const [height, setHeight] = useState(200)
-
-  const padding = 20
-
   const [selectedYear, setSelectedYear] = useState(2021)
 
   useEffect(() => {
@@ -21,7 +24,7 @@ export default function Slider() {
     svgD3
       .attr('preserveAspectRatio', 'xMinYMin meet')
       .attr('viewBox', `${-padding} 0 ${width + padding} ${height + 3 * padding}`)
-  }, [svgRef, width, height])
+  }, [width, height, padding, svgRef])
 
   useEffect(() => {
     const svg = d3.select(svgRef.current)
@@ -35,7 +38,6 @@ export default function Slider() {
       .domain([0, 60000])
       .range([height, 0])
 
-
     /* Creates the x-axis. */
     const xAxis = d3.axisBottom(xScale)
       .tickValues(aggPerYearData.map(d => d.year))
@@ -43,16 +45,16 @@ export default function Slider() {
       .tickSize(0)
       .tickSizeInner(-width)
 
-    svg.append("g")
-      .attr("transform", `translate(0, ${height - 20})`)
+    svg.append('g')
+      .attr('transform', `translate(0, ${height - 20})`)
       .call(xAxis)
-      .selectAll("text")
-      .style("text-anchor", "end")
-      .style("color", "black")
-      .style("font-size", "3em")
-      .attr("dx", "-0.2em")
-      .attr("dy", "1.2em")
-      .attr("transform", "rotate(-45)")
+      .selectAll('text')
+      .style('text-anchor', 'end')
+      .style('color', 'black')
+      .style('font-size', '3em')
+      .attr('dx', '-0.2em')
+      .attr('dy', '1.2em')
+      .attr('transform', 'rotate(-45)')
 
     /* Create data lines. */
 
@@ -78,7 +80,7 @@ export default function Slider() {
     return () => {
       svg.remove()
     }
-  }, [svgRef, height, width])
+  }, [height, width, padding, svgRef])
 
   // TODO: take input from range and update map accordingly.
   return (
@@ -88,7 +90,7 @@ export default function Slider() {
       <br />
       <div className="slider-wrapper">
         <div className="info-box">
-          <img src="/palette.svg" />
+          <Image src={paletteIcon} alt="Palette" />
         </div>
         <div className="slider">
           <div className="graph w-full">
