@@ -54,7 +54,11 @@ body {
 .slider-wrapper {
   display: flex;
   flex-direction: row;
-  align-content: center;
+  align-items: stretch;
+}
+
+.slider {
+  flex-basis: 80%;
 }
 
 .info-box {
@@ -62,7 +66,7 @@ body {
   padding: 2px;
 }
 
-.slider {
+.graph {
   background-color: white;
 }
 

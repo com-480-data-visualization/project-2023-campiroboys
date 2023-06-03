@@ -204,6 +204,7 @@ function Visualization(props: VisualizationProps) {
         .text((d: any) => d.properties.knr)
 
 
+      /* Color each polygon according to the matrix. */
       d3.select(svgMapRef.current).selectAll('path')
         .attr('style', (d: any) => {
           let color = colorMapping(d.properties.parkingcars[props.selectedYear], d.properties.parkingbikes[props.selectedYear])
@@ -248,12 +249,13 @@ function Slider() {
     const svgD3 = d3.select(svgRef.current)
     svgD3
       .attr('preserveAspectRatio', 'xMinYMin meet')
-      .attr('viewBox', `${-padding} 0 ${width + (2 * padding)} ${height + padding}`)
+      .attr('viewBox', `${-padding} 0 ${width + padding} ${height + 3 * padding}`)
   }, [svgRef, width, height]);
 
   useEffect(() => {
 
     /* Sample data, replace with correct one. */
+    // TODO: Fetch data from API
     type FilteredData = {
       year: number,
       cars: number,
@@ -274,8 +276,6 @@ function Slider() {
     ];
 
     const svg = d3.select(svgRef.current)
-      .attr('width', width)
-      .attr('height', height)
       .append('g')
 
     const xScale = d3.scaleLinear()
@@ -340,8 +340,8 @@ function Slider() {
             src={"/media/palette.svg"}
           />
         </div>
-        <div>
-          <div className="slider w-full">
+        <div className="slider">
+          <div className="graph w-full">
             <svg ref={svgRef} className="slider-svg w-full">
             </svg>
           </div>

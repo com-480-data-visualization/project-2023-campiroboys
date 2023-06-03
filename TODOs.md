@@ -8,8 +8,8 @@
 - [ ] Gather P+R (SBB Park and Ride) points, if they exist
 
 ### D3
-- [ ] Implement `Bivariate 2-dimensional Color Palette` from the Milestone2
-- [ ] Temporal axis to change which years to include, similar to `Change over time`.
+- [x] Implement `Bivariate 2-dimensional Color Palette` from the Milestone2
+- [x] Temporal axis to change which years to include, similar to `Change over time`.
 - [ ] Clickable rings: a model/box/... is opened that shows additional data.
   - Maybe highlight the ring and show a heatmap of where the parking spaces are?
 - [ ] Add the map in the background
