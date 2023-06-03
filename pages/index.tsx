@@ -370,6 +370,9 @@ function SnapshotInTime() {
 
   const [selectedYear, setSelectedYear] = useState("2023")
 
+  let xScale: d3.ScaleLinear<number, number>;
+  let yScale: d3.ScaleBand<string>;
+
   /* Sample data, replace with correct one. */
   // TODO: Fetch data from API
   interface FilteredData {
@@ -401,7 +404,10 @@ function SnapshotInTime() {
       {knr: "6", cars: 1950, bikes: 1250},
       {knr: "7", cars: 1300, bikes: 1500},
       {knr: "8", cars: 1190, bikes: 900},
-      {knr: "9", cars: 2000, bikes: 1750}
+      {knr: "9", cars: 2000, bikes: 1750},
+      {knr: "10", cars: 1790, bikes: 1900},
+      {knr: "11", cars: 1790, bikes: 1900},
+      {knr: "12", cars: 1790, bikes: 1900},
     ],
   };
 
@@ -413,45 +419,76 @@ function SnapshotInTime() {
   }, [svgRef, width, height]);
 
   useEffect(() => {
+
+    // Set up the SVG container
     const data: FilteredData[] = dataAll[selectedYear];
 
     // Set up the SVG container
-    const svg = d3.select(svgRef.current).append('g');
+    const svg = d3.select(svgRef.current)
+
+    svg.selectAll("*").remove();
 
     // Set up scales
-    const xScale = d3.scaleLinear()
+    xScale = d3.scaleLinear()
       .domain([-d3.max(data, d => d.cars)!,
-                       d3.max(data, d => d.cars)!])
+        d3.max(data, d => d.cars)!])
       .range([0, width/2]);
 
-    const yScale = d3.scaleBand()
+    yScale = d3.scaleBand()
       .domain(data.map(d => d.knr))
       .range([0, height])
       .padding(0.2);
 
-    // Render bars for males
+
     svg.selectAll(".bar.cars")
       .data(data)
       .enter()
       .append("rect")
+      .attr("class", "bar cars")
       .attr("x", d => width / 2 - xScale(Math.abs(d.cars)))
       .attr("y", (d: FilteredData) => yScale(d.knr)!)
       .attr("width", d => xScale(Math.abs(d.cars)))
       .attr("height", yScale.bandwidth())
-      .style("fill", colorPalette.c1);
+      .style("fill", colorPalette.c1)
 
-    // Render bars for females
+
+
     svg.selectAll(".bar.bikes")
       .data(data)
       .enter()
       .append("rect")
+      .attr("class", "bar bikes")
       .attr("x", width / 2)
       .attr("y", (d: FilteredData) => yScale(d.knr)!)
       .attr("width", d => xScale(Math.abs(d.bikes)))
       .attr("height", yScale.bandwidth())
-      .style("fill", colorPalette.c9);
+      .style("fill", colorPalette.c9)
 
-    // Draw the black line
+    // Apply transition to update bar lengths
+    svg.selectAll(".bar.cars")
+      .attr("x", width / 2)
+      .attr("width", 0)
+      .transition()
+      .duration(500) // Transition duration
+      .attr("x", (d) => (d.cars < 0 ? width / 2 : width / 2 - xScale(Math.abs(d.cars))))
+      .attr("width", (d) => xScale(Math.abs(d.cars)));
+
+    svg.selectAll(".bar.bikes")
+      .attr("x", width / 2)
+      .attr("width", 0)
+      .transition()
+      .duration(500) // Transition duration
+      .attr("x", (d) => (d.bikes < 0 ? width / 2 - xScale(Math.abs(d.bikes)) : width / 2))
+      .attr("width", (d) => xScale(Math.abs(d.bikes)));
+
+
+
+    svg.selectAll(".bar.bikes")
+      .transition()
+      .duration(500) // Transition duration
+      .attr("x", width / 2)
+      .attr("width", (d:any) => xScale(Math.abs(d.bikes)));
+
     svg.append("line")
       .attr("x1", width / 2)
       .attr("y1", 0)
@@ -460,28 +497,30 @@ function SnapshotInTime() {
       .style("stroke", "black")
       .style("stroke-width", 1);
 
-    // Add axes
-    // Adjust the xScale range to fit the new width
     xScale.range([0, width]);
     const xAxis = d3.axisBottom(xScale).ticks(9);
     const yAxis = d3.axisLeft(yScale);
 
     svg.append("g")
       .attr("transform", `translate(0, ${height})`)
+      .transition()
+      .duration(500)
       .call(xAxis)
       .selectAll("text")
       .style("font-size", "12px");
 
     svg.append("g")
+      .transition()
+      .duration(500)
       .call(yAxis)
       .selectAll("text")
       .style("font-size", "12px");
 
     return () => {
-      svg.remove()
     }
 
-  }, [svgRef, height, width])
+  }, [svgRef, height, width, selectedYear])
+
 
   // TODO: take input from range and update map accordingly.
   return (
@@ -493,7 +532,7 @@ function SnapshotInTime() {
         </div>
         <div id="year-slider">
           <input type="range" min="2015" max="2023" defaultValue={selectedYear} step="1"
-                 onChange={e => setSelectedYear(e.target.value)}></input>
+                 onChange={e => setSelectedYear(e.target.value.toString())}></input>
         </div>
       </div>
     </div>
