@@ -34,12 +34,8 @@ export default function Map(props: MapProps) {
         svgContentD3.attr('transform', e.transform)
       })
 
-    // Change the svg attributes to our needs...
-    svgD3
-      .attr('preserveAspectRatio', 'xMinYMin meet')
-      .attr('viewBox', `0 0 ${width} ${height}`)
-      // @ts-ignore
-      .call(zoom)
+    // @ts-ignore
+    svgD3.call(zoom)
 
     return () => {
       zoom.on('zoom', null)
@@ -97,7 +93,11 @@ export default function Map(props: MapProps) {
 
   return (
     <div>
-      <svg ref={svgRef}>
+      <svg
+        preserveAspectRatio="xMinYMin meet"
+        viewBox={`0 0 ${width} ${height}`}
+        ref={svgRef}
+      >
         <g ref={svgContentRef} className={styles.svgContent}>
           <g ref={svgMapRef}></g>
         </g>

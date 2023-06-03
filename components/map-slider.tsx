@@ -24,13 +24,6 @@ export default function MapSlider(props: MapSliderProps) {
   const [selectedYear, setSelectedYear] = useState(2021)
 
   useEffect(() => {
-    const svgD3 = d3.select(svgRef.current)
-    svgD3
-      .attr('preserveAspectRatio', 'xMinYMin meet')
-      .attr('viewBox', `${-padding} 0 ${width + padding} ${height + 3 * padding}`)
-  }, [width, height, padding, svgRef])
-
-  useEffect(() => {
     const svg = d3.select(svgRef.current)
       .append('g')
 
@@ -96,7 +89,12 @@ export default function MapSlider(props: MapSliderProps) {
         </div>
         <div className={barStyles.graphSlider}>
           <div className="w-full">
-            <svg ref={svgRef} className={`${barStyles.graphSvg} w-full`} />
+          <svg
+            preserveAspectRatio="xMinYMin meet"
+            viewBox={`${-padding} 0 ${width + padding} ${height + 3 * padding}`}
+            className={barStyles.graphSvg}
+            ref={svgRef}
+          />
           </div>
           <div className={barStyles.slider}>
             <input

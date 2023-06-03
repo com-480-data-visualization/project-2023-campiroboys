@@ -20,13 +20,6 @@ export default function BarSlider(props: BarSliderProps) {
   const [selectedYear, setSelectedYear] = useState(2021)
 
   useEffect(() => {
-    const svgD3 = d3.select(svgRef.current)
-    svgD3
-      .attr('preserveAspectRatio', 'xMinYMin meet')
-      .attr('viewBox', `${-padding} 0 ${width + 2 * padding} ${height + 2 * padding}`)
-  }, [width, height, padding, svgRef])
-
-  useEffect(() => {
     // Set up the SVG container
     const data: DataEntry[] = getInterpolatedDataEntries(selectedYear)
 
@@ -131,7 +124,12 @@ export default function BarSlider(props: BarSliderProps) {
   return (
     <div className={styles.graphSlider}>
       <div className="w-full">
-        <svg ref={svgRef} className={`${styles.graphSvg} w-full`} />
+      <svg
+        preserveAspectRatio="xMinYMin meet"
+        viewBox={`${-padding} 0 ${width + 2 * padding} ${height + 2 * padding}`}
+        className={styles.graphSvg}
+        ref={svgRef}
+      />
       </div>
       <div className={styles.slider}>
         <input
