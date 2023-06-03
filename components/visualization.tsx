@@ -3,11 +3,10 @@
 import * as d3 from 'd3'
 import { useEffect, useRef, useState } from 'react'
 import useFeatureCollection from '@/hooks/use-feature-collection'
-import { getInterpolatedCarAndBikeNumbers } from './data'
-import { colorMapping } from './colorMapping'
+import { getInterpolatedCarAndBikeNumbers } from '@/lib/data'
+import { colorMapping } from '@/lib/color-mapping'
 
 type VisualizationProps = { selectedYear: number }
-
 
 export default function Visualization(props: VisualizationProps) {
   const cityDataUrl = '/stadtkreise_test.json'
@@ -21,7 +20,6 @@ export default function Visualization(props: VisualizationProps) {
   const [height, setHeight] = useState(800)
 
   const [districtGeoJson, setDistrictGeoJson] = useState(null)
-
 
   useEffect(() => {
     async function fetchData() {

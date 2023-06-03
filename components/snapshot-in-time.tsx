@@ -2,8 +2,8 @@
 
 import * as d3 from 'd3'
 import { useEffect, useRef, useState } from 'react'
-import { DataEntry, getInterpolatedDataEntries } from './data'
-import { colorPalette } from './colorMapping'
+import { DataEntry, getInterpolatedDataEntries } from '@/lib/data'
+import { colorPalette } from '@/lib/color-mapping'
 
 export default function SnapshotInTime() {
   const svgRef = useRef(null)
@@ -29,7 +29,7 @@ export default function SnapshotInTime() {
   useEffect(() => {
 
     // Set up the SVG container
-    const data: DataEntry[] = getInterpolatedDataEntries(selectedYear);
+    const data: DataEntry[] = getInterpolatedDataEntries(selectedYear)
 
     // Set up the SVG container
     const svg = d3.select(svgRef.current)

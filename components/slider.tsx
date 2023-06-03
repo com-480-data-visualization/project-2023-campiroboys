@@ -3,8 +3,8 @@
 import * as d3 from 'd3'
 import { useEffect, useRef, useState } from 'react'
 import Visualization from './visualization'
-import { AggregatedPerYearData, DataEntry, aggPerYearData, getInterpolatedDataEntries } from './data'
-import { colorPalette } from './colorMapping'
+import { AggregatedPerYearData, DataEntry, aggPerYearData, getInterpolatedDataEntries } from '@/lib/data'
+import { colorPalette } from '@/lib/color-mapping'
 
 export default function Slider() {
   const svgRef = useRef(null)
