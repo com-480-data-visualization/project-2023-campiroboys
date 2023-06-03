@@ -33,6 +33,8 @@ def count_points_per_district(district_data: geopandas.GeoDataFrame, points: geo
         count = 1
         if "ANZ_PP" in row.keys():
             count = row["ANZ_PP"]
+        elif "anzahl_pp" in row.keys():
+            count = row["anzahl_pp"]
 
         if district in district_count:
             district_count[district] += count
@@ -53,8 +55,9 @@ def combine_dicts(data):
     return result
 
 # import sample wheel
-# gp_2wheel = geopandas.read_file("./2wheel/2019/TBL_PP_ZWEIRAD_2019.shp")
+# gp_2wheel = geopandas.read_file("./2wheel/2021/taz.zweiradabstellplaetze_p.shp")
 # gp_2wheel = gp_2wheel.set_crs(reference_coordinates)
+# print(gp_2wheel.columns)
 
 # gp_4wheel = geopandas.read_file("./4wheel/2019/TBL_PP_2019.shp")
 # print(gp_4wheel)
