@@ -1,38 +1,23 @@
 'use client'
 
 import * as d3 from 'd3'
-import { useEffect, useRef, useState } from 'react'
-import useFeatureCollection from '@/hooks/use-feature-collection'
-import { getInterpolatedCarAndBikeNumbers } from '@/lib/data'
 import { colorMapping } from '@/lib/color-mapping'
+import { getInterpolatedCarAndBikeNumbers } from '@/lib/data'
+import cityDistrict from '@/json/stadtkreise_a.json'
+import { useEffect, useRef, useState } from 'react'
 
-type VisualizationProps = { selectedYear: number }
+export type VisualizationProps = {
+  selectedYear: number
+  width?: number
+  height?: number
+}
 
 export default function Visualization(props: VisualizationProps) {
-  const cityDataUrl = '/stadtkreise_test.json'
+  const { width = 800, height = 800 } = props
 
   const svgRef = useRef(null)
   const svgContentRef = useRef(null)
   const svgMapRef = useRef(null)
-
-  // TODO: change dynamically?
-  const [width, setWidth] = useState(800)
-  const [height, setHeight] = useState(800)
-
-  const [districtGeoJson, setDistrictGeoJson] = useState(null)
-
-  useEffect(() => {
-    async function fetchData() {
-      const response = await fetch('/stadtkreise_test.json')
-      const data = await response.json()
-      setDistrictGeoJson(data)
-    }
-
-    fetchData()
-  }, [])
-
-  // TODO: Cache the data
-  const cityDistrict = useFeatureCollection(cityDataUrl)
 
   const projection = d3.geoMercator()
   const geoGenerator = d3.geoPath().projection(projection)
