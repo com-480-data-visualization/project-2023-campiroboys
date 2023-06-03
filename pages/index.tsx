@@ -83,14 +83,14 @@ function extractRingData(r: any) {
   let maxBike = -1;
   let minBike = -1;
 
-  for (const ring of r.features) {
-    let properties = ring.properties;
-    for (const [key, value] of Object.entries(properties.parkingcars)) {
+  for (const district of r.features) {
+    let properties = district.properties;
+    for (const [_, value] of Object.entries(properties.parkingcars)) {
       let n = Number(value);
       maxCar = maxCar == -1 || maxCar < n ? n : maxCar;
       minCar = minCar == -1 || minCar > n ? n : minCar;
     }
-    for (const [key, value] of Object.entries(properties.parkingbikes)) {
+    for (const [_, value] of Object.entries(properties.parkingbikes)) {
       let n = Number(value);
       maxBike = maxBike == -1 || maxBike < n ? n : maxBike;
       minBike = minBike == -1 || minBike > n ? n : minBike;
@@ -120,13 +120,13 @@ function Visualization(props: VisualizationProps) {
   const [width, setWidth] = useState(800)
   const [height, setHeight] = useState(800)
 
-  const [ringsGeoJson, setRingsGeoJson] = useState(null);
+  const [districtGeoJson, setDistrictGeoJson] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
       const response = await fetch('http://localhost:8010/index.php');
       const data = await response.json();
-      setRingsGeoJson(data);
+      setDistrictGeoJson(data);
       parkingData = extractRingData(data);
     }
 
@@ -134,7 +134,7 @@ function Visualization(props: VisualizationProps) {
   }, []);
 
   // TODO: Cache the data
-  const cityRings = useFeatureCollection(cityDataUrl)
+  const cityDistrict = useFeatureCollection(cityDataUrl)
   const publicParking = useFeatureCollection(parkingSpacesUrl)
 
   const projection = d3.geoMercator()
@@ -166,35 +166,35 @@ function Visualization(props: VisualizationProps) {
     }
   }, [svgRef, svgContentRef, width, height])
 
-  /* Adds rings polygon and labels to the scene. Additionally, changes the color of the rings. */
+  /* Adds districts polygon and labels to the scene. Additionally, changes the color of the districts. */
   useEffect(() => {
     const svgMapD3 = d3.select(svgMapRef.current)
 
-    const ringsD3 = svgMapD3
+    const districtD3 = svgMapD3
       .append('g')
-      .attr('class', 'rings')
+      .attr('class', 'districts')
 
     const labelsD3 = svgMapD3
       .append('g')
       .attr('class', 'labels')
 
-    if (cityRings) {
+    if (cityDistrict) {
       // Here we "spread" out the polygons
-      projection.fitSize([width, height], cityRings)
+      projection.fitSize([width, height], cityDistrict)
 
       // Add data to the svg container
-      ringsD3
+      districtD3
         .selectAll('path')
-        .data(cityRings.features)
+        .data(cityDistrict.features)
         .enter()
         // Add a path for each element
         .append('path')
         .attr('d', geoGenerator)
 
-      // Add the titles of the rings
+      // Add the titles of the districts
       labelsD3
         .selectAll('path')
-        .data(cityRings.features)
+        .data(cityDistrict.features)
         .enter()
         .append('text')
         .attr('x', (d: any) => geoGenerator.centroid(d)[0])
@@ -213,10 +213,10 @@ function Visualization(props: VisualizationProps) {
     }
 
     return () => {
-      ringsD3.remove()
+      districtD3.remove()
       labelsD3.remove()
     }
-  }, [svgMapRef, cityRings, width, height, projection, geoGenerator,])
+  }, [svgMapRef, cityDistrict, width, height, projection, geoGenerator,])
 
 
   return (
@@ -326,6 +326,9 @@ function Slider() {
       .attr('stroke-width', 4)
       .attr('d', lineGenerator.y(d => yScale(d.bikes)));
 
+    return () => {
+      svg.remove()
+    }
   }, [svgRef, height, width])
 
   // TODO: take input from range and update map accordingly.
