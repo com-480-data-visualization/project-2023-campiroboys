@@ -3,7 +3,7 @@
 import * as d3 from 'd3'
 import { useEffect, useRef, useState } from 'react'
 import Visualization from './visualization'
-import { AggregatedPerYearData, DataEntry, aggPerYearData, getInterpolatedDataEntries } from '@/lib/data'
+import { AggregatedPerYearData, aggPerYearData } from '@/lib/data'
 import { colorPalette } from '@/lib/color-mapping'
 
 export default function Slider() {
@@ -24,8 +24,6 @@ export default function Slider() {
   }, [svgRef, width, height])
 
   useEffect(() => {
-
-    const data = aggPerYearData
     const svg = d3.select(svgRef.current)
       .append('g')
 
@@ -40,7 +38,7 @@ export default function Slider() {
 
     /* Creates the x-axis. */
     const xAxis = d3.axisBottom(xScale)
-      .tickValues(data.map(d => d.year))
+      .tickValues(aggPerYearData.map(d => d.year))
       .tickFormat(d3.format('d'))
       .tickSize(0)
       .tickSizeInner(-width)
@@ -64,14 +62,14 @@ export default function Slider() {
       .curve(d3.curveLinear)
 
     svg.append('path')
-      .datum(data)
+      .datum(aggPerYearData)
       .attr('fill', 'none')
       .attr('stroke', colorPalette.c1)
       .attr('stroke-width', 4)
       .attr('d', lineGenerator.y(d => yScale(d.cars)))
 
     svg.append('path')
-      .datum(data)
+      .datum(aggPerYearData)
       .attr('fill', 'none')
       .attr('stroke', colorPalette.c9)
       .attr('stroke-width', 4)
