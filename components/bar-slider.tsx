@@ -17,8 +17,6 @@ export default function BarSlider(props: BarSliderProps) {
 
   const svgRef = useRef(null)
 
-  let xScale: d3.ScaleLinear<number, number>
-  let yScale: d3.ScaleBand<string>
   const [selectedYear, setSelectedYear] = useState(2021)
 
   useEffect(() => {
@@ -38,12 +36,12 @@ export default function BarSlider(props: BarSliderProps) {
     svg.selectAll('*').remove()
 
     // Set up scales
-    xScale = d3.scaleLinear()
+    const xScale = d3.scaleLinear()
       .domain([-d3.max(data, d => d.cars)!,
       d3.max(data, d => d.cars)!])
       .range([0, width / 2])
 
-    yScale = d3.scaleBand()
+    const yScale = d3.scaleBand()
       .domain(data.map(d => d.knr))
       .range([0, height])
       .padding(0.2)
