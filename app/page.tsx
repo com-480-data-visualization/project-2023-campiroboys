@@ -3,7 +3,7 @@
 import * as d3 from 'd3'
 import { FeatureCollection } from 'geojson'
 import { useEffect, useRef, useState } from 'react'
-import {Property} from "csstype";
+import { Property } from "csstype";
 import Filter = Property.Filter;
 
 function useFeatureCollection(url: string) {
@@ -263,15 +263,15 @@ function Slider() {
     }
 
     const data: FilteredData[] = [
-      {year: 2015, cars: 1500, bikes: 1900},
-      {year: 2016, cars: 1600, bikes: 1250},
-      {year: 2017, cars: 1700, bikes: 1300},
-      {year: 2018, cars: 1800, bikes: 1350},
-      {year: 2019, cars: 1500, bikes: 1400},
-      {year: 2020, cars: 1950, bikes: 1250},
-      {year: 2021, cars: 1700, bikes: 1500},
-      {year: 2022, cars: 1790, bikes: 1900},
-      {year: 2023, cars: 2000, bikes: 1750}
+      { year: 2015, cars: 1500, bikes: 1900 },
+      { year: 2016, cars: 1600, bikes: 1250 },
+      { year: 2017, cars: 1700, bikes: 1300 },
+      { year: 2018, cars: 1800, bikes: 1350 },
+      { year: 2019, cars: 1500, bikes: 1400 },
+      { year: 2020, cars: 1950, bikes: 1250 },
+      { year: 2021, cars: 1700, bikes: 1500 },
+      { year: 2022, cars: 1790, bikes: 1900 },
+      { year: 2023, cars: 2000, bikes: 1750 }
     ];
 
     const svg = d3.select(svgRef.current)
@@ -334,8 +334,8 @@ function Slider() {
   return (
     <div>
       <Visualization
-        selectedYear={selectedYear}/>
-      <br/>
+        selectedYear={selectedYear} />
+      <br />
       <div className="slider-wrapper">
         <div className="info-box">
           <img src="/palette.svg" />
@@ -347,7 +347,7 @@ function Slider() {
           </div>
           <div id="year-slider">
             <input type="range" min="2015" max="2023" defaultValue={selectedYear} step="1"
-                   onChange={e => setSelectedYear(e.target.value.toString())}></input>
+              onChange={e => setSelectedYear(e.target.value.toString())}></input>
           </div>
         </div>
       </div>
@@ -380,31 +380,31 @@ function SnapshotInTime() {
 
   const dataAll: any = {
     "2023": [
-      {knr: "1", cars: 1500, bikes: 1900},
-      {knr: "2", cars: 1600, bikes: 1250},
-      {knr: "3", cars: 1700, bikes: 1300},
-      {knr: "4", cars: 1800, bikes: 1350},
-      {knr: "5", cars: 1500, bikes: 1400},
-      {knr: "6", cars: 1950, bikes: 1250},
-      {knr: "7", cars: 1700, bikes: 1500},
-      {knr: "8", cars: 1790, bikes: 1900},
-      {knr: "9", cars: 2000, bikes: 1750},
-      {knr: "10", cars: 1790, bikes: 1900},
-      {knr: "11", cars: 1790, bikes: 1900},
-      {knr: "12", cars: 1790, bikes: 1900},
+      { knr: "1", cars: 1500, bikes: 1900 },
+      { knr: "2", cars: 1600, bikes: 1250 },
+      { knr: "3", cars: 1700, bikes: 1300 },
+      { knr: "4", cars: 1800, bikes: 1350 },
+      { knr: "5", cars: 1500, bikes: 1400 },
+      { knr: "6", cars: 1950, bikes: 1250 },
+      { knr: "7", cars: 1700, bikes: 1500 },
+      { knr: "8", cars: 1790, bikes: 1900 },
+      { knr: "9", cars: 2000, bikes: 1750 },
+      { knr: "10", cars: 1790, bikes: 1900 },
+      { knr: "11", cars: 1790, bikes: 1900 },
+      { knr: "12", cars: 1790, bikes: 1900 },
     ], "2022": [
-      {knr: "1", cars: 1300, bikes: 3200},
-      {knr: "2", cars: 1500, bikes: 1550},
-      {knr: "3", cars: 1100, bikes: 1300},
-      {knr: "4", cars: 1800, bikes: 350},
-      {knr: "5", cars: 1100, bikes: 400},
-      {knr: "6", cars: 1950, bikes: 1250},
-      {knr: "7", cars: 1300, bikes: 1500},
-      {knr: "8", cars: 1190, bikes: 900},
-      {knr: "9", cars: 2000, bikes: 1750},
-      {knr: "10", cars: 1790, bikes: 1900},
-      {knr: "11", cars: 1790, bikes: 1900},
-      {knr: "12", cars: 1790, bikes: 1900},
+      { knr: "1", cars: 1300, bikes: 3200 },
+      { knr: "2", cars: 1500, bikes: 1550 },
+      { knr: "3", cars: 1100, bikes: 1300 },
+      { knr: "4", cars: 1800, bikes: 350 },
+      { knr: "5", cars: 1100, bikes: 400 },
+      { knr: "6", cars: 1950, bikes: 1250 },
+      { knr: "7", cars: 1300, bikes: 1500 },
+      { knr: "8", cars: 1190, bikes: 900 },
+      { knr: "9", cars: 2000, bikes: 1750 },
+      { knr: "10", cars: 1790, bikes: 1900 },
+      { knr: "11", cars: 1790, bikes: 1900 },
+      { knr: "12", cars: 1790, bikes: 1900 },
     ],
   };
 
@@ -428,8 +428,8 @@ function SnapshotInTime() {
     // Set up scales
     xScale = d3.scaleLinear()
       .domain([-d3.max(data, d => d.cars)!,
-        d3.max(data, d => d.cars)!])
-      .range([0, width/2]);
+      d3.max(data, d => d.cars)!])
+      .range([0, width / 2]);
 
     yScale = d3.scaleBand()
       .domain(data.map(d => d.knr))
@@ -484,7 +484,7 @@ function SnapshotInTime() {
       .transition()
       .duration(500) // Transition duration
       .attr("x", width / 2)
-      .attr("width", (d:any) => xScale(Math.abs(d.bikes)));
+      .attr("width", (d: any) => xScale(Math.abs(d.bikes)));
 
     svg.append("line")
       .attr("x1", width / 2)
@@ -529,27 +529,10 @@ function SnapshotInTime() {
         </div>
         <div id="year-slider">
           <input type="range" min="2015" max="2023" defaultValue={selectedYear} step="1"
-                 onChange={e => setSelectedYear(e.target.value.toString())}></input>
+            onChange={e => setSelectedYear(e.target.value.toString())}></input>
         </div>
       </div>
     </div>
-  )
-}
-
-function Option() {
-  return (
-    <a
-      href="#"
-      className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-      rel="noopener noreferrer"
-    >
-      <h2 className="mb-3 text-2xl font-semibold">
-        Option
-      </h2>
-      <p className="m-0 max-w-[30ch] text-sm opacity-50">
-        Learn more.
-      </p>
-    </a>
   )
 }
 
@@ -566,13 +549,6 @@ export default function Home() {
           <hr />
           <SnapshotInTime />
         </div>
-
-      </div>
-      <div className="fade-in mb-32 grid text-center grid-cols-4 lg:mb-0 lg:text-left">
-        <Option />
-        <Option />
-        <Option />
-        <Option />
       </div>
     </main>
   )
