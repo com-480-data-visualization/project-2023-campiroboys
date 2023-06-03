@@ -39,9 +39,10 @@ export function getInterpolatedCarAndBikeNumbers(year: number, knr: string) {
     const ea = entriesAfter.find((entry) => parseInt(entry.knr) === parseInt(knr))
     return {
       year: year,
-      cars: eb.cars + (ea.cars - eb.cars) * (year - (yLow)),
-      bikes: eb.bikes + (ea.bikes - eb.bikes) * (year - (yLow)),
-    }
+      cars: (eb?.cars ?? 0) + ((ea?.cars ?? 0) - (eb?.cars ?? 0)) * (year - yLow),
+      bikes: (eb?.bikes ?? 0) + ((ea?.bikes ?? 0) - (eb?.bikes ?? 0)) * (year - yLow),
+    };
+
   }
 }
 
@@ -58,7 +59,7 @@ export function getInterpolatedDataEntries(year: number): DataEntry[] {
       return {
         knr: entry.knr,
         cars: entry.cars + (ea.cars - entry.cars) * (year - (yLow)),
-        bikes: entry.bikes + (ea.bikes - entry.bikes) * (year - (yLow)),
+        bikes: entry?.bikes ?? 0 + (ea.bikes  - entry.bikes) * (year - (yLow)),
       }
     })
   }

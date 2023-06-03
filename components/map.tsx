@@ -3,9 +3,11 @@
 import * as d3 from 'd3'
 import { colorMapping } from '@/lib/color-mapping'
 import { getInterpolatedCarAndBikeNumbers } from '@/lib/data'
-import cityDistrict from '@/json/stadtkreise_a.json'
-import styles from './map.module.css'
+import cd from '@/json/stadtkreise_a.json'
+import styles from './visualization.module.css'
 import { useEffect, useRef, useState } from 'react'
+import { FeatureCollection, GeometryObject} from 'geojson'
+import { FeatureCollection, GeometryObject} from 'geojson'
 
 export type MapProps = {
   selectedYear: number
@@ -49,6 +51,7 @@ export default function Map(props: MapProps) {
   /* Adds districts polygon and labels to the scene. Additionally, changes the color of the districts. */
   useEffect(() => {
     const svgMapD3 = d3.select(svgMapRef.current)
+    const cityDistrict = cd as FeatureCollection<GeometryObject>
 
     const districtD3 = svgMapD3
       .append('g')
@@ -85,7 +88,7 @@ export default function Map(props: MapProps) {
     d3.select(svgMapRef.current).selectAll('path')
       .attr('style', (d: any) => {
         let entry = getInterpolatedCarAndBikeNumbers(selectedYear, d.properties.knr)
-        let color = colorMapping(entry.cars, entry?.bikes)
+        let color = colorMapping(entry?.cars ?? 0 ,entry?.bikes ?? 0)
         return `fill:${color}`
       })
 
