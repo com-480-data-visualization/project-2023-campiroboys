@@ -1,11 +1,9 @@
+'use client';
+
 import * as d3 from 'd3'
-import {FeatureCollection} from 'geojson'
-import {Inter} from 'next/font/google'
-import Head from 'next/head'
-import {useEffect, useRef, useState} from 'react'
-
-
-const inter = Inter({subsets: ['latin']})
+import Image from 'next/image'
+import { FeatureCollection } from 'geojson'
+import { useEffect, useRef, useState } from 'react'
 
 function useFeatureCollection(url: string) {
   const [data, setData] = useState<FeatureCollection | null>(null)
@@ -339,8 +337,9 @@ function Slider() {
       <br/>
       <div className="slider-wrapper">
         <div className="info-box">
-          <img
-            src={"/media/palette.svg"}
+          <Image
+            src={"/palette.svg"}
+            alt="Palette"
           />
         </div>
         <div className="slider">
@@ -520,12 +519,7 @@ function Option() {
 export default function Home() {
   const title = 'Zurich Parking Spaces'
   return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-between pt-2 md:pt-4 lg:p-2 ${inter.className}`}
-    >
-      <Head>
-        <title>{title}</title>
-      </Head>
+    <main className="flex min-h-screen flex-col items-center justify-between pt-2 md:pt-4 lg:p-2">
       <div className="relative flex place-items-center flex-col w-full">
         <div className="title">
           <h1 className="mb-3 text-3xl md:text-4xl font-semibold text-center">{title}</h1>

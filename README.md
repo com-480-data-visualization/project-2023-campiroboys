@@ -38,7 +38,7 @@
 Build the project:
 
 ```bash
-npm build
+npm run build
 ```
 
 Then run it:
