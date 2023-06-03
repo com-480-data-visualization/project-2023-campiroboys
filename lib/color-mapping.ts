@@ -1,8 +1,8 @@
 type ParkingData = {
-  'maxCar': Number,
-  'minCar': Number,
-  'maxBike': Number,
-  'minBike': Number
+  'maxCar': number
+  'minCar': number
+  'maxBike': number
+  'minBike': number
 }
 
 /**
