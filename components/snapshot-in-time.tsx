@@ -2,7 +2,8 @@
 
 import * as d3 from 'd3'
 import { useEffect, useRef, useState } from 'react'
-import { colorPalette } from '@/lib/color-mapping'
+import { DataEntry, getInterpolatedDataEntries } from './data'
+import { colorPalette } from './colorMapping'
 
 export default function SnapshotInTime() {
   const svgRef = useRef(null)
@@ -12,48 +13,11 @@ export default function SnapshotInTime() {
 
   const padding = 20
 
-  const [selectedYear, setSelectedYear] = useState("2023")
+  const [selectedYear, setSelectedYear] = useState(2021)
 
   let xScale: d3.ScaleLinear<number, number>
   let yScale: d3.ScaleBand<string>
 
-  /* Sample data, replace with correct one. */
-  // TODO: Fetch data from API
-  interface FilteredData {
-    knr: string
-    cars: number
-    bikes: number
-  }
-
-  const dataAll: any = {
-    "2023": [
-      { knr: "1", cars: 1500, bikes: 1900 },
-      { knr: "2", cars: 1600, bikes: 1250 },
-      { knr: "3", cars: 1700, bikes: 1300 },
-      { knr: "4", cars: 1800, bikes: 1350 },
-      { knr: "5", cars: 1500, bikes: 1400 },
-      { knr: "6", cars: 1950, bikes: 1250 },
-      { knr: "7", cars: 1700, bikes: 1500 },
-      { knr: "8", cars: 1790, bikes: 1900 },
-      { knr: "9", cars: 2000, bikes: 1750 },
-      { knr: "10", cars: 1790, bikes: 1900 },
-      { knr: "11", cars: 1790, bikes: 1900 },
-      { knr: "12", cars: 1790, bikes: 1900 },
-    ], "2022": [
-      { knr: "1", cars: 1300, bikes: 3200 },
-      { knr: "2", cars: 1500, bikes: 1550 },
-      { knr: "3", cars: 1100, bikes: 1300 },
-      { knr: "4", cars: 1800, bikes: 350 },
-      { knr: "5", cars: 1100, bikes: 400 },
-      { knr: "6", cars: 1950, bikes: 1250 },
-      { knr: "7", cars: 1300, bikes: 1500 },
-      { knr: "8", cars: 1190, bikes: 900 },
-      { knr: "9", cars: 2000, bikes: 1750 },
-      { knr: "10", cars: 1790, bikes: 1900 },
-      { knr: "11", cars: 1790, bikes: 1900 },
-      { knr: "12", cars: 1790, bikes: 1900 },
-    ],
-  }
 
   useEffect(() => {
     const svgD3 = d3.select(svgRef.current)
@@ -65,7 +29,7 @@ export default function SnapshotInTime() {
   useEffect(() => {
 
     // Set up the SVG container
-    const data: FilteredData[] = dataAll[selectedYear]
+    const data: DataEntry[] = getInterpolatedDataEntries(selectedYear);
 
     // Set up the SVG container
     const svg = d3.select(svgRef.current)
@@ -90,7 +54,7 @@ export default function SnapshotInTime() {
       .append("rect")
       .attr("class", "bar cars")
       .attr("x", d => width / 2 - xScale(Math.abs(d.cars)))
-      .attr("y", (d: FilteredData) => yScale(d.knr)!)
+      .attr("y", (d: DataEntry) => yScale(d.knr)!)
       .attr("width", d => xScale(Math.abs(d.cars)))
       .attr("height", yScale.bandwidth())
       .style("fill", colorPalette.c1)
@@ -103,8 +67,8 @@ export default function SnapshotInTime() {
       .append("rect")
       .attr("class", "bar bikes")
       .attr("x", width / 2)
-      .attr("y", (d: FilteredData) => yScale(d.knr)!)
-      .attr("width", d => xScale(Math.abs(d.bikes)))
+      .attr("y", (d: DataEntry) => yScale(d.knr)!)
+      .attr("width", (d:any) => xScale(Math.abs(d.bikes)))
       .attr("height", yScale.bandwidth())
       .style("fill", colorPalette.c9)
 
@@ -175,8 +139,8 @@ export default function SnapshotInTime() {
           </svg>
         </div>
         <div id="year-slider">
-          <input type="range" min="2015" max="2023" defaultValue={selectedYear} step="1"
-            onChange={e => setSelectedYear(e.target.value.toString())}></input>
+          <input type="range" min="2011" max="2021" defaultValue={selectedYear} step="0.01"
+            onChange={e => setSelectedYear(e.target.valueAsNumber)}></input>
         </div>
       </div>
     </div>

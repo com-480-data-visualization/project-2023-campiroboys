@@ -2,42 +2,15 @@
 
 import * as d3 from 'd3'
 import { useEffect, useRef, useState } from 'react'
-import colorMapping from '@/lib/color-mapping'
 import useFeatureCollection from '@/hooks/use-feature-collection'
+import { getInterpolatedCarAndBikeNumbers } from './data'
+import { colorMapping } from './colorMapping'
 
-type VisualizationProps = { selectedYear: string }
+type VisualizationProps = { selectedYear: number }
 
-function extractRingData(r: any) {
-  let maxCar = -1
-  let minCar = -1
-  let maxBike = -1
-  let minBike = -1
-
-  for (const district of r.features) {
-    let properties = district.properties
-    for (const [_, value] of Object.entries(properties.parkingcars)) {
-      let n = Number(value)
-      maxCar = maxCar == -1 || maxCar < n ? n : maxCar
-      minCar = minCar == -1 || minCar > n ? n : minCar
-    }
-    for (const [_, value] of Object.entries(properties.parkingbikes)) {
-      let n = Number(value)
-      maxBike = maxBike == -1 || maxBike < n ? n : maxBike
-      minBike = minBike == -1 || minBike > n ? n : minBike
-    }
-  }
-
-  return {
-    'maxCar': maxCar,
-    'minCar': minCar,
-    'maxBike': maxBike,
-    'minBike': minBike
-  }
-}
 
 export default function Visualization(props: VisualizationProps) {
   const cityDataUrl = '/stadtkreise_test.json'
-  const parkingSpacesUrl = 'https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Oeffentlich_zugaengliche_Strassenparkplaetze_OGD?service=WFS&version=1.1.0&request=GetFeature&outputFormat=GeoJSON&typename=view_pp_ogd'
 
   const svgRef = useRef(null)
   const svgContentRef = useRef(null)
@@ -49,19 +22,12 @@ export default function Visualization(props: VisualizationProps) {
 
   const [districtGeoJson, setDistrictGeoJson] = useState(null)
 
-  const [parkingData, setParkingData] = useState({
-    'maxCar': -1,
-    'minCar': -1,
-    'maxBike': -1,
-    'minBike': -1
-  })
 
   useEffect(() => {
     async function fetchData() {
       const response = await fetch('/stadtkreise_test.json')
       const data = await response.json()
       setDistrictGeoJson(data)
-      setParkingData(extractRingData(data))
     }
 
     fetchData()
@@ -69,7 +35,6 @@ export default function Visualization(props: VisualizationProps) {
 
   // TODO: Cache the data
   const cityDistrict = useFeatureCollection(cityDataUrl)
-  const publicParking = useFeatureCollection(parkingSpacesUrl)
 
   const projection = d3.geoMercator()
   const geoGenerator = d3.geoPath().projection(projection)
@@ -141,7 +106,8 @@ export default function Visualization(props: VisualizationProps) {
       /* Color each polygon according to the matrix. */
       d3.select(svgMapRef.current).selectAll('path')
         .attr('style', (d: any) => {
-          let color = colorMapping(parkingData, d.properties.parkingcars[props.selectedYear], d.properties.parkingbikes[props.selectedYear])
+          let entry = getInterpolatedCarAndBikeNumbers(props.selectedYear, d.properties.knr)
+          let color = colorMapping(entry.cars, entry?.bikes)
           return "fill:" + color + ""
         })
     }

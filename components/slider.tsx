@@ -2,8 +2,9 @@
 
 import * as d3 from 'd3'
 import { useEffect, useRef, useState } from 'react'
-import { colorPalette } from '@/lib/color-mapping'
 import Visualization from './visualization'
+import { AggregatedPerYearData, DataEntry, aggPerYearData, getInterpolatedDataEntries } from './data'
+import { colorPalette } from './colorMapping'
 
 export default function Slider() {
   const svgRef = useRef(null)
@@ -13,7 +14,7 @@ export default function Slider() {
 
   const padding = 20
 
-  const [selectedYear, setSelectedYear] = useState("2023")
+  const [selectedYear, setSelectedYear] = useState(2021)
 
   useEffect(() => {
     const svgD3 = d3.select(svgRef.current)
@@ -24,36 +25,16 @@ export default function Slider() {
 
   useEffect(() => {
 
-    /* Sample data, replace with correct one. */
-    // TODO: Fetch data from API
-    type FilteredData = {
-      year: number,
-      cars: number,
-      bikes: number
-      value?: number,
-    }
-
-    const data: FilteredData[] = [
-      { year: 2015, cars: 1500, bikes: 1900 },
-      { year: 2016, cars: 1600, bikes: 1250 },
-      { year: 2017, cars: 1700, bikes: 1300 },
-      { year: 2018, cars: 1800, bikes: 1350 },
-      { year: 2019, cars: 1500, bikes: 1400 },
-      { year: 2020, cars: 1950, bikes: 1250 },
-      { year: 2021, cars: 1700, bikes: 1500 },
-      { year: 2022, cars: 1790, bikes: 1900 },
-      { year: 2023, cars: 2000, bikes: 1750 }
-    ]
-
+    const data = aggPerYearData
     const svg = d3.select(svgRef.current)
       .append('g')
 
     const xScale = d3.scaleLinear()
-      .domain([2015, 2023])
+      .domain([2011, 2021])
       .range([padding, width - padding])
 
     const yScale = d3.scaleLinear()
-      .domain([1000, 2000])
+      .domain([0, 60000])
       .range([height, 0])
 
 
@@ -77,7 +58,7 @@ export default function Slider() {
 
     /* Create data lines. */
 
-    const lineGenerator = d3.line<FilteredData>()
+    const lineGenerator = d3.line<AggregatedPerYearData>()
       .x(d => xScale(d.year))
       .y(d => yScale(d.value || 0))
       .curve(d3.curveLinear)
@@ -117,8 +98,8 @@ export default function Slider() {
             </svg>
           </div>
           <div id="year-slider">
-            <input type="range" min="2015" max="2023" defaultValue={selectedYear} step="1"
-              onChange={e => setSelectedYear(e.target.value.toString())}></input>
+            <input type="range" min="2011" max="2021" defaultValue={selectedYear} step="0.01"
+              onChange={e => setSelectedYear(e.target.valueAsNumber)}></input>
           </div>
         </div>
       </div>
