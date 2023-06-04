@@ -26,11 +26,12 @@
   align-content: center;
   justify-content: center;
   padding: 10px;
+  cursor: pointer;
 }
 
 .sliderInput {
-  cursor: pointer;
   width: 95%;
   margin-left: 10px;
   margin-right: 10px;
+  cursor: pointer;
 }
