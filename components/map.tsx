@@ -9,6 +9,8 @@ import { useEffect, useRef } from 'react'
 import allDistrictInfos from '@/json/district_info'
 import lake from '@/json/lake-zurich'
 
+lake.geometry.coordinates = lake.geometry.coordinates.map(ring => ring.reverse())
+
 export type MapProps = {
   selectedYear: number
   width?: number
@@ -21,10 +23,10 @@ export default function Map(props: MapProps) {
   const svgRef = useRef(null)
   const svgContentRef = useRef(null)
   const svgMapRef = useRef(null)
+  const tooltipRef = useRef(null)
 
   const projection = d3.geoMercator()
   const geoGenerator = d3.geoPath().projection(projection)
-  lake.geometry.coordinates = lake.geometry.coordinates.map(ring => ring.reverse())
 
   useEffect(() => {
     const svgD3 = d3.select(svgRef.current)
@@ -48,6 +50,7 @@ export default function Map(props: MapProps) {
   /* Adds districts polygon and labels to the scene. Additionally, changes the color of the districts. */
   useEffect(() => {
     const svgMapD3 = d3.select(svgMapRef.current)
+    const tooltipD3 = d3.select(tooltipRef.current)
 
     // Here we "spread" out the polygons
     projection.fitSize([width, height], stadtkreise)
@@ -63,7 +66,7 @@ export default function Map(props: MapProps) {
       .attr('class', `district ${styles.svgDistrict}`)
       .on('mouseenter', function (event, d) {
         // show the tooltip when mouse enters
-        d3.select('#tooltip')
+        tooltipD3
           .style('visibility', 'visible')
           .html(`
       <p><b>${allDistrictInfos[d.properties?.knr].name}</b></p>
@@ -71,7 +74,6 @@ export default function Map(props: MapProps) {
       `)
           .style('left', `${event.pageX + 10}px`) // add 10 to avoid tooltip blocking cursor
           .style('top', `${event.pageY + 10}px`)  // add 10 to avoid tooltip blocking cursor
-
 
         d3.select(this) // 'this' refers to the hovered element
           .style('stroke', 'light-grey') // border color
@@ -118,9 +120,7 @@ export default function Map(props: MapProps) {
       .text((d: any) => d.properties.knr)
 
     labelSelection.exit().remove() // remove any elements no longer in data
-
-  }, [selectedYear, width, height, svgMapRef, projection, geoGenerator])
-
+  }, [selectedYear, width, height, svgMapRef, tooltipRef, projection, geoGenerator])
 
   useEffect(() => {
     const svgMapD3 = d3.select(svgMapRef.current)
@@ -151,12 +151,11 @@ export default function Map(props: MapProps) {
     lakePaths
       .merge(lakeEnterPattern as any) // apply these to both enter and update selections
       .attr('d', geoGenerator);
-  }, [lake])
-
+  }, [svgMapRef, geoGenerator])
 
   return (
     <div>
-      <div id="tooltip" style={{ position: "absolute", visibility: "hidden", padding: "10px", background: "lightgrey", borderRadius: "5px" }}></div>
+      <div className={styles.tooltip} ref={tooltipRef} />
       <svg
         preserveAspectRatio="xMinYMin meet"
         viewBox={`0 0 ${width} ${height}`}
