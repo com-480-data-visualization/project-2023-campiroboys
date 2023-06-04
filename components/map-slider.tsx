@@ -79,7 +79,6 @@ export default function MapSlider(props: MapSliderProps) {
     }
   }, [height, width, padding, svgRef])
 
-  // TODO: take input from range and update map accordingly.
   return (
     <div>
       <Map selectedYear={selectedYear} />

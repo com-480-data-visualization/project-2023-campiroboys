@@ -41,15 +41,15 @@ export default function BarSlider(props: BarSliderProps) {
       .padding(0.2)
 
     // Bind data
-    const cars = svg.selectAll('.bar.cars').data(data);
-    const bikes = svg.selectAll('.bar.bikes').data(data);
+    const cars = svg.selectAll('.bar.cars').data(data)
+    const bikes = svg.selectAll('.bar.bikes').data(data)
 
     // Update selection for cars
     cars
       .transition()
       .duration(500)
       .attr('x', (d: any) => width / 2 - xScale(Math.abs(d.cars)))
-      .attr('width', (d: any) => xScale(Math.abs(d.cars)));
+      .attr('width', (d: any) => xScale(Math.abs(d.cars)))
 
     // Enter selection for cars
     cars.enter()
@@ -61,21 +61,21 @@ export default function BarSlider(props: BarSliderProps) {
       .transition()
       .duration(500)
       .attr('x', (d: any) => width / 2 - xScale(Math.abs(d.cars)))
-      .attr('width', (d: any) => xScale(Math.abs(d.cars)));
+      .attr('width', (d: any) => xScale(Math.abs(d.cars)))
 
     // Exit selection for cars
     cars.exit()
       .transition()
       .duration(500)
       .attr('width', 0)
-      .remove();
+      .remove()
 
     // Update selection for bikes
     bikes
       .transition()
       .duration(500)
       .attr('x', width / 2)
-      .attr('width', (d: any) => xScale(Math.abs(d.bikes)));
+      .attr('width', (d: any) => xScale(Math.abs(d.bikes)))
 
     // Enter selection for bikes
     bikes.enter()
@@ -87,16 +87,16 @@ export default function BarSlider(props: BarSliderProps) {
       .transition()
       .duration(500)
       .attr('x', width / 2)
-      .attr('width', (d: any) => xScale(Math.abs(d.bikes)));
+      .attr('width', (d: any) => xScale(Math.abs(d.bikes)))
 
     // Exit selection for bikes
     bikes.exit()
       .transition()
       .duration(500)
       .attr('width', 0)
-      .remove();
+      .remove()
 
-    const line = svg.selectAll<SVGLineElement, null>('.center-line').data([null]);
+    const line = svg.selectAll<SVGLineElement, null>('.center-line').data([null])
     line.enter()
       .append('line')
       .attr('class', 'center-line')
@@ -106,14 +106,14 @@ export default function BarSlider(props: BarSliderProps) {
       .attr('x2', width / 2)
       .attr('y2', height)
       .style('stroke', 'black')
-      .style('stroke-width', 1);
+      .style('stroke-width', 1)
 
     // Adjust scale for x-axis
     xScale.range([0, width])
-    const xAxis = d3.axisBottom(xScale).ticks(9);
+    const xAxis = d3.axisBottom(xScale).ticks(9)
 
     // Update x-axis if it exists, or append a new one if it doesn't
-    const xAxisGroup = svg.selectAll<SVGGElement, null>('.x-axis').data([null]);
+    const xAxisGroup = svg.selectAll<SVGGElement, null>('.x-axis').data([null])
     xAxisGroup.enter()
       .append('g')
       .attr('class', 'x-axis')
@@ -123,11 +123,11 @@ export default function BarSlider(props: BarSliderProps) {
       .duration(500)
       .call(xAxis)
       .selectAll('text')
-      .style('font-size', '1.5em');
+      .style('font-size', '1.5em')
 
-    const yAxis = d3.axisLeft(yScale);
+    const yAxis = d3.axisLeft(yScale)
     // Update y-axis if it exists, or append a new one if it doesn't
-    const yAxisGroup = svg.selectAll<SVGGElement, null>('.y-axis').data([null]);
+    const yAxisGroup = svg.selectAll<SVGGElement, null>('.y-axis').data([null])
     yAxisGroup.enter()
       .append('g')
       .attr('class', 'y-axis')
@@ -136,13 +136,12 @@ export default function BarSlider(props: BarSliderProps) {
       .duration(500)
       .call(yAxis)
       .selectAll('text')
-      .style('font-size', '1.5em');
+      .style('font-size', '1.5em')
 
     return () => { }
   }, [svgRef, height, width, data])
 
 
-  // TODO: take input from range and update map accordingly.
   return (
     <div className={styles.graphSlider}>
       <div className="w-full">
