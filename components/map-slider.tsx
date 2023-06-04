@@ -19,11 +19,11 @@ export type MapSliderProps = {
 export default function MapSlider(props: MapSliderProps) {
   const { width = 1200, height = 200, padding = 30 } = props
 
-  const minYear = 2011, maxYear = 2021
+  const minYear = 2011, maxYear = 2021, step = 0.01
 
   const svgRef = useRef(null)
 
-  const [selectedYear, setSelectedYear] = useState(maxYear)
+  const [selectedYear, setSelectedYear] = useState(maxYear - step)
 
   useEffect(() => {
     const svg = d3.select(svgRef.current)
@@ -102,10 +102,10 @@ export default function MapSlider(props: MapSliderProps) {
             <input
               type="range"
               //TO avoid interpolation failure, lazy fix
-              min={minYear + 0.1}
-              max={maxYear - 0.1}
+              min={minYear + step}
+              max={maxYear - step}
               defaultValue={selectedYear}
-              step={0.01}
+              step={step}
               className={barStyles.sliderInput}
               onChange={e => setSelectedYear(e.target.valueAsNumber)}
             />

@@ -15,12 +15,12 @@ export type BarSliderProps = {
 export default function BarSlider(props: BarSliderProps) {
   const { width = 600, height = 400, padding = 20 } = props
 
-  const minYear = 2011, maxYear = 2021
+  const minYear = 2011, maxYear = 2021, step = 0.01
 
   const svgRef = useRef(null)
   const [data, setData] = useState<DataEntry[]>([])
 
-  const [selectedYear, setSelectedYear] = useState(maxYear)
+  const [selectedYear, setSelectedYear] = useState(maxYear - step)
 
   useEffect(() => {
     setData(getInterpolatedDataEntries(selectedYear))
@@ -159,10 +159,10 @@ export default function BarSlider(props: BarSliderProps) {
         <input
           type="range"
           //TO avoid interpolation failure, lazy fix
-          min={minYear + 0.1}
-          max={maxYear - 0.1}
+          min={minYear + step}
+          max={maxYear - step}
           defaultValue={selectedYear}
-          step={0.01}
+          step={step}
           className={styles.sliderInput}
           onChange={e => setSelectedYear(e.target.valueAsNumber)}
         />
