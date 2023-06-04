@@ -1,0 +1,51 @@
+{
+    "1": {
+      "name": "District 1",
+      "description": "District 1 is the city center of Zurich."
+    },
+    "2": {
+      "name": "District 2",
+      "description": "District 2 is located on the east side of Lake Zurich."
+    },
+    "3": {
+      "name": "District 3",
+      "description": "District 3 is known for its diverse cultural scene."
+    },
+    "4": {
+      "name": "District 4",
+      "description": "District 4 is a vibrant and trendy area with many bars and clubs."
+    },
+    "5": {
+      "name": "District 5",
+      "description": "District 5 is an up-and-coming neighborhood with a mix of residential and industrial areas."
+    },
+    "6": {
+      "name": "District 6",
+      "description": "District 6 is home to the University of Zurich and ETH Zurich."
+    },
+    "7": {
+      "name": "District 7",
+      "description": "District 7 is located on the western outskirts of the city."
+    },
+    "8": {
+      "name": "District 8",
+      "description": "District 8 is known for its luxurious residential areas and beautiful parks."
+    },
+    "9": {
+      "name": "District 9",
+      "description": "District 9 is a mainly residential area with a mix of modern and traditional architecture."
+    },
+    "10": {
+      "name": "District 10",
+      "description": "District 10 is located in the northern part of the city."
+    },
+    "11": {
+      "name": "District 11",
+      "description": "District 11 is a predominantly residential area with several parks and green spaces."
+    },
+    "12": {
+      "name": "District 12",
+      "description": "District 12 is located in the southeastern part of Zurich."
+    }
+  }
+  
