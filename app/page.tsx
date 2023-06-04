@@ -11,10 +11,37 @@ export default function Home() {
         <div className="title">
           <h1 className="mb-3 text-3xl md:text-4xl font-semibold text-center">{title}</h1>
         </div>
-        <div className={`${styles.fadeIn} w-full md:w-3/6 lg:w-2/6`}>
-          <MapSlider />
+        <div className={`${styles.fadeIn} w-full`}>
+          <div className={styles.visualizationOuterWrapper}>
+            <div className={styles.visualizationInnerWrapper}>
+              <div className={styles.visualizationItem}>
+                <MapSlider />
+              </div>
+              <div className={styles.visualizationItem}>
+                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore
+                magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,
+                no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
+                sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
+                At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+              </div>
+            </div>
+          </div>
           <div className={styles.separator} />
-          <BarSlider />
+          <div className={styles.visualizationOuterWrapper}>
+            <div className={styles.visualizationInnerWrapper}>
+
+              <div className={styles.visualizationItem}>
+                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore
+                magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,
+                no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
+                sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
+                At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+              </div>
+              <div className={styles.visualizationItem}>
+                <BarSlider />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </main>
