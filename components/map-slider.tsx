@@ -9,6 +9,7 @@ import styles from './map-slider.module.css'
 import barStyles from './bar-slider.module.css'
 import { useEffect, useRef, useState } from 'react'
 import Map from './map'
+import { getDateFromYearFraction } from '@/lib/util'
 
 export type MapSliderProps = {
   width?: number
@@ -97,6 +98,7 @@ export default function MapSlider(props: MapSliderProps) {
             ref={svgRef}
           />
           </div>
+          <div className={barStyles.sliderDate}>{getDateFromYearFraction(selectedYear).toDateString()}</div>
           <div className={barStyles.slider}>
             <span>{minYear}</span>
             <input
