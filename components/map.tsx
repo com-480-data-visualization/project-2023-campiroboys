@@ -58,6 +58,17 @@ export default function Map(props: MapProps) {
       .enter()
       .append('path')
       .attr('class', `district ${styles.svgDistrict}`)
+      .on('mouseenter', function (event, d) {
+        d3.select(this) // 'this' refers to the hovered element
+          .style('stroke', 'light-grey') // border color
+          .style('stroke-width', 1); // border width
+      })
+      .on('mouseleave', function (event, d) {
+        d3.select(this)
+          .style('stroke', null) // remove border color
+          .style('stroke-width', null); // remove border width
+      })
+
 
     districtPaths
       .merge(districtEnter as any) // apply these to both enter and update selections
