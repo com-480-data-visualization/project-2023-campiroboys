@@ -27,9 +27,9 @@ function nearestOddIntegers(n: number): [number, number] {
 }
 
 export function getInterpolatedCarAndBikeNumbers(year: number, knr: string) {
-  console.log(year)
   const [yLow, yHigh] = nearestOddIntegers(year)
-  console.log(yLow, yHigh)
+
+
 
   const entriesBefore = dataAll[yLow]
   const entriesAfter = dataAll[yHigh]
@@ -37,14 +37,33 @@ export function getInterpolatedCarAndBikeNumbers(year: number, knr: string) {
   if (entriesBefore && entriesAfter) {
     const eb = entriesBefore.find((entry) => parseInt(entry.knr) === parseInt(knr))
     const ea = entriesAfter.find((entry) => parseInt(entry.knr) === parseInt(knr))
-    return {
-      year: year,
-      cars: (eb?.cars ?? 0) + ((ea?.cars ?? 0) - (eb?.cars ?? 0)) * (year - yLow),
-      bikes: (eb?.bikes ?? 0) + ((ea?.bikes ?? 0) - (eb?.bikes ?? 0)) * (year - yLow),
-    };
 
+
+    if (eb && ea) {
+      const carLow = eb.cars || 0
+      const carHigh = ea.cars || 0
+      const bikeLow = eb.bikes || 0
+      const bikeHigh = ea.bikes || 0
+
+      const cars = carLow * ((yHigh - year) / 2) + carHigh * ((year - yLow) / 2)
+      const bikes = bikeLow * ((yHigh - year) / 2) + bikeHigh * ((year - yLow) / 2)
+
+      return {
+        year: year,
+        cars: cars,
+        bikes: bikes
+      }
+    }
   }
+
+  // Return some default value in case we couldn't calculate
+  return {
+    year: year,
+    cars: 0,
+    bikes: 0
+  };
 }
+
 
 export function getInterpolatedDataEntries(year: number): DataEntry[] {
   console.log(year)
@@ -58,8 +77,8 @@ export function getInterpolatedDataEntries(year: number): DataEntry[] {
       const ea = entriesAfter.find((e) => parseInt(e.knr) === parseInt(entry.knr))
       return {
         knr: entry.knr,
-        cars: entry.cars + (ea?.cars ?? 0 - entry.cars) * (year - (yLow)),
-        bikes: entry?.bikes ?? 0 + (ea?.bikes ?? 0  - (entry.bikes ?? 0)) * (year - (yLow)),
+        cars: entry.cars + ((ea?.cars ?? 0) - entry.cars) * (year - yLow),
+        bikes: (entry?.bikes ?? 0) + ((ea?.bikes ?? 0) - (entry?.bikes ?? 0)) * (year - yLow),
       }
     })
   }

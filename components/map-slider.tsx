@@ -99,8 +99,9 @@ export default function MapSlider(props: MapSliderProps) {
           <div className={barStyles.slider}>
             <input
               type="range"
-              min={2011}
-              max={2021}
+              //TO avoid interpolation failure, lazy fix
+              min={2011.1}
+              max={2020.9}
               defaultValue={selectedYear}
               step={0.01}
               className={barStyles.sliderInput}
