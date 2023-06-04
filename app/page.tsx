@@ -16,7 +16,7 @@ export default function Home() {
             <div className={styles.visualizationInnerWrapper}>
               <div className={styles.visualizationItem100}>
                 <div className={styles.infoText}>
-                  <h3 className={styles.titleH3}>"Parkplatzkompromiss" - The Historical Compromise of 1996</h3>
+                  <h3 className={styles.titleH3}>&quot;Parkplatzkompromiss&quot; - The Historical Compromise of 1996</h3>
                   In 1996 the municipal council adopted a compromis for Zurich City and areas close to the centre.
                   It essentially consists of making the city centre more attractive for pedestrian traffic by shifting surface parking spaces to parking facilities,
                   but without affecting the total number of publicly accessible parking spaces. The municipal council defined the 1990 level as the starting point.
