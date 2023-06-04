@@ -112,7 +112,10 @@ export default function BarSlider(props: BarSliderProps) {
 
     // Adjust scale for x-axis
     xScale.range([0, width])
-    const xAxis = d3.axisBottom(xScale).ticks(9)
+    // Adjust scale for x-axis
+    const xAxis = d3.axisBottom(xScale)
+      .ticks(9)
+      .tickFormat((d: any) => `${Math.abs(d)}`); // Display ticks as absolute values
 
     // Update x-axis if it exists, or append a new one if it doesn't
     const xAxisGroup = svg.selectAll<SVGGElement, null>('.x-axis').data([null])
@@ -147,12 +150,12 @@ export default function BarSlider(props: BarSliderProps) {
   return (
     <div className={styles.graphSlider}>
       <div className="w-full">
-      <svg
-        preserveAspectRatio="xMinYMin meet"
-        viewBox={`${-2 * padding} 0 ${width + 2 * padding} ${height + 2 * padding}`}
-        className={styles.graphSvg}
-        ref={svgRef}
-      />
+        <svg
+          preserveAspectRatio="xMinYMin meet"
+          viewBox={`${-2 * padding} 0 ${width + 2 * padding} ${height + 2 * padding}`}
+          className={styles.graphSvg}
+          ref={svgRef}
+        />
       </div>
       <div className={styles.slider}>
         <span>{minYear}</span>
