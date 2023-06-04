@@ -3,7 +3,7 @@ import BarSlider from '@/components/bar-slider'
 import styles from './styles.module.css'
 
 export default function Home() {
-  const title = 'Zurich Parking Spaces'
+  const title = 'Parking Spaces of the City of Zurich'
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between pt-2 md:pt-4 lg:p-2">
@@ -30,16 +30,9 @@ export default function Home() {
             </div>
           </div>
           <div className={styles.visualizationOuterWrapper}>
-            <div className={styles.visualizationInnerWrapper}>
+            <div className={styles.visualizationInnerWrapper} style={{flexDirection: "column"}}>
               <div className={styles.visualizationItem50}>
                 <MapSlider />
-              </div>
-              <div className={styles.visualizationItem50}>
-                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore
-                magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,
-                no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
-                sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
-                At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
               </div>
             </div>
           </div>
@@ -47,11 +40,9 @@ export default function Home() {
             <div className={styles.visualizationInnerWrapper}>
 
               <div className={styles.visualizationItem50}>
-                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore
-                magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,
-                no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
-                sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
-                At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+                This population pyramid-inspired graph displays the amount of parking spaces for cars (in green) and parking spaces for two-wheelers (in blue).
+                We interpolated the data as we do not have as much data for the parking spaces for bikes and each data collection took place in odd years.
+                This explains why before 2015 there is a constant amount of bikes, namely 3000 for every district.
               </div>
               <div className={styles.visualizationItem50}>
                 <BarSlider />
