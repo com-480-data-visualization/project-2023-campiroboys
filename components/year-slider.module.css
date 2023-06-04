@@ -1,0 +1,35 @@
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  padding-top: 1em;
+}
+
+.infoBox {
+  max-width: 20%;
+  padding: 2px;
+}
+
+.graphSvg {
+  padding: 10px;
+}
+
+.sliderDate {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.slider {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.sliderInput {
+  width: 95%;
+  margin-left: 10px;
+  margin-right: 10px;
+}
