@@ -17,18 +17,20 @@ export type MapSliderProps = {
 }
 
 export default function MapSlider(props: MapSliderProps) {
-  const { width = 1200, height = 200, padding = 20 } = props
+  const { width = 1200, height = 200, padding = 30 } = props
+
+  const minYear = 2011, maxYear = 2021, step = 0.01
 
   const svgRef = useRef(null)
 
-  const [selectedYear, setSelectedYear] = useState(2021)
+  const [selectedYear, setSelectedYear] = useState(maxYear - step)
 
   useEffect(() => {
     const svg = d3.select(svgRef.current)
       .append('g')
 
     const xScale = d3.scaleLinear()
-      .domain([2011, 2021])
+      .domain([minYear, maxYear])
       .range([padding, width - padding])
 
     const yScale = d3.scaleLinear()
@@ -48,7 +50,7 @@ export default function MapSlider(props: MapSliderProps) {
       .selectAll('text')
       .style('text-anchor', 'end')
       .style('color', 'black')
-      .style('font-size', '3em')
+      .style('font-size', '4.25em')
       .attr('dx', '-0.2em')
       .attr('dy', '1.2em')
       .attr('transform', 'rotate(-45)')
@@ -79,7 +81,6 @@ export default function MapSlider(props: MapSliderProps) {
     }
   }, [height, width, padding, svgRef])
 
-  // TODO: take input from range and update map accordingly.
   return (
     <div>
       <Map selectedYear={selectedYear} />
@@ -97,18 +98,18 @@ export default function MapSlider(props: MapSliderProps) {
           />
           </div>
           <div className={barStyles.slider}>
-            <span>2011</span>
+            <span>{minYear}</span>
             <input
               type="range"
               //TO avoid interpolation failure, lazy fix
-              min={2011.1}
-              max={2020.9}
+              min={minYear + step}
+              max={maxYear - step}
               defaultValue={selectedYear}
-              step={0.01}
+              step={step}
               className={barStyles.sliderInput}
               onChange={e => setSelectedYear(e.target.valueAsNumber)}
             />
-            <span>2021</span>
+            <span>{maxYear}</span>
           </div>
         </div>
       </div>

@@ -6,6 +6,7 @@ import { getInterpolatedCarAndBikeNumbers } from '@/lib/data'
 import stadtkreise from '@/json/stadtkreise_a'
 import styles from './map.module.css'
 import { useEffect, useRef } from 'react'
+import allDistrictInfos from '@/json/district_info'
 
 export type MapProps = {
   selectedYear: number
@@ -58,6 +59,32 @@ export default function Map(props: MapProps) {
       .enter()
       .append('path')
       .attr('class', `district ${styles.svgDistrict}`)
+      .on('mouseenter', function (event, d) {
+        // show the tooltip when mouse enters
+        d3.select('#tooltip')
+          .style('visibility', 'visible')
+          .html(`
+      <p><b>${allDistrictInfos[d.properties?.knr].name}</b></p>
+      <p>${allDistrictInfos[d.properties?.knr].description}</p>
+      `)
+          .style('left', `${event.pageX + 10}px`) // add 10 to avoid tooltip blocking cursor
+          .style('top', `${event.pageY + 10}px`)  // add 10 to avoid tooltip blocking cursor
+
+
+        d3.select(this) // 'this' refers to the hovered element
+          .style('stroke', 'light-grey') // border color
+          .style('stroke-width', 1); // border width
+      })
+      .on('mouseleave', function (event, d) {
+        // hide the tooltip when mouse leaves
+        d3.select('#tooltip')
+          .style('visibility', 'hidden')
+
+        d3.select(this)
+          .style('stroke', null) // remove border color
+          .style('stroke-width', null); // remove border width
+      })
+
 
     districtPaths
       .merge(districtEnter as any) // apply these to both enter and update selections
@@ -95,12 +122,13 @@ export default function Map(props: MapProps) {
 
   return (
     <div>
+      <div id="tooltip" style={{ position: "absolute", visibility: "hidden" , padding: "10px", background: "lightgrey", borderRadius: "5px"}}></div>
       <svg
         preserveAspectRatio="xMinYMin meet"
         viewBox={`0 0 ${width} ${height}`}
         ref={svgRef}
       >
-        <g ref={svgContentRef} className={styles.svgContent}>
+        <g ref={svgContentRef}>
           <g ref={svgMapRef}></g>
         </g>
       </svg>

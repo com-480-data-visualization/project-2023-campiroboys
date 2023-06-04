@@ -61,14 +61,12 @@ export function getInterpolatedCarAndBikeNumbers(year: number, knr: string) {
     year: year,
     cars: 0,
     bikes: 0
-  };
+  }
 }
 
 
 export function getInterpolatedDataEntries(year: number): DataEntry[] {
-  console.log(year)
   const [yLow, yHigh] = nearestOddIntegers(year)
-  console.log(yLow, yHigh)
   const entriesBefore = dataAll[yLow]
   const entriesAfter = dataAll[yHigh]
 
