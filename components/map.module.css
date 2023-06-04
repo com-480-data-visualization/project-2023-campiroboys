@@ -1,4 +1,13 @@
+.tooltip {
+  position: absolute;
+  visibility: hidden;
+  padding: 10px;
+  background: lightgrey;
+  border-radius: 5px;
+}
+
 .svgDistrict {
+  cursor: pointer;
   stroke-width: 0.25;
   stroke: white;
   fill: #7f7f93;
