@@ -61,7 +61,7 @@ export function getInterpolatedCarAndBikeNumbers(year: number, knr: string) {
     year: year,
     cars: 0,
     bikes: 0
-  };
+  }
 }
 
 
