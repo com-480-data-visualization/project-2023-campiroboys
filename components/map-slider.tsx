@@ -43,7 +43,7 @@ export default function MapSlider(props: MapSliderProps) {
       .tickSizeInner(-width)
 
     svg.append('g')
-      .attr('transform', `translate(0, ${height - 20})`)
+      .attr('transform', `translate(0, ${height})`)
       .call(xAxis)
       .selectAll('text')
       .style('text-anchor', 'end')
@@ -91,12 +91,13 @@ export default function MapSlider(props: MapSliderProps) {
           <div className="w-full">
           <svg
             preserveAspectRatio="xMinYMin meet"
-            viewBox={`${-padding} 0 ${width + padding} ${height + 3 * padding}`}
+            viewBox={`${-padding} 0 ${width + padding} ${height + 4 * padding}`}
             className={barStyles.graphSvg}
             ref={svgRef}
           />
           </div>
           <div className={barStyles.slider}>
+            <span>2011</span>
             <input
               type="range"
               //TO avoid interpolation failure, lazy fix
@@ -107,6 +108,7 @@ export default function MapSlider(props: MapSliderProps) {
               className={barStyles.sliderInput}
               onChange={e => setSelectedYear(e.target.valueAsNumber)}
             />
+            <span>2021</span>
           </div>
         </div>
       </div>

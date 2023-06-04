@@ -123,7 +123,7 @@ export default function BarSlider(props: BarSliderProps) {
       .duration(500)
       .call(xAxis)
       .selectAll('text')
-      .style('font-size', '12px');
+      .style('font-size', '1.5em');
 
     const yAxis = d3.axisLeft(yScale);
     // Update y-axis if it exists, or append a new one if it doesn't
@@ -136,7 +136,7 @@ export default function BarSlider(props: BarSliderProps) {
       .duration(500)
       .call(yAxis)
       .selectAll('text')
-      .style('font-size', '12px');
+      .style('font-size', '1.5em');
 
     return () => { }
   }, [svgRef, height, width, data])
@@ -148,12 +148,13 @@ export default function BarSlider(props: BarSliderProps) {
       <div className="w-full">
       <svg
         preserveAspectRatio="xMinYMin meet"
-        viewBox={`${-padding} 0 ${width + 2 * padding} ${height + 2 * padding}`}
+        viewBox={`${-2 * padding} 0 ${width + 2 * padding} ${height + 2 * padding}`}
         className={styles.graphSvg}
         ref={svgRef}
       />
       </div>
       <div className={styles.slider}>
+        <span>2011</span>
         <input
           type="range"
           min={2011}
@@ -163,6 +164,7 @@ export default function BarSlider(props: BarSliderProps) {
           className={styles.sliderInput}
           onChange={e => setSelectedYear(e.target.valueAsNumber)}
         />
+        <span>2021</span>
       </div>
     </div>
   )
