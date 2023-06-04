@@ -52,6 +52,16 @@ export default function Bar(props: BarProps) {
       .attr('y', (d: DataEntry) => yScale(d.knr)!)
       .attr('height', yScale.bandwidth())
       .style('fill', colorPalette.c1)
+      .on('mouseenter', function (event, d) { // Add event listener for mouseenter
+        svg.append('text') // Add text on mouse enter
+          .attr('class', 'value')
+          .attr('x', () => width / 2 - xScale(Math.abs(d.cars)) / 2 + 5)
+          .attr('y', () => yScale(d.knr)! + yScale.bandwidth() / 2 + 5)
+          .text(() => Math.floor(d.cars))
+      })
+      .on('mouseleave', function () { // Add event listener for mouseleave
+        svg.select('.value').remove() // Remove text on mouse leave
+      })
       .transition()
       .duration(500)
       .attr('x', (d: any) => width / 2 - xScale(Math.abs(d.cars)))
@@ -78,6 +88,16 @@ export default function Bar(props: BarProps) {
       .attr('y', (d: DataEntry) => yScale(d.knr)!)
       .attr('height', yScale.bandwidth())
       .style('fill', colorPalette.c9)
+      .on('mouseenter', function (event, d) { // Add event listener for mouseenter
+        svg.append('text') // Add text on mouse enter
+          .attr('class', 'value')
+          .attr('x', () => width/2 + 5) // Adjust this line
+          .attr('y', () => yScale(d.knr)! + yScale.bandwidth() / 2 + 5)
+          .text(() => Math.floor(d.bikes ?? 0))
+      })
+      .on('mouseleave', function () { // Add event listener for mouseleave
+        svg.select('.value').remove() // Remove text on mouse leave
+      })
       .transition()
       .duration(500)
       .attr('x', width / 2)
