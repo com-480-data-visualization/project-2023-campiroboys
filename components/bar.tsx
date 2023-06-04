@@ -159,7 +159,7 @@ export default function Bar(props: BarProps) {
   }, [svgRef, height, width, data])
 
   return (
-    <div className="w-full">
+    <div>
       <svg
         preserveAspectRatio="xMinYMin meet"
         viewBox={`${-6 * padding} 0 ${width + 8 * padding} ${height + padding}`}

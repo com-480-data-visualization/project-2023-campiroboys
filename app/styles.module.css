@@ -42,23 +42,6 @@
 }
 
 .visualizationInnerWrapper {
-  display: flex;
-  flex-direction: row;
   align-items: center;
   width: 80%;
 }
-
-.visualizationItem50 {
-  margin: 1em;
-  width: 50%;
-}
-.visualizationItem100 {
-  margin: 1em;
-  width: 100%;
-}
-
-.infoText {
-  padding: 4em;
-}
-
-
