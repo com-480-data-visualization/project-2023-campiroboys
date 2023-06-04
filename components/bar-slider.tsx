@@ -130,7 +130,7 @@ export default function BarSlider(props: BarSliderProps) {
       .selectAll('text')
       .style('font-size', '1.5em')
 
-    const yAxis = d3.axisLeft(yScale)
+    const yAxis = d3.axisLeft(yScale).ticks(12).tickFormat((d: any) => `District ${d}`)
     // Update y-axis if it exists, or append a new one if it doesn't
     const yAxisGroup = svg.selectAll<SVGGElement, null>('.y-axis').data([null])
     yAxisGroup.enter()
@@ -152,7 +152,7 @@ export default function BarSlider(props: BarSliderProps) {
       <div className="w-full">
         <svg
           preserveAspectRatio="xMinYMin meet"
-          viewBox={`${-2 * padding} 0 ${width + 2 * padding} ${height + 2 * padding}`}
+          viewBox={`${-6 * padding} 0 ${width + 8 * padding} ${height + padding}`}
           className={styles.graphSvg}
           ref={svgRef}
         />
