@@ -7,4 +7,5 @@ interface allDistrictInfos {
     [key: number]: DistrictInfo;
 }
 
+declare const allDistrictInfos: allDistrictInfos;
 export default allDistrictInfos;
