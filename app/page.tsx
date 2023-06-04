@@ -35,13 +35,13 @@ export default function Home() {
                 <MapSlider />
               </div>
               <div className={styles.visualizationItem50}>
-                Zurich, the largest city in Switzerland, is strategically located in the central part of the country. The city is nestled in the northeastern Swiss lowlands, along the lower end of Lake Zurich, and is roughly an hour's drive from the Alpine landscapes to the south. This prime location, combined with the city's excellent transportation network, makes Zurich easily accessible from all corners of Switzerland and beyond.
+                Zurich, the largest city in Switzerland, is strategically located in the central part of the country. The city is nestled in the northeastern Swiss lowlands, along the lower end of Lake Zurich, and is roughly an hour&apos;s drive from the Alpine landscapes to the south. This prime location, combined with the citys excellent transportation network, makes Zurich easily accessible from all corners of Switzerland and beyond.
                 <br />
                 <br />
-                As for the parking situation, like many other bustling cities, parking in Zurich can be challenging. The city centre is known for its limited parking spaces and the relatively high costs of parking garages. On-street parking is usually metered and is most often limited to a few hours. For longer stays, it's typically more cost-effective and convenient to use one of the city's Park & Ride facilities, located near public transportation hubs.
+                As for the parking situation, like many other bustling cities, parking in Zurich can be challenging. The city centre is known for its limited parking spaces and the relatively high costs of parking garages. On-street parking is usually metered and is most often limited to a few hours. For longer stays, it&apos;s typically more cost-effective and convenient to use one of the city&apos;s Park & Ride facilities, located near public transportation hubs.
                 <br />
                 <br />
-                In recent years, Zurich, like many urban areas worldwide, has seen a surge in the popularity of bicycles as a mode of transport. The city has responded by investing in cycling infrastructure, including dedicated bike lanes and bicycle parking facilities, to encourage this eco-friendly mode of transport. The rise in cycling popularity is in line with Zurich's commitment to sustainable and active mobility, and it contributes to the city's vision of reducing carbon emissions and promoting healthier lifestyles.
+                In recent years, Zurich, like many urban areas worldwide, has seen a surge in the popularity of bicycles as a mode of transport. The city has responded by investing in cycling infrastructure, including dedicated bike lanes and bicycle parking facilities, to encourage this eco-friendly mode of transport. The rise in cycling popularity is in line with Zurich&apos;s commitment to sustainable and active mobility, and it contributes to the city&apos;s vision of reducing carbon emissions and promoting healthier lifestyles.
               </div>
             </div>
           </div>
