@@ -7,6 +7,7 @@ import stadtkreise from '@/json/stadtkreise_a'
 import styles from './map.module.css'
 import { useEffect, useRef } from 'react'
 import allDistrictInfos from '@/json/district_info'
+import lake from '@/json/lake-zurich'
 
 export type MapProps = {
   selectedYear: number
@@ -23,6 +24,7 @@ export default function Map(props: MapProps) {
 
   const projection = d3.geoMercator()
   const geoGenerator = d3.geoPath().projection(projection)
+  lake.geometry.coordinates = lake.geometry.coordinates.map(ring => ring.reverse())
 
   useEffect(() => {
     const svgD3 = d3.select(svgRef.current)
@@ -120,14 +122,51 @@ export default function Map(props: MapProps) {
   }, [selectedYear, width, height, svgMapRef, projection, geoGenerator])
 
 
+  useEffect(() => {
+    const svgMapD3 = d3.select(svgMapRef.current)
+
+    // Bind data to the svg container for the lake
+    const lakePaths = svgMapD3
+      .selectAll('path.lake')
+      .data([lake]) // Wrap lake object in an array
+
+    // First draw the solid color
+    const lakeEnterColor = lakePaths
+      .enter()
+      .append('path')
+      .attr('class', 'lake')
+      .attr('fill', '#3366cc');
+
+    lakePaths
+      .merge(lakeEnterColor as any) // apply these to both enter and update selections
+      .attr('d', geoGenerator);
+
+    // Then draw the waves on top
+    const lakeEnterPattern = lakePaths
+      .enter()
+      .append('path')
+      .attr('class', 'lakePattern')
+      .attr('fill', 'url(#wave)');
+
+    lakePaths
+      .merge(lakeEnterPattern as any) // apply these to both enter and update selections
+      .attr('d', geoGenerator);
+  }, [lake])
+
+
   return (
     <div>
-      <div id="tooltip" style={{ position: "absolute", visibility: "hidden" , padding: "10px", background: "lightgrey", borderRadius: "5px"}}></div>
+      <div id="tooltip" style={{ position: "absolute", visibility: "hidden", padding: "10px", background: "lightgrey", borderRadius: "5px" }}></div>
       <svg
         preserveAspectRatio="xMinYMin meet"
         viewBox={`0 0 ${width} ${height}`}
         ref={svgRef}
       >
+        <defs>
+          <pattern id="wave" patternUnits="userSpaceOnUse" width="6" height="6">
+            <path d="M 0 6 L 3 0 L 6 6" stroke="#668cb3" strokeWidth="0.7" fill="transparent" />
+          </pattern>
+        </defs>
         <g ref={svgContentRef}>
           <g ref={svgMapRef}></g>
         </g>
