@@ -15,7 +15,7 @@ export default function Home() {
           <div className={styles.visualizationOuterWrapper}>
             <div className={`${styles.visualizationInnerWrapper} flex flex-col md:flex-row`}>
               <div className='w-full p-4'>
-                <div className='p-4 md:p-16'>
+                <div className='md:p-16'>
                   <h3 className={styles.titleH3}>&quot;Parkplatzkompromiss&quot; - The Historical Compromise of 1996</h3>
                   In 1996 the municipal council adopted a compromis for Zurich City and areas close to the centre.
                   It essentially consists of making the city centre more attractive for pedestrian traffic by shifting surface parking spaces to parking facilities,
@@ -60,7 +60,7 @@ export default function Home() {
           <div className={styles.visualizationOuterWrapper}>
             <div className={`${styles.visualizationInnerWrapper} flex flex-col md:flex-row`}>
               <div className='w-full p-4'>
-                <div className={`text-center p-4 md:p-16`}>
+                <div className={`text-center md:p-16`}>
                   COM-480 Data Visualization, 2023
                   <hr />
                   Damiano Amatruda, Josua Stuck, Silas Meier
