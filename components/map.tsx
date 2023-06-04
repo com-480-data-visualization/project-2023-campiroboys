@@ -111,7 +111,7 @@ export default function Map(props: MapProps) {
         viewBox={`0 0 ${width} ${height}`}
         ref={svgRef}
       >
-        <g ref={svgContentRef} className={styles.svgContent}>
+        <g ref={svgContentRef}>
           <g ref={svgMapRef}></g>
         </g>
       </svg>
