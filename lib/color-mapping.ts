@@ -21,8 +21,6 @@ export const colorPalette: { [index: string]: string } = {
 export function colorMapping(numberOfCars: number, numberOfBikes: number): string {
   if (parkingData.maxCar == -1 || parkingData.maxBike == -1) return '#999999'
 
-  console.log('numberOfCars: ' + numberOfCars)
-  console.log('numberOfBikes: ' + numberOfBikes)
   
   let percentageCars = (numberOfCars === 0 || isNaN(numberOfCars) )? 0 : numberOfCars / parkingData.maxCar
   let percentageBikes = (numberOfBikes === 0 || isNaN(numberOfBikes)) ? 0 : numberOfBikes / parkingData.maxBike
