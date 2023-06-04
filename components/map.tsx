@@ -81,7 +81,7 @@ export default function Map(props: MapProps) {
       })
       .on('mouseleave', function (event, d) {
         // hide the tooltip when mouse leaves
-        d3.select('#tooltip')
+        tooltipD3
           .style('visibility', 'hidden')
 
         d3.select(this)
