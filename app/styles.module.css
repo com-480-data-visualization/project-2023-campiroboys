@@ -11,6 +11,21 @@
   }
 }
 
+.title {
+  box-shadow: 0 0 9px #000000f2;
+  width: 100%;
+  padding-top: 8px;
+  background-color: #20599a;
+  color: white;
+}
+
+.titleH3 {
+  font-weight: bold;
+  font-size: larger;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
 .fadeIn {
   animation: 1s ease-out 0s 1 fadeInAnimation;
 }
@@ -19,9 +34,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 10px;
 }
 
-.visualizationOuterWrapper:nth-child(1) {
+.visualizationOuterWrapper:nth-child(2n) {
   background-color: #f5f5f5;
 }
 
@@ -32,8 +48,17 @@
   width: 80%;
 }
 
-.visualizationItem {
+.visualizationItem50 {
   margin: 1em;
   width: 50%;
 }
+.visualizationItem100 {
+  margin: 1em;
+  width: 100%;
+}
+
+.infoText {
+  padding: 4em;
+}
+
 
