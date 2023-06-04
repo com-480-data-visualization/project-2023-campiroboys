@@ -21,8 +21,8 @@ export default function Home() {
                   It essentially consists of making the city centre more attractive for pedestrian traffic by shifting surface parking spaces to parking facilities,
                   but without affecting the total number of publicly accessible parking spaces. The municipal council defined the 1990 level as the starting point.
                   The number of parking spaces in the city centre should remain stable at this level.
-                  <br/>
-                  <br/>
+                  <br />
+                  <br />
                   After 25 years it has come to an end. Here we compare the amount of parking spaces of cars to the parking spaces the city provides for bikes of any kind.
                   We visualize how public car parking spaces have been moved, removed or replaced by parking spaces for bicycles or motorcycles over time.
                 </div>
@@ -30,9 +30,18 @@ export default function Home() {
             </div>
           </div>
           <div className={styles.visualizationOuterWrapper}>
-            <div className={styles.visualizationInnerWrapper} style={{flexDirection: "column"}}>
+            <div className={styles.visualizationInnerWrapper}>
               <div className={styles.visualizationItem50}>
                 <MapSlider />
+              </div>
+              <div className={styles.visualizationItem50}>
+                Zurich, the largest city in Switzerland, is strategically located in the central part of the country. The city is nestled in the northeastern Swiss lowlands, along the lower end of Lake Zurich, and is roughly an hour's drive from the Alpine landscapes to the south. This prime location, combined with the city's excellent transportation network, makes Zurich easily accessible from all corners of Switzerland and beyond.
+                <br />
+                <br />
+                As for the parking situation, like many other bustling cities, parking in Zurich can be challenging. The city centre is known for its limited parking spaces and the relatively high costs of parking garages. On-street parking is usually metered and is most often limited to a few hours. For longer stays, it's typically more cost-effective and convenient to use one of the city's Park & Ride facilities, located near public transportation hubs.
+                <br />
+                <br />
+                In recent years, Zurich, like many urban areas worldwide, has seen a surge in the popularity of bicycles as a mode of transport. The city has responded by investing in cycling infrastructure, including dedicated bike lanes and bicycle parking facilities, to encourage this eco-friendly mode of transport. The rise in cycling popularity is in line with Zurich's commitment to sustainable and active mobility, and it contributes to the city's vision of reducing carbon emissions and promoting healthier lifestyles.
               </div>
             </div>
           </div>
@@ -53,9 +62,9 @@ export default function Home() {
             <div className={styles.visualizationInnerWrapper}>
 
               <div className={styles.visualizationItem100}>
-                <div className={styles.infoText} style={{textAlign: "center"}}>
+                <div className={styles.infoText} style={{ textAlign: "center" }}>
                   COM-480 Data Visualization, 2023
-                  <hr/>
+                  <hr />
                   Damiano Amatruda, Josua Stuck, Silas Meier
 
                 </div>
