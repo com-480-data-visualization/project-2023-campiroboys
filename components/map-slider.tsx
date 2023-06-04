@@ -33,7 +33,7 @@ export default function MapSlider(props: MapSliderProps) {
 
     const yScale = d3.scaleLinear()
       .domain([0, 60000])
-      .range([height, 0])
+      .range([height - padding, padding])
 
     /* Creates the x-axis. */
     const xAxis = d3.axisBottom(xScale)

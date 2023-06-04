@@ -30,7 +30,7 @@ export default function Map(props: MapProps) {
     const zoom = d3.zoom<SVGGElement, any>()
       .scaleExtent([0.5, 7])  // limits zoom depth
       .translateExtent(([[0, 0], [width, height]]))  // stops users from panning to far out
-      .on('zoom', function(e: any) {
+      .on('zoom', function (e: any) {
         svgContentD3.attr('transform', e.transform)
       })
 
@@ -46,50 +46,52 @@ export default function Map(props: MapProps) {
   useEffect(() => {
     const svgMapD3 = d3.select(svgMapRef.current)
 
-    const districtD3 = svgMapD3
-      .append('g')
-
-    const labelsD3 = svgMapD3
-      .append('g')
-
     // Here we "spread" out the polygons
     projection.fitSize([width, height], stadtkreise)
 
-    // Add data to the svg container
-    districtD3
-      .selectAll('path')
+    // Bind data to the svg container
+    const districtPaths = svgMapD3
+      .selectAll('path.district')
       .data(stadtkreise.features)
+
+    const districtEnter = districtPaths
       .enter()
-      // Add a path for each element
       .append('path')
-      .attr('class', styles.svgDistrict)
+      .attr('class', `district ${styles.svgDistrict}`)
+
+    districtPaths
+      .merge(districtEnter as any) // apply these to both enter and update selections
       .attr('d', geoGenerator)
-
-    // Add the titles of the districts
-    labelsD3
-      .selectAll('path')
-      .data(stadtkreise.features)
-      .enter()
-      .append('text')
-      .attr('x', (d: any) => geoGenerator.centroid(d)[0])
-      .attr('y', (d: any) => geoGenerator.centroid(d)[1])
-      .attr('text-anchor', 'middle')
-      .attr('font-size', '9px')
-      .text((d: any) => d.properties.knr)
-
-    // Color each polygon according to the matrix
-    d3.select(svgMapRef.current).selectAll('path')
       .attr('style', (d: any) => {
         let entry = getInterpolatedCarAndBikeNumbers(selectedYear, d.properties.knr)
         let color = colorMapping(entry?.cars ?? 0, entry?.bikes ?? 0)
         return 'fill:' + color
       })
 
-    return () => {
-      districtD3.remove()
-      labelsD3.remove()
-    }
+    districtPaths.exit().remove() // remove any elements no longer in data
+
+    // Bind data for labels
+    const labelSelection = svgMapD3
+      .selectAll('text.label')
+      .data(stadtkreise.features)
+
+    const labelEnter = labelSelection
+      .enter()
+      .append('text')
+      .attr('class', 'label')
+      .attr('text-anchor', 'middle')
+      .attr('font-size', '9px')
+
+    labelSelection
+      .merge(labelEnter as any) // apply these to both enter and update selections
+      .attr('x', (d: any) => geoGenerator.centroid(d)[0])
+      .attr('y', (d: any) => geoGenerator.centroid(d)[1])
+      .text((d: any) => d.properties.knr)
+
+    labelSelection.exit().remove() // remove any elements no longer in data
+
   }, [selectedYear, width, height, svgMapRef, projection, geoGenerator])
+
 
   return (
     <div>
